@@ -1,5 +1,7 @@
 package com.curtisnewbie.main;
 
+import com.curtisnewbie.dao.DBService;
+
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,6 +30,7 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
+        DBService.getConnection();
     }
 
     @Override
