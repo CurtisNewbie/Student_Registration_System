@@ -59,8 +59,11 @@ public class DBService {
      */
     public void createTables() {
         var in = getClass().getClassLoader().getResourceAsStream("create_tables.sql");
-        if (in == null)
+        if (in == null) {
             logger.log(Level.SEVERE, "create_tables.sql script not found");
+            System.exit(1);
+        }
+
         try (Reader reader = new BufferedReader(new InputStreamReader(in));) {
             ScriptRunner scriptRunner = new ScriptRunner(getConnection());
             scriptRunner.runScript(reader);
