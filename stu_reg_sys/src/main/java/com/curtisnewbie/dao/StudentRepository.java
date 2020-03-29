@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.curtisnewbie.model.Student;
@@ -23,6 +22,7 @@ import com.curtisnewbie.util.LoggerProducer;
 public class StudentRepository implements StudentDao {
 
     private final String SELECT_ALL = "SELECT * FROM student";
+    private final String DELETE_BY_ID = "DELETE FROM student WHERE reg_id = ?";
 
     private final Connection conn = new DBManager().getConnection();
     private final Logger logger = LoggerProducer.getLogger(this);
@@ -38,14 +38,23 @@ public class StudentRepository implements StudentDao {
                 list.add(stu);
             }
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage());
+            logger.severe(e.getMessage());
         }
         return list;
     }
 
     @Override
     public boolean deleteStudentById(int id) {
-        return false;
+        logger.info(String.format("deleteStudentById: %d", id));
+        try {
+            var stmt = conn.prepareStatement(DELETE_BY_ID);
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            return false;
+        }
     }
 
     @Override

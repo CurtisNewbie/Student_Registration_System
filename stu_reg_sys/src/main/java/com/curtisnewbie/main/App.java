@@ -41,6 +41,7 @@ public class App extends Application {
         for (var stu : list) {
             System.out.println(stu.toString());
         }
+        System.out.printf("\nDeleted student with id 1, %b\n", dao.deleteStudentById(1));
     }
 
     @Override
