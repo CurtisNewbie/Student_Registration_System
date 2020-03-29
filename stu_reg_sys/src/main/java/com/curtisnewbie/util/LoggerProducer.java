@@ -18,4 +18,8 @@ public class LoggerProducer {
     public static Logger getLogger(String name) {
         return Logger.getLogger(name);
     }
+
+    public static Logger getLogger(Object obj) {
+        return getLogger(obj.getClass());
+    }
 }
