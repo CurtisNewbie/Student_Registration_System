@@ -1,6 +1,8 @@
 package com.curtisnewbie.main;
 
 import com.curtisnewbie.dao.DBManager;
+import com.curtisnewbie.dao.StudentDao;
+import com.curtisnewbie.dao.StudentRepository;
 
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -33,6 +35,12 @@ public class App extends Application {
         var manager = new DBManager();
         manager.createTables();
         manager.insertDemoData();
+
+        StudentDao dao = new StudentRepository();
+        var list = dao.getAllStudents();
+        for (var stu : list) {
+            System.out.println(stu.toString());
+        }
     }
 
     @Override
