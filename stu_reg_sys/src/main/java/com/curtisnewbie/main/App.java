@@ -1,6 +1,6 @@
 package com.curtisnewbie.main;
 
-import com.curtisnewbie.dao.DBService;
+import com.curtisnewbie.dao.DBManager;
 
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -30,7 +30,7 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
-        new DBService().createTables();
+        new DBManager().createTables();
     }
 
     @Override
