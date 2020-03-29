@@ -14,7 +14,7 @@
 target/
 
 # jdk
-vscode/
+.vscode/
 .settings/
 .classpath
 .project
