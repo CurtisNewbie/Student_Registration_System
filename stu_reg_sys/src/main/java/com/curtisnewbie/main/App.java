@@ -30,7 +30,9 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
-        new DBManager().createTables();
+        var manager = new DBManager();
+        manager.createTables();
+        manager.insertDemoData();
     }
 
     @Override

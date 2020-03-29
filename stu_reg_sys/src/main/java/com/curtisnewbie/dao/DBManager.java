@@ -57,19 +57,32 @@ public class DBManager {
      * Create tables needed
      */
     public void createTables() {
-        var in = getClass().getClassLoader().getResourceAsStream("create_tables.sql");
+        loadScript("create_tables.sql", true);
+    }
+
+    /**
+     * Insert data for demo
+     */
+    public void insertDemoData() {
+        loadScript("demo_data.sql", true);
+    }
+
+    private void loadScript(String scriptName, boolean exitOnFailure) {
+        var in = getClass().getClassLoader().getResourceAsStream(scriptName);
         if (in == null) {
-            logger.log(Level.SEVERE, "create_tables.sql script not found");
-            System.exit(1);
+            logger.log(Level.SEVERE, String.format("Cannot find script file: '%s'", scriptName));
+            if (exitOnFailure)
+                System.exit(1);
         }
 
         try (Reader reader = new BufferedReader(new InputStreamReader(in));) {
             ScriptRunner scriptRunner = new ScriptRunner(getConnection());
             scriptRunner.runScript(reader);
-            logger.info("Script successfully ran for creating tables");
+            logger.info(String.format("Successfully ran '%s'", scriptName));
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.getMessage());
-            System.exit(1);
+            if (exitOnFailure)
+                System.exit(1);
         }
     }
 }
