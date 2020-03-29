@@ -10,6 +10,15 @@
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
+# compiled files
+target/
+
+# jdk
+vscode/
+.settings/
+.classpath
+.project
+
 # Package Files #
 *.jar
 *.war
