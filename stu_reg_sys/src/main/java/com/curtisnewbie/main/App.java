@@ -30,7 +30,7 @@ public class App extends Application {
 
     @Override
     public void init() throws Exception {
-        DBService.getConnection();
+        new DBService().createTables();
     }
 
     @Override

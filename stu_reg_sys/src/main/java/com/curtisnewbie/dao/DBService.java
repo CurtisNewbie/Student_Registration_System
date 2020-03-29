@@ -1,10 +1,14 @@
 package com.curtisnewbie.dao;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.ibatis.jdbc.ScriptRunner;
 import com.curtisnewbie.util.LoggerProducer;
 
 /**
@@ -50,4 +54,20 @@ public class DBService {
         return null;
     }
 
+    /**
+     * Create tables needed
+     */
+    public void createTables() {
+        var in = getClass().getClassLoader().getResourceAsStream("create_tables.sql");
+        if (in == null)
+            logger.log(Level.SEVERE, "create_tables.sql script not found");
+        try (Reader reader = new BufferedReader(new InputStreamReader(in));) {
+            ScriptRunner scriptRunner = new ScriptRunner(getConnection());
+            scriptRunner.runScript(reader);
+            logger.info("Script successfully ran for creating tables");
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, e.getMessage());
+            System.exit(1);
+        }
+    }
 }
