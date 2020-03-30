@@ -1,8 +1,11 @@
 package com.curtisnewbie.main;
 
+import java.util.Date;
+
 import com.curtisnewbie.dao.DBManager;
 import com.curtisnewbie.dao.StudentDao;
 import com.curtisnewbie.dao.StudentRepository;
+import com.curtisnewbie.model.Student;
 
 import javafx.application.Application;
 import javafx.scene.Parent;
@@ -37,7 +40,25 @@ public class App extends Application {
         manager.insertDemoData();
 
         StudentDao dao = new StudentRepository();
-        System.out.println(dao.findStudentById(1).toString());
+        var stu = dao.findStudentById(1);
+        System.out.println("\n\n" + stu.toString());
+
+        // update fname
+        dao.updateFirstname(1, "Yongjie");
+        System.out.println("Updated Firstname: " + dao.findStudentById(1).toString());
+
+        // update lname
+        dao.updateLastname(1, "Zhuang");
+        System.out.println("Updated Lastname: " + dao.findStudentById(1).toString());
+
+        // update date of reg
+        dao.updateDateOfReg(1, new Date(System.currentTimeMillis()));
+        System.out.println(String.format("Updated Date:%s ", dao.findStudentById(1).toString()));
+
+        Student toBeUpdated = new Student(1, "PenPineapple", "ApplePen", stu.getDateOfRegi());
+        dao.updateStudent(toBeUpdated);
+        System.out.println(String.format("Updated Student:%s ", dao.findStudentById(1).toString()));
+
         // var list = dao.getAllStudents();
         // for (var stu : list) {
         // System.out.println(stu.toString());

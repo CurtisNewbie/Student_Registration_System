@@ -1,5 +1,6 @@
 package com.curtisnewbie.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import com.curtisnewbie.model.Student;
@@ -46,6 +47,33 @@ public interface StudentDao {
      * @return {@code True} if successful else {@code False}
      */
     public boolean updateStudent(Student student);
+
+    /**
+     * Update firstname of a {@code Student}
+     * 
+     * @param id    id
+     * @param fname firstname
+     * @return {@code True} if successful else {@code False}
+     */
+    public boolean updateFirstname(int id, String fname);
+
+    /**
+     * Update lastname of a {@code Student}
+     * 
+     * @param id    id
+     * @param lname lastname
+     * @return {@code True} if successful else {@code False}
+     */
+    public boolean updateLastname(int id, String lname);
+
+    /**
+     * Update date of registration of a {@code Student}
+     * 
+     * @param id   id
+     * @param date date of registration
+     * @return {@code True} if successful else {@code False}
+     */
+    public boolean updateDateOfReg(int id, Date date);
 
     /**
      * Create a {@code Student}
