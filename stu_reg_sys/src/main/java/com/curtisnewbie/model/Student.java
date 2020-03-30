@@ -4,30 +4,30 @@ import java.util.Date;
 
 public class Student {
 
-    private int reg_id;
+    private int id;
     private String firstname;
     private String lastname;
     private Date dateOfRegi;
 
     public Student(int id, String fname, String lname, Date dateOfRegi) {
-        this.reg_id = id;
+        this.id = id;
         this.firstname = fname;
         this.lastname = lname;
         this.dateOfRegi = dateOfRegi;
     }
 
     /**
-     * @return the reg_id
+     * @return the registration id
      */
-    public int getReg_id() {
-        return reg_id;
+    public int getId() {
+        return id;
     }
 
     /**
-     * @param reg_id the reg_id to set
+     * @param reg_id the registration id to set
      */
-    public void setReg_id(int reg_id) {
-        this.reg_id = reg_id;
+    public void setId(int reg_id) {
+        this.id = reg_id;
     }
 
     /**
@@ -74,7 +74,7 @@ public class Student {
 
     @Override
     public String toString() {
-        return String.format("Registration ID: %d, firstname: %s, lastname: %s, registration_date: %s", getReg_id(),
+        return String.format("Registration ID: %d, firstname: %s, lastname: %s, registration_date: %s", getId(),
                 getFirstname(), getLastname(), getDateOfRegi().toString());
     }
 }

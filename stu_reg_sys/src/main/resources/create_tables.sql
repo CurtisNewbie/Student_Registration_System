@@ -27,9 +27,9 @@ CREATE TABLE IF NOT EXISTS course(
 );
 
 CREATE TABLE IF NOT EXISTS student(
-    reg_id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(255) NOT NULL,
-    last_name VARCHAR(255) NOT NULL,
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    firstname VARCHAR(255) NOT NULL,
+    lastname VARCHAR(255) NOT NULL,
     reg_date DATE NOT NULL,
     cou_fk INT,
     CONSTRAINT FOREIGN KEY student_fk_cou (cou_fk) REFERENCES course(id)

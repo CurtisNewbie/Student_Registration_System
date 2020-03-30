@@ -22,8 +22,8 @@ import com.curtisnewbie.util.LoggerProducer;
 public class StudentRepository implements StudentDao {
 
     private final String SELECT_ALL = "SELECT * FROM student";
-    private final String DELETE_BY_ID = "DELETE FROM student WHERE reg_id = ?";
-    private final String SELECT_BY_ID = "SELECT * FROM student WHERE reg_id = ?";
+    private final String DELETE_BY_ID = "DELETE FROM student WHERE id = ?";
+    private final String SELECT_BY_ID = "SELECT * FROM student WHERE id = ?";
 
     private final Connection conn = new DBManager().getConnection();
     private final Logger logger = LoggerProducer.getLogger(this);
