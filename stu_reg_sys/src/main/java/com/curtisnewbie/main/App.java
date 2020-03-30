@@ -37,11 +37,13 @@ public class App extends Application {
         manager.insertDemoData();
 
         StudentDao dao = new StudentRepository();
-        var list = dao.getAllStudents();
-        for (var stu : list) {
-            System.out.println(stu.toString());
-        }
-        System.out.printf("\nDeleted student with id 1, %b\n", dao.deleteStudentById(1));
+        System.out.println(dao.findStudentById(1).toString());
+        // var list = dao.getAllStudents();
+        // for (var stu : list) {
+        // System.out.println(stu.toString());
+        // }
+        // System.out.printf("\nDeleted student with id 1, %b\n",
+        // dao.deleteStudentById(1));
     }
 
     @Override

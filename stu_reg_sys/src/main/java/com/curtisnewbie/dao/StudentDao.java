@@ -35,7 +35,7 @@ public interface StudentDao {
      * find a {@code Student} by id
      * 
      * @param id
-     * @return the {@code Student} found
+     * @return the {@code Student} found or {@code NULL} if not found
      */
     public Student findStudentById(int id);
 

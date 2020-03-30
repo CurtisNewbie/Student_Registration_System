@@ -23,6 +23,7 @@ public class StudentRepository implements StudentDao {
 
     private final String SELECT_ALL = "SELECT * FROM student";
     private final String DELETE_BY_ID = "DELETE FROM student WHERE reg_id = ?";
+    private final String SELECT_BY_ID = "SELECT * FROM student WHERE reg_id = ?";
 
     private final Connection conn = new DBManager().getConnection();
     private final Logger logger = LoggerProducer.getLogger(this);
@@ -59,6 +60,19 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public Student findStudentById(int id) {
+        logger.info(String.format("findStudentById: %d", id));
+        try {
+            var stmt = conn.prepareStatement(SELECT_BY_ID);
+            stmt.setInt(1, id);
+            ResultSet set = stmt.executeQuery();
+            Student stu = null;
+            if (set.next()) {
+                stu = new Student(set.getInt(1), set.getString(2), set.getString(3), set.getDate(4));
+            }
+            return stu;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
         return null;
     }
 
