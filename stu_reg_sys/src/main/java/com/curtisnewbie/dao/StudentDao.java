@@ -81,6 +81,6 @@ public interface StudentDao {
      * @param student
      * @return {@code True} if successful else {@code False}
      */
-    public void createStudent(Student student);
+    public boolean createStudent(Student student);
 
 }

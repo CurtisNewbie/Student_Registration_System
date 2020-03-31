@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,8 @@ public class StudentRepository implements StudentDao {
     private final String UPDATE_FIRSTNAME = "UPDATE student SET firstname = ? WHERE id = ?";
     private final String UPDATE_LASTNAME = "UPDATE student SET lastname = ? WHERE id = ?";
     private final String UPDATE_REG_DATE = "UPDATE student SET reg_date = ? WHERE id = ?";
+    private final String CREATE_STUDENT_WITH_ID = "INSERT INTO student VALUES(?, ?, ?, ?, ?)";
+    private final String CREATE_STUDENT_WITHOUT_ID = "INSERT INTO student (firstname, lastname, reg_date, cou_fk) VALUES(?, ?, ?, ?)";
 
     private final Connection conn = new DBManager().getConnection();
     private final Logger logger = LoggerProducer.getLogger(this);
@@ -121,8 +124,31 @@ public class StudentRepository implements StudentDao {
     }
 
     @Override
-    public void createStudent(Student student) {
+    public boolean createStudent(Student stu) {
+        logger.info("createStudent: " + stu.toString());
+        boolean withId = true;
+        if (stu.getId() == Student.GENERATED_ID)
+            withId = false;
 
+        try {
+            PreparedStatement stmt;
+            int i = 1;
+            if (withId) {
+                stmt = conn.prepareStatement(CREATE_STUDENT_WITH_ID);
+                stmt.setInt(i++, stu.getId());
+            } else {
+                stmt = conn.prepareStatement(CREATE_STUDENT_WITHOUT_ID);
+            }
+            stmt.setString(i++, stu.getFirstname());
+            stmt.setString(i++, stu.getLastname());
+            stmt.setDate(i++, new java.sql.Date(stu.getDateOfRegi().getTime()));
+            stmt.setNull(i++, Types.INTEGER);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return false;
     }
 
     @Override

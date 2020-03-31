@@ -1,5 +1,6 @@
 package com.curtisnewbie.main;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import com.curtisnewbie.dao.DBManager;
@@ -59,10 +60,17 @@ public class App extends Application {
         dao.updateStudent(toBeUpdated);
         System.out.println(String.format("Updated Student:%s ", dao.findStudentById(1).toString()));
 
-        // var list = dao.getAllStudents();
-        // for (var stu : list) {
-        // System.out.println(stu.toString());
-        // }
+        Student createdWithoutId = new Student(Student.GENERATED_ID, "New", "StudentWithoutId",
+                new Date(System.currentTimeMillis()));
+        dao.createStudent(createdWithoutId);
+        Student createdWithId = new Student(5, "New", "StudentWithId", new Date(System.currentTimeMillis()));
+        dao.createStudent(createdWithId);
+
+        System.out.println();
+        var list = dao.getAllStudents();
+        for (var s : list) {
+            System.out.println(s.toString());
+        }
         // System.out.printf("\nDeleted student with id 1, %b\n",
         // dao.deleteStudentById(1));
     }
