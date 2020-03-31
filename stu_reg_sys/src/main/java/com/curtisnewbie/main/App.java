@@ -1,6 +1,5 @@
 package com.curtisnewbie.main;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import com.curtisnewbie.dao.DBManager;
@@ -71,6 +70,12 @@ public class App extends Application {
         for (var s : list) {
             System.out.println(s.toString());
         }
+        System.out.println();
+
+        System.out.println("Find by firstname " + dao.findStusByFirstname("PenPineapple"));
+        System.out.println("Find by lastname " + dao.findStusByLastname("Lalala"));
+        System.out.println("Find by dateOfReg " + dao.findStusByDateOfReg(new Date(System.currentTimeMillis())));
+
         // System.out.printf("\nDeleted student with id 1, %b\n",
         // dao.deleteStudentById(1));
     }

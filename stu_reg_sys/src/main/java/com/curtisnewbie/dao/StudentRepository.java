@@ -26,6 +26,9 @@ import com.curtisnewbie.util.LoggerProducer;
 public class StudentRepository implements StudentDao {
 
     private final String SELECT_ALL = "SELECT * FROM student";
+    private final String SELECT_BY_FNAME = "SELECT * FROM student WHERE firstname = ?";
+    private final String SELECT_BY_LNAME = "SELECT * FROM student WHERE lastname = ?";
+    private final String SELECT_BY_REG_DATE = "SELECT * FROM student WHERE reg_date = ?";
     private final String DELETE_BY_ID = "DELETE FROM student WHERE id = ?";
     private final String SELECT_BY_ID = "SELECT * FROM student WHERE id = ?";
     private final String UPDATE_FIRSTNAME = "UPDATE student SET firstname = ? WHERE id = ?";
@@ -194,6 +197,58 @@ public class StudentRepository implements StudentDao {
             logger.severe(e.getMessage());
         }
         return false;
+    }
+
+    @Override
+    public List<Student> findStusByFirstname(String fname) {
+        logger.info(String.format("findStusByFirstname: %s", fname));
+        List<Student> list = new ArrayList<>();
+        try {
+            var stmt = conn.prepareStatement(SELECT_BY_FNAME);
+            stmt.setString(1, fname);
+            ResultSet set = stmt.executeQuery();
+            while (set.next()) {
+                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3), set.getDate(4));
+                list.add(stu);
+            }
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return list;
+    }
+
+    @Override
+    public List<Student> findStusByLastname(String lname) {
+        List<Student> list = new ArrayList<>();
+        try {
+            var stmt = conn.prepareStatement(SELECT_BY_LNAME);
+            stmt.setString(1, lname);
+            ResultSet set = stmt.executeQuery();
+            while (set.next()) {
+                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3), set.getDate(4));
+                list.add(stu);
+            }
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return list;
+    }
+
+    @Override
+    public List<Student> findStusByDateOfReg(Date date) {
+        List<Student> list = new ArrayList<>();
+        try {
+            var stmt = conn.prepareStatement(SELECT_BY_REG_DATE);
+            stmt.setDate(1, new java.sql.Date(date.getTime()));
+            ResultSet set = stmt.executeQuery();
+            while (set.next()) {
+                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3), set.getDate(4));
+                list.add(stu);
+            }
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return list;
     }
 
 }

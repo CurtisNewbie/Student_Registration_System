@@ -83,4 +83,28 @@ public interface StudentDao {
      */
     public boolean createStudent(Student student);
 
+    /**
+     * Find a list of {@code Student} by firstname
+     * 
+     * @param fname firstname
+     * @return a list of {@code Student}
+     */
+    public List<Student> findStusByFirstname(String fname);
+
+    /**
+     * Find a list of {@code Student} by lastname
+     * 
+     * @param lname lastname
+     * @return a list of {@code Student}
+     */
+    public List<Student> findStusByLastname(String lname);
+
+    /**
+     * Find a list of {@code Student} by date of registration
+     * 
+     * @param date date of registration
+     * @return a list of {@code Student}
+     */
+    public List<Student> findStusByDateOfReg(Date date);
+
 }
