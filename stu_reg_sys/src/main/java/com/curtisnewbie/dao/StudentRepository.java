@@ -186,7 +186,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public boolean updateDateOfReg(int id, Date date) {
-        logger.info(String.format("updateLastname: %d", id));
+        logger.info(String.format("updateDateOfReg: %d", id));
         try {
             PreparedStatement stmt = conn.prepareStatement(UPDATE_REG_DATE);
             stmt.setDate(1, new java.sql.Date(date.getTime()));
