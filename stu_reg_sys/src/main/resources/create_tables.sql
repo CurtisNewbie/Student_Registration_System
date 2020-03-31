@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS student_module(
     stu_fk INT,
     mod_fk INT,
     PRIMARY KEY (stu_fk, mod_fk),
-    CONSTRAINT FOREIGN KEY stumod_fk_stu (stu_fk) REFERENCES student (reg_id),
+    CONSTRAINT FOREIGN KEY stumod_fk_stu (stu_fk) REFERENCES student (id),
     CONSTRAINT FOREIGN KEY stumod_fk_mod (mod_fk) REFERENCES module (id)
 );
 
