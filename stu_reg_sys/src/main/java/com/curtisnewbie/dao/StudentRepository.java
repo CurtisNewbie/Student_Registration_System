@@ -41,7 +41,7 @@ public class StudentRepository implements StudentDao {
     private final Logger logger = LoggerProducer.getLogger(this);
 
     @Override
-    public List<Student> getAllStudents() {
+    public List<Student> getAll() {
         logger.info("Get all students");
         List<Student> list = new ArrayList<>();
         try {
@@ -58,7 +58,7 @@ public class StudentRepository implements StudentDao {
     }
 
     @Override
-    public boolean deleteStudentById(int id) {
+    public boolean deleteById(int id) {
         logger.info(String.format("Delete id: '%d'", id));
         try {
             var stmt = conn.prepareStatement(DELETE_BY_ID);
@@ -72,7 +72,7 @@ public class StudentRepository implements StudentDao {
     }
 
     @Override
-    public Student findStudentById(int id) {
+    public Student findById(int id) {
         logger.info(String.format("Find id: '%d'", id));
         try {
             var stmt = conn.prepareStatement(SELECT_BY_ID);
@@ -90,12 +90,12 @@ public class StudentRepository implements StudentDao {
     }
 
     @Override
-    public boolean updateStudent(Student stu) {
+    public boolean update(Student stu) {
         logger.info(String.format("Update student to: '%s'", stu.toString()));
         try {
             conn.setAutoCommit(false);
             Student prev;
-            if ((prev = findStudentById(stu.getId())) != null) {
+            if ((prev = findById(stu.getId())) != null) {
                 boolean succeeded = true;
                 if (!prev.getDateOfRegi().equals(stu.getDateOfRegi()))
                     if (!updateDateOfReg(stu.getId(), stu.getDateOfRegi()))
@@ -128,7 +128,7 @@ public class StudentRepository implements StudentDao {
     }
 
     @Override
-    public boolean createStudent(Student stu) {
+    public boolean create(Student stu) {
         logger.info("Create student: '" + stu.toString() + "'");
         boolean withId = true;
         if (stu.getId() == Dao.GENERATED_ID)

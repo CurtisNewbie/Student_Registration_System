@@ -15,41 +15,10 @@ import com.curtisnewbie.model.Student;
  * Dao for Student resources
  * </p>
  */
-public interface StudentDao {
+public interface StudentDao extends Dao<Student> {
 
     /**
-     * get a list of {@code Student}
-     * 
-     * @return a list of {@code Student}
-     */
-    public List<Student> getAllStudents();
-
-    /**
-     * delete a {@code Student} by id
-     * 
-     * @param id id
-     * @return {@code True} if successful else {@code False}
-     */
-    public boolean deleteStudentById(int id);
-
-    /**
-     * find a {@code Student} by id
-     * 
-     * @param id
-     * @return the {@code Student} found or {@code NULL} if not found
-     */
-    public Student findStudentById(int id);
-
-    /**
-     * Update a {@code Student}
-     * 
-     * @param student student
-     * @return {@code True} if successful else {@code False}
-     */
-    public boolean updateStudent(Student student);
-
-    /**
-     * Update firstname of a {@code Student}
+     * Update firstname of a {@link Student}
      * 
      * @param id    id
      * @param fname firstname
@@ -58,7 +27,7 @@ public interface StudentDao {
     public boolean updateFirstname(int id, String fname);
 
     /**
-     * Update lastname of a {@code Student}
+     * Update lastname of a {@link Student}
      * 
      * @param id    id
      * @param lname lastname
@@ -67,7 +36,7 @@ public interface StudentDao {
     public boolean updateLastname(int id, String lname);
 
     /**
-     * Update date of registration of a {@code Student}
+     * Update date of registration of a {@link Student}
      * 
      * @param id   id
      * @param date date of registration
@@ -76,34 +45,26 @@ public interface StudentDao {
     public boolean updateDateOfReg(int id, Date date);
 
     /**
-     * Create a {@code Student}
-     * 
-     * @param student
-     * @return {@code True} if successful else {@code False}
-     */
-    public boolean createStudent(Student student);
-
-    /**
-     * Find a list of {@code Student} by firstname
+     * Find a list of {@link Student} by firstname
      * 
      * @param fname firstname
-     * @return a list of {@code Student}
+     * @return a list of {@link Student}
      */
     public List<Student> findStusByFirstname(String fname);
 
     /**
-     * Find a list of {@code Student} by lastname
+     * Find a list of {@link Student} by lastname
      * 
      * @param lname lastname
-     * @return a list of {@code Student}
+     * @return a list of {@link Student}
      */
     public List<Student> findStusByLastname(String lname);
 
     /**
-     * Find a list of {@code Student} by date of registration
+     * Find a list of {@link Student} by date of registration
      * 
      * @param date date of registration
-     * @return a list of {@code Student}
+     * @return a list of {@link Student}
      */
     public List<Student> findStusByDateOfReg(Date date);
 

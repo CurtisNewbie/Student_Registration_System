@@ -52,13 +52,13 @@ public class StudentDaoTest {
 
     @Test
     void shouldGetAllStudents() {
-        List<Student> stus = dao.getAllStudents();
+        List<Student> stus = dao.getAll();
         assertTrue(stus.size() > 0);
     }
 
     @Test
     void shouldFindStuById() {
-        Student stu = dao.findStudentById(READ_ONLY_ID);
+        Student stu = dao.findById(READ_ONLY_ID);
         assertNotNull(stu.getFirstname());
         assertNotNull(stu.getLastname());
         assertNotNull(stu.getDateOfRegi());
@@ -89,32 +89,32 @@ public class StudentDaoTest {
 
     @Test
     void shouldUpdateFirstname() {
-        var prev = dao.findStudentById(MODIFIED_ID);
+        var prev = dao.findById(MODIFIED_ID);
         dao.updateFirstname(MODIFIED_ID, prev.getFirstname() + "_Updated");
-        assertNotEquals(prev.getFirstname(), dao.findStudentById(MODIFIED_ID).getFirstname());
+        assertNotEquals(prev.getFirstname(), dao.findById(MODIFIED_ID).getFirstname());
     }
 
     @Test
     void shouldUpdateLastname() {
-        var prev = dao.findStudentById(MODIFIED_ID);
+        var prev = dao.findById(MODIFIED_ID);
         dao.updateLastname(MODIFIED_ID, prev.getLastname() + "_Updated");
-        assertNotEquals(prev.getLastname(), dao.findStudentById(MODIFIED_ID).getLastname());
+        assertNotEquals(prev.getLastname(), dao.findById(MODIFIED_ID).getLastname());
     }
 
     @Test
     void shouldUpdateDateOfReg() {
-        var prev = dao.findStudentById(MODIFIED_ID);
+        var prev = dao.findById(MODIFIED_ID);
         dao.updateDateOfReg(MODIFIED_ID, new Date(prev.getDateOfRegi().getTime() - 24 * 60 * 60 * 1000));
-        assertNotEquals(prev.getDateOfRegi(), dao.findStudentById(MODIFIED_ID).getDateOfRegi());
+        assertNotEquals(prev.getDateOfRegi(), dao.findById(MODIFIED_ID).getDateOfRegi());
     }
 
     @Test
     void shouldUpdateStudent() {
-        var prev = dao.findStudentById(MODIFIED_ID);
+        var prev = dao.findById(MODIFIED_ID);
         Student stu = new Student(MODIFIED_ID, prev.getFirstname() + "PenPineapple", prev.getLastname() + "ApplePen",
                 new Date(prev.getDateOfRegi().getTime() - 24 * 60 * 60 * 1000));
-        dao.updateStudent(stu);
-        var updated = dao.findStudentById(MODIFIED_ID);
+        dao.update(stu);
+        var updated = dao.findById(MODIFIED_ID);
         assertNotEquals(prev.getDateOfRegi(), updated.getDateOfRegi());
         assertNotEquals(prev.getLastname(), updated.getLastname());
         assertNotEquals(prev.getFirstname(), updated.getFirstname());
@@ -122,15 +122,15 @@ public class StudentDaoTest {
 
     @Test
     void shouldDeleteStudent() {
-        assertTrue(dao.deleteStudentById(DELETED_ID));
-        assertNull(dao.findStudentById(DELETED_ID));
+        assertTrue(dao.deleteById(DELETED_ID));
+        assertNull(dao.findById(DELETED_ID));
     }
 
     @Test
     void shouldCreateStudent() {
         var stu = new Student(CREATED_ID, "PenPineapple", "ApplePen", new Date(System.currentTimeMillis()));
-        assertTrue(dao.createStudent(stu));
-        assertNotNull(dao.findStudentById(CREATED_ID));
+        assertTrue(dao.create(stu));
+        assertNotNull(dao.findById(CREATED_ID));
     }
 
 }
