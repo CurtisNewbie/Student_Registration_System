@@ -219,6 +219,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public List<Student> findStusByLastname(String lname) {
+        logger.info(String.format("findStusByLastname: %s", lname));
         List<Student> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_LNAME);
@@ -236,6 +237,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public List<Student> findStusByDateOfReg(Date date) {
+        logger.info(String.format("findStusByDateOfReg: %s", date.toString()));
         List<Student> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_REG_DATE);
