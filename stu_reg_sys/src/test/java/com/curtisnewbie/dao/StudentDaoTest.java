@@ -14,6 +14,16 @@ import com.curtisnewbie.model.Student;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+/**
+ * ------------------------------------
+ * 
+ * Author: Yongjie Zhuang
+ * 
+ * ------------------------------------
+ * <p>
+ * Unit tests for {@link StudentDao}
+ * </p>
+ */
 public class StudentDaoTest {
 
     /** the id of a Student instance that should be read-only */

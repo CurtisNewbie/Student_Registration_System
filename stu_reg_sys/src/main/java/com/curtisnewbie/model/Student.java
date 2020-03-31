@@ -2,6 +2,16 @@ package com.curtisnewbie.model;
 
 import java.util.Date;
 
+/**
+ * ------------------------------------
+ * 
+ * Author: Yongjie Zhuang
+ * 
+ * ------------------------------------
+ * <p>
+ * Student representation
+ * </p>
+ */
 public class Student {
     /** id can be generated if id is set to GENERATED_ID */
     public static final int GENERATED_ID = -1;
