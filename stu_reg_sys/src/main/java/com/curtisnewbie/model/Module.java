@@ -16,6 +16,13 @@ public class Module {
     private String name;
     private int credit;
 
+    /**
+     * 
+     * @param id     set to {@link Dao#GENERATED_ID} if it needs to be
+     *               auto-generated
+     * @param name
+     * @param credit
+     */
     public Module(int id, String name, int credit) {
         this.id = id;
         this.name = name;

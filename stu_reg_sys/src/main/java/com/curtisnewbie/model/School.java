@@ -15,6 +15,11 @@ public class School {
     private int id;
     private String name;
 
+    /**
+     * 
+     * @param id   set to {@link Dao#GENERATED_ID} if it needs to be auto-generated
+     * @param name
+     */
     public School(int id, String name) {
         this.id = id;
         this.name = name;
