@@ -67,6 +67,20 @@ public class DBManager {
         loadScript("demo_data.sql", true);
     }
 
+    /**
+     * Drop all tables
+     */
+    public void dropTables() {
+        loadScript("drop_tables.sql", true);
+    }
+
+    /**
+     * Insert test data
+     */
+    public void insertTestData() {
+        loadScript("test_data.sql", true);
+    }
+
     private void loadScript(String scriptName, boolean exitOnFailure) {
         var in = getClass().getClassLoader().getResourceAsStream(scriptName);
         if (in == null) {

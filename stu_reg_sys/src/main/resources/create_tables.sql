@@ -1,11 +1,3 @@
-DROP TABLE student_module;
-DROP TABLE course_module;
-DROP TABLE student;
-DROP TABLE module;
-DROP TABLE course;
-DROP TABLE school;
-DROP TABLE faculty;
-
 CREATE TABLE IF NOT EXISTS faculty(
     id INT PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL
