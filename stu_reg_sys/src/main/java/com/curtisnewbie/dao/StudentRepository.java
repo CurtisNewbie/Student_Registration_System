@@ -42,6 +42,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public List<Student> getAllStudents() {
+        logger.info("Get all students");
         List<Student> list = new ArrayList<>();
         try {
             var stmt = conn.createStatement();
@@ -58,7 +59,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public boolean deleteStudentById(int id) {
-        logger.info(String.format("deleteStudentById: %d", id));
+        logger.info(String.format("Delete id: '%d'", id));
         try {
             var stmt = conn.prepareStatement(DELETE_BY_ID);
             stmt.setInt(1, id);
@@ -72,7 +73,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public Student findStudentById(int id) {
-        logger.info(String.format("findStudentById: %d", id));
+        logger.info(String.format("Find id: '%d'", id));
         try {
             var stmt = conn.prepareStatement(SELECT_BY_ID);
             stmt.setInt(1, id);
@@ -90,7 +91,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public boolean updateStudent(Student stu) {
-        logger.info(String.format("updateStudent: %d", stu.getId()));
+        logger.info(String.format("Update student to: '%s'", stu.toString()));
         try {
             conn.setAutoCommit(false);
             Student prev;
@@ -128,7 +129,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public boolean createStudent(Student stu) {
-        logger.info("createStudent: " + stu.toString());
+        logger.info("Create student: '" + stu.toString() + "'");
         boolean withId = true;
         if (stu.getId() == Student.GENERATED_ID)
             withId = false;
@@ -156,7 +157,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public boolean updateFirstname(int id, String fname) {
-        logger.info(String.format("updateFirstname: %d", id));
+        logger.info(String.format("Update id: '%d', firstname updated to '%s'", id, fname));
         try {
             var stmt = conn.prepareStatement(UPDATE_FIRSTNAME);
             stmt.setString(1, fname);
@@ -171,7 +172,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public boolean updateLastname(int id, String lname) {
-        logger.info(String.format("updateLastname: %d", id));
+        logger.info(String.format("Update id: '%d', lastname updated to '%s'", id, lname));
         try {
             var stmt = conn.prepareStatement(UPDATE_LASTNAME);
             stmt.setString(1, lname);
@@ -186,7 +187,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public boolean updateDateOfReg(int id, Date date) {
-        logger.info(String.format("updateDateOfReg: %d", id));
+        logger.info(String.format("Update id: '%d', date updated to: '%s'", id, date.toString()));
         try {
             PreparedStatement stmt = conn.prepareStatement(UPDATE_REG_DATE);
             stmt.setDate(1, new java.sql.Date(date.getTime()));
@@ -201,7 +202,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public List<Student> findStusByFirstname(String fname) {
-        logger.info(String.format("findStusByFirstname: %s", fname));
+        logger.info(String.format("Find firstname: '%s'", fname));
         List<Student> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_FNAME);
@@ -219,7 +220,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public List<Student> findStusByLastname(String lname) {
-        logger.info(String.format("findStusByLastname: %s", lname));
+        logger.info(String.format("Find lastname: '%s'", lname));
         List<Student> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_LNAME);
@@ -237,7 +238,7 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public List<Student> findStusByDateOfReg(Date date) {
-        logger.info(String.format("findStusByDateOfReg: %s", date.toString()));
+        logger.info(String.format("Find date of registration: '%s'", date.toString()));
         List<Student> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_REG_DATE);
