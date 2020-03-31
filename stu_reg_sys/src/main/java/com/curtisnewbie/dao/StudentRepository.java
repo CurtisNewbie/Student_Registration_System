@@ -131,7 +131,7 @@ public class StudentRepository implements StudentDao {
     public boolean createStudent(Student stu) {
         logger.info("Create student: '" + stu.toString() + "'");
         boolean withId = true;
-        if (stu.getId() == Student.GENERATED_ID)
+        if (stu.getId() == Dao.GENERATED_ID)
             withId = false;
 
         try {

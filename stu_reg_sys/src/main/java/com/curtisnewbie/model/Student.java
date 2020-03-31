@@ -2,6 +2,8 @@ package com.curtisnewbie.model;
 
 import java.util.Date;
 
+import com.curtisnewbie.dao.Dao;
+
 /**
  * ------------------------------------
  * 
@@ -13,8 +15,6 @@ import java.util.Date;
  * </p>
  */
 public class Student {
-    /** id can be generated if id is set to GENERATED_ID */
-    public static final int GENERATED_ID = -1;
 
     private int id;
     private String firstname;
@@ -23,7 +23,7 @@ public class Student {
 
     /**
      * 
-     * @param id         id, set to {@code GENERATED_ID} if it needs to be
+     * @param id         id, set to {@link Dao#GENERATED_ID} if it needs to be
      *                   auto-generated.
      * @param fname      firstname
      * @param lname      lastname
