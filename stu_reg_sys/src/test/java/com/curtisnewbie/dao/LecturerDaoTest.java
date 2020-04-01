@@ -1,5 +1,7 @@
 package com.curtisnewbie.dao;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -59,5 +61,15 @@ public class LecturerDaoTest {
     void shouldDeleteLecturer() {
         assertTrue(dao.deleteById(DELETED_ID));
         assertNull(dao.findById(DELETED_ID));
+    }
+
+    @Test
+    void shouldUpdateFirstname() {
+        var prevFirstname = dao.findById(MODIFIED_ID).getFirstname();
+        var updatedFirstname = prevFirstname + "_Updated";
+        dao.updateFirstname(MODIFIED_ID, updatedFirstname);
+        var currFirstname = dao.findById(MODIFIED_ID).getFirstname();
+        assertNotEquals(prevFirstname, currFirstname);
+        assertEquals(updatedFirstname, currFirstname);
     }
 }
