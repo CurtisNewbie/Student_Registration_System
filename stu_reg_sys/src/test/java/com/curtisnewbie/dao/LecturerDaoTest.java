@@ -121,4 +121,11 @@ public class LecturerDaoTest {
         List<Lecturer> lect = dao.findByLastname(LNAME);
         assertTrue(lect.size() > 0);
     }
+
+    @Test
+    void shouldCreateLecturer() {
+        var lect = new Lecturer(CREATED_ID, "CreatedLecturer", "WaterBottle", "Student Dean");
+        assertTrue(dao.create(lect));
+        assertNotNull(dao.findById(CREATED_ID));
+    }
 }

@@ -1,6 +1,7 @@
 package com.curtisnewbie.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ public class LecturerRepository implements LecturerDao {
     private final String UPDATE_FIRSTNAME = "UPDATE lecturer SET firstname = ? WHERE id = ?";
     private final String UPDATE_LASTNAME = "UPDATE lecturer SET lastname = ? WHERE id = ?";
     private final String UPDATE_POSITION = "UPDATE lecturer SET position = ? WHERE id = ?";
+    private final String CREATE_LECTURER_WITH_ID = "INSERT INTO lecturer VALUES (?,?,?,?)";
+    private final String CREATE_LECTURER_WITHOUT_ID = "INSERT INTO lecturer (firstname, lastname, position) VALUES (?,?,?)";
 
     private final Connection conn = new DBManager().getConnection();
     private final Logger logger = LoggerProducer.getLogger(this);
@@ -111,8 +114,29 @@ public class LecturerRepository implements LecturerDao {
     }
 
     @Override
-    public boolean create(Lecturer obj) {
-        // TODO Auto-generated method stub
+    public boolean create(Lecturer lect) {
+        logger.info("Create lecturer: '" + lect.toString() + "'");
+        boolean withId = true;
+        if (lect.getId() == Dao.GENERATED_ID)
+            withId = false;
+
+        try {
+            PreparedStatement stmt;
+            int i = 1;
+            if (withId) {
+                stmt = conn.prepareStatement(CREATE_LECTURER_WITH_ID);
+                stmt.setInt(i++, lect.getId());
+            } else {
+                stmt = conn.prepareStatement(CREATE_LECTURER_WITHOUT_ID);
+            }
+            stmt.setString(i++, lect.getFirstname());
+            stmt.setString(i++, lect.getLastname());
+            stmt.setString(i++, lect.getPosition());
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
         return false;
     }
 
