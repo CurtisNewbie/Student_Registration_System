@@ -1,6 +1,7 @@
 package com.curtisnewbie.dao;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -52,5 +53,11 @@ public class LecturerDaoTest {
         assertNotNull(lect.getFirstname());
         assertNotNull(lect.getLastname());
         assertNotNull(lect.getPosition());
+    }
+
+    @Test
+    void shouldDeleteLecturer() {
+        assertTrue(dao.deleteById(DELETED_ID));
+        assertNull(dao.findById(DELETED_ID));
     }
 }

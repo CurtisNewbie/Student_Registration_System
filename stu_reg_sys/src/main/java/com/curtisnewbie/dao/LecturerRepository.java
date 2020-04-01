@@ -12,8 +12,8 @@ import com.curtisnewbie.util.LoggerProducer;
 public class LecturerRepository implements LecturerDao {
 
     private final String SELECT_ALL = "SELECT * FROM lecturer";
-
     private final String SELECT_BY_ID = "SELECT * FROM lecturer WHERE id = ?";
+    private final String DELETE_BY_ID = "DELETE FROM lecturer WHERE id = ?";
 
     private final Connection conn = new DBManager().getConnection();
     private final Logger logger = LoggerProducer.getLogger(this);
@@ -37,7 +37,15 @@ public class LecturerRepository implements LecturerDao {
 
     @Override
     public boolean deleteById(int id) {
-        // TODO Auto-generated method stub
+        logger.info(String.format("Delete id: '%d'", id));
+        try {
+            var stmt = conn.prepareStatement(DELETE_BY_ID);
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
         return false;
     }
 

@@ -6,4 +6,5 @@ INSERT INTO student VALUES
 
 INSERT INTO lecturer VALUES 
     (1, "John", "Cena", "Pricipal Lecturer"),
-    (2, "Apple", "Juice", "Senior Lecturer");
+    (2, "Apple", "Juice", "Senior Lecturer"),
+    (3, "to_be_deleted", "someone", "temp staff");
