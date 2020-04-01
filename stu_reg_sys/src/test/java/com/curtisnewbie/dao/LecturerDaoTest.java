@@ -34,8 +34,8 @@ public class LecturerDaoTest {
     /** the id of a Lecturer instance that will be created */
     private final int CREATED_ID = 10;
 
-    // private final String FNAME = "John";
-    // private final String LNAME = "Cena";
+    private final String FNAME = "John";
+    private final String LNAME = "Cena";
     private final LecturerDao dao = new LecturerRepository();
 
     @BeforeAll
@@ -108,6 +108,12 @@ public class LecturerDaoTest {
         assertEquals(updatedFname, updated.getFirstname());
         assertEquals(updatedLname, updated.getLastname());
         assertEquals(updatedPos, updated.getPosition());
+    }
+
+    @Test
+    void shouldFindLecturerByFirstname() {
+        List<Lecturer> lect = dao.findByFirstname(FNAME);
+        assertTrue(lect.size() > 0);
     }
 
 }

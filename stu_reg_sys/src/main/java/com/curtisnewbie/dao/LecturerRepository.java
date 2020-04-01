@@ -14,6 +14,7 @@ public class LecturerRepository implements LecturerDao {
 
     private final String SELECT_ALL = "SELECT * FROM lecturer";
     private final String SELECT_BY_ID = "SELECT * FROM lecturer WHERE id = ?";
+    private final String SELECT_BY_FNAME = "SELECT * FROM lecturer WHERE firstname = ?";
     private final String DELETE_BY_ID = "DELETE FROM lecturer WHERE id = ?";
     private final String UPDATE_FIRSTNAME = "UPDATE lecturer SET firstname = ? WHERE id = ?";
     private final String UPDATE_LASTNAME = "UPDATE lecturer SET lastname = ? WHERE id = ?";
@@ -161,8 +162,20 @@ public class LecturerRepository implements LecturerDao {
 
     @Override
     public List<Lecturer> findByFirstname(String fname) {
-        // TODO Auto-generated method stub
-        return null;
+        logger.info(String.format("Find firstname: '%s'", fname));
+        List<Lecturer> list = new ArrayList<>();
+        try {
+            var stmt = conn.prepareStatement(SELECT_BY_FNAME);
+            stmt.setString(1, fname);
+            ResultSet set = stmt.executeQuery();
+            while (set.next()) {
+                var lect = new Lecturer(set.getInt(1), set.getString(2), set.getString(3), set.getString(4));
+                list.add(lect);
+            }
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return list;
     }
 
     @Override
