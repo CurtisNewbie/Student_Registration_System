@@ -87,4 +87,10 @@ public class Lecturer {
     public void setPosition(String position) {
         this.position = position;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Lecturer - {id: %d, firstname: %s, lastname: %s, position: %s}", getId(), getFirstname(),
+                getLastname(), getPosition());
+    }
 }
