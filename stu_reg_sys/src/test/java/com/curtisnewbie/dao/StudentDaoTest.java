@@ -1,5 +1,6 @@
 package com.curtisnewbie.dao;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -86,16 +87,22 @@ public class StudentDaoTest {
 
     @Test
     void shouldUpdateFirstname() {
-        var prev = dao.findById(MODIFIED_ID);
-        dao.updateFirstname(MODIFIED_ID, prev.getFirstname() + "_Updated");
-        assertNotEquals(prev.getFirstname(), dao.findById(MODIFIED_ID).getFirstname());
+        var prevFirstname = dao.findById(MODIFIED_ID).getFirstname();
+        var updatedFirstname = prevFirstname + "_Updated";
+        dao.updateFirstname(MODIFIED_ID, updatedFirstname);
+        var currFirstname = dao.findById(MODIFIED_ID).getFirstname();
+        assertNotEquals(prevFirstname, currFirstname);
+        assertEquals(updatedFirstname, currFirstname);
     }
 
     @Test
     void shouldUpdateLastname() {
-        var prev = dao.findById(MODIFIED_ID);
-        dao.updateLastname(MODIFIED_ID, prev.getLastname() + "_Updated");
-        assertNotEquals(prev.getLastname(), dao.findById(MODIFIED_ID).getLastname());
+        var prevLastname = dao.findById(MODIFIED_ID).getLastname();
+        var updatedLastname = prevLastname + "_Updated";
+        dao.updateLastname(MODIFIED_ID, updatedLastname);
+        var currLastname = dao.findById(MODIFIED_ID).getLastname();
+        assertNotEquals(prevLastname, currLastname);
+        assertEquals(updatedLastname, currLastname);
     }
 
     @Test
