@@ -116,4 +116,9 @@ public class LecturerDaoTest {
         assertTrue(lect.size() > 0);
     }
 
+    @Test
+    void shouldFindLecturerByLastname() {
+        List<Lecturer> lect = dao.findByLastname(LNAME);
+        assertTrue(lect.size() > 0);
+    }
 }
