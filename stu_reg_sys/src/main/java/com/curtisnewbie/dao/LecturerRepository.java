@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.curtisnewbie.model.Lecturer;
 import com.curtisnewbie.util.LoggerProducer;
+import com.curtisnewbie.util.LoggerWrapper;
 
 public class LecturerRepository implements LecturerDao {
 
@@ -25,7 +25,7 @@ public class LecturerRepository implements LecturerDao {
     private final String CREATE_LECTURER_WITHOUT_ID = "INSERT INTO lecturer (firstname, lastname, position) VALUES (?,?,?)";
 
     private final Connection conn = new DBManager().getConnection();
-    private final Logger logger = LoggerProducer.getLogger(this);
+    private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
     @Override
     public List<Lecturer> getAll() {

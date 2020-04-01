@@ -8,10 +8,10 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import com.curtisnewbie.model.Student;
 import com.curtisnewbie.util.LoggerProducer;
+import com.curtisnewbie.util.LoggerWrapper;
 
 /**
  * ------------------------------------
@@ -38,7 +38,7 @@ public class StudentRepository implements StudentDao {
     private final String CREATE_STUDENT_WITHOUT_ID = "INSERT INTO student (firstname, lastname, reg_date, cou_fk) VALUES(?, ?, ?, ?)";
 
     private final Connection conn = new DBManager().getConnection();
-    private final Logger logger = LoggerProducer.getLogger(this);
+    private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
     @Override
     public List<Student> getAll() {

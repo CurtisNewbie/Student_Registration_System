@@ -5,11 +5,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.apache.ibatis.jdbc.ScriptRunner;
 import com.curtisnewbie.util.LoggerProducer;
+import com.curtisnewbie.util.LoggerWrapper;
 
 /**
  * ------------------------------------
@@ -37,7 +36,7 @@ public class DBManager {
     private final String USERNAME = "admin";
     private final String PASSWORD = "adminpw";
     private final String DB_URL = "jdbc:mysql://localhost:3306/reg_sys";
-    private final Logger logger = LoggerProducer.getLogger(this);
+    private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
     /**
      * Get database connection
@@ -48,7 +47,7 @@ public class DBManager {
         try {
             return DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage());
+            logger.severe(e.getMessage());
         }
         return null;
     }
@@ -84,7 +83,7 @@ public class DBManager {
     private void loadScript(String scriptName, boolean exitOnFailure) {
         var in = getClass().getClassLoader().getResourceAsStream(scriptName);
         if (in == null) {
-            logger.log(Level.SEVERE, String.format("Cannot find script file: '%s'", scriptName));
+            logger.severe(String.format("Cannot find script file: '%s'", scriptName));
             if (exitOnFailure)
                 System.exit(1);
         }
@@ -94,7 +93,7 @@ public class DBManager {
             scriptRunner.runScript(reader);
             logger.info(String.format("Successfully ran '%s'", scriptName));
         } catch (Exception e) {
-            logger.log(Level.SEVERE, e.getMessage());
+            logger.severe(e.getMessage());
             if (exitOnFailure)
                 System.exit(1);
         }

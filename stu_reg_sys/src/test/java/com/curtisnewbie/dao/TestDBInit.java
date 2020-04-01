@@ -1,5 +1,7 @@
 package com.curtisnewbie.dao;
 
+import com.curtisnewbie.util.LoggerProducer;
+
 /**
  * ------------------------------------
  * 
@@ -17,6 +19,9 @@ public class TestDBInit {
     /** Drop tables and insert test data for testing, it only runs for once */
     static void init() {
         if (!started) {
+            // disable logger
+            LoggerProducer.disableLogging();
+            // db operations
             DBManager dbManager = new DBManager();
             dbManager.dropTables();
             dbManager.createTables();
