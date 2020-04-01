@@ -13,6 +13,8 @@ public class LecturerRepository implements LecturerDao {
 
     private final String SELECT_ALL = "SELECT * FROM lecturer";
 
+    private final String SELECT_BY_ID = "SELECT * FROM lecturer WHERE id = ?";
+
     private final Connection conn = new DBManager().getConnection();
     private final Logger logger = LoggerProducer.getLogger(this);
 
@@ -41,7 +43,18 @@ public class LecturerRepository implements LecturerDao {
 
     @Override
     public Lecturer findById(int id) {
-        // TODO Auto-generated method stub
+        logger.info(String.format("Find id: '%d'", id));
+        try {
+            var stmt = conn.prepareStatement(SELECT_BY_ID);
+            stmt.setInt(1, id);
+            var set = stmt.executeQuery();
+            Lecturer lec = null;
+            if (set.next())
+                lec = new Lecturer(set.getInt(1), set.getString(2), set.getString(3), set.getString(4));
+            return lec;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
         return null;
     }
 
