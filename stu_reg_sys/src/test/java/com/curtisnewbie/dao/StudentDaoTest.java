@@ -44,10 +44,7 @@ public class StudentDaoTest {
 
     @BeforeAll
     static void insertTestData() {
-        DBManager dbManager = new DBManager();
-        dbManager.dropTables();
-        dbManager.createTables();
-        dbManager.insertTestData();
+        TestDBInit.init();
     }
 
     @Test
