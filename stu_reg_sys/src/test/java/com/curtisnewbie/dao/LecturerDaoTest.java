@@ -92,4 +92,22 @@ public class LecturerDaoTest {
         assertNotEquals(prevPosition, currPosition);
         assertEquals(updatedPosition, currPosition);
     }
+
+    @Test
+    void shouldUpdateLecturer() {
+        var prev = dao.findById(MODIFIED_ID);
+        var updatedFname = prev.getFirstname() + "PenPineapple";
+        var updatedLname = prev.getLastname() + "ApplePen";
+        var updatedPos = prev.getPosition() + "_ppap";
+        Lecturer stu = new Lecturer(MODIFIED_ID, updatedFname, updatedLname, updatedPos);
+        dao.update(stu);
+        var updated = dao.findById(MODIFIED_ID);
+        assertNotEquals(prev.getPosition(), updated.getPosition());
+        assertNotEquals(prev.getLastname(), updated.getLastname());
+        assertNotEquals(prev.getFirstname(), updated.getFirstname());
+        assertEquals(updatedFname, updated.getFirstname());
+        assertEquals(updatedLname, updated.getLastname());
+        assertEquals(updatedPos, updated.getPosition());
+    }
+
 }

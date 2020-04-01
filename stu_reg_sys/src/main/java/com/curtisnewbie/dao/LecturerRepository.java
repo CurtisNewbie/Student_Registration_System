@@ -2,6 +2,7 @@ package com.curtisnewbie.dao;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -70,8 +71,40 @@ public class LecturerRepository implements LecturerDao {
     }
 
     @Override
-    public boolean update(Lecturer obj) {
-        // TODO Auto-generated method stub
+    public boolean update(Lecturer lect) {
+        logger.info(String.format("Update lecturer to: '%s'", lect.toString()));
+        try {
+            conn.setAutoCommit(false);
+            Lecturer prev;
+            if ((prev = findById(lect.getId())) != null) {
+                boolean succeeded = true;
+                if (!prev.getPosition().equals(lect.getPosition()))
+                    if (!updatePosition(lect.getId(), lect.getPosition()))
+                        succeeded = false;
+
+                if (succeeded && !prev.getFirstname().equals(lect.getFirstname()))
+                    if (!updateFirstname(lect.getId(), lect.getFirstname()))
+                        succeeded = false;
+
+                if (succeeded && !prev.getLastname().equals(lect.getLastname()))
+                    if (!updateLastname(lect.getId(), lect.getLastname()))
+                        succeeded = false;
+
+                if (succeeded) {
+                    conn.commit();
+                    return true;
+                } else {
+                    conn.rollback();
+                }
+            }
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                logger.severe(e1.getMessage());
+            }
+        }
         return false;
     }
 
