@@ -72,4 +72,14 @@ public class LecturerDaoTest {
         assertNotEquals(prevFirstname, currFirstname);
         assertEquals(updatedFirstname, currFirstname);
     }
+
+    @Test
+    void shouldUpdateLastname() {
+        var prevLastname = dao.findById(MODIFIED_ID).getLastname();
+        var updatedLastname = prevLastname + "_Updated";
+        dao.updateLastname(MODIFIED_ID, updatedLastname);
+        var currLastname = dao.findById(MODIFIED_ID).getLastname();
+        assertNotEquals(prevLastname, currLastname);
+        assertEquals(updatedLastname, currLastname);
+    }
 }

@@ -15,6 +15,7 @@ public class LecturerRepository implements LecturerDao {
     private final String SELECT_BY_ID = "SELECT * FROM lecturer WHERE id = ?";
     private final String DELETE_BY_ID = "DELETE FROM lecturer WHERE id = ?";
     private final String UPDATE_FIRSTNAME = "UPDATE lecturer SET firstname = ? WHERE id = ?";
+    private final String UPDATE_LASTNAME = "UPDATE lecturer SET lastname = ? WHERE id = ?";
 
     private final Connection conn = new DBManager().getConnection();
     private final Logger logger = LoggerProducer.getLogger(this);
@@ -96,7 +97,16 @@ public class LecturerRepository implements LecturerDao {
 
     @Override
     public boolean updateLastname(int id, String lname) {
-        // TODO Auto-generated method stub
+        logger.info(String.format("Update id: '%d', lastname updated to '%s'", id, lname));
+        try {
+            var stmt = conn.prepareStatement(UPDATE_LASTNAME);
+            stmt.setString(1, lname);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
         return false;
     }
 
