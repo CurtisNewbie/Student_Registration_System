@@ -1,6 +1,7 @@
 package com.curtisnewbie.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,8 @@ public class FacultyRepository implements FacultyDao {
     private final String SELECT_BY_NAME = "SELECT * FROM faculty WHERE name = ?";
     private final String DELETE_BY_ID = "DELETE FROM faculty WHERE id = ?";
     private final String UPDATE_NAME = "UPDATE faculty SET name = ? WHERE id = ?";
+    private final String CREATE_FACULTY_WITH_ID = "INSERT INTO faculty VALUES (?,?)";
+    private final String CREATE_FACULTY_WITHOUT_ID = "INSERT INTO faculty (name) VALUES (?)";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -83,8 +86,27 @@ public class FacultyRepository implements FacultyDao {
     }
 
     @Override
-    public boolean create(Faculty obj) {
-        // TODO Auto-generated method stub
+    public boolean create(Faculty facu) {
+        logger.info("Create faculty: '" + facu.toString() + "'");
+        boolean withId = true;
+        if (facu.getId() == Dao.GENERATED_ID)
+            withId = false;
+
+        try {
+            PreparedStatement stmt;
+            int i = 1;
+            if (withId) {
+                stmt = conn.prepareStatement(CREATE_FACULTY_WITH_ID);
+                stmt.setInt(i++, facu.getId());
+            } else {
+                stmt = conn.prepareStatement(CREATE_FACULTY_WITHOUT_ID);
+            }
+            stmt.setString(i++, facu.getName());
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
         return false;
     }
 

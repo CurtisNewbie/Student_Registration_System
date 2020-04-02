@@ -78,4 +78,10 @@ public class FacultyDaoTest {
         assertEquals(updatedName, updated.getName());
     }
 
+    @Test
+    void shouldCreateFaculty() {
+        assertTrue(dao.create(new Faculty(CREATED_ID, "created Faculty")));
+        assertNotNull(dao.findById(CREATED_ID));
+    }
+
 }
