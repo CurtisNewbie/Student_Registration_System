@@ -77,9 +77,9 @@ public class FacultyRepository implements FacultyDao {
     }
 
     @Override
-    public boolean update(Faculty obj) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean update(Faculty facu) {
+        logger.info(String.format("Update faculty to: '%s'", facu.toString()));
+        return updateName(facu.getId(), facu.getName());
     }
 
     @Override

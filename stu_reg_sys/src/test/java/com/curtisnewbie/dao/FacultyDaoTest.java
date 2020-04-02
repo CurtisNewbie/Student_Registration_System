@@ -67,4 +67,15 @@ public class FacultyDaoTest {
         assertNotNull(facu);
     }
 
+    @Test
+    void shouldUpdateFaculty() {
+        var prev = dao.findById(MODIFIED_ID);
+        var updatedName = prev.getName() + "_updated";
+        Faculty facu = new Faculty(MODIFIED_ID, updatedName);
+        dao.update(facu);
+        var updated = dao.findById(MODIFIED_ID);
+        assertNotEquals(prev.getName(), updated.getName());
+        assertEquals(updatedName, updated.getName());
+    }
+
 }
