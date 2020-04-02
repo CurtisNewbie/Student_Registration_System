@@ -70,4 +70,9 @@ public class Course {
     public void setCredit(int credit) {
         this.credit = credit;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Course - {id: %d, name: %s, credit: %d}", getId(), getName(), getCredit());
+    }
 }
