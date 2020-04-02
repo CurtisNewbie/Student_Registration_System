@@ -24,6 +24,8 @@ public class FacultyDaoTest {
     /** the id of a Faculty instance that will be created */
     private final int CREATED_ID = 10;
 
+    private final String NAME = "Faculty of Social Science";
+
     private final FacultyDao dao = new FacultyRepository();
 
     @BeforeAll
@@ -57,6 +59,12 @@ public class FacultyDaoTest {
         var currName = dao.findById(MODIFIED_ID).getName();
         assertNotEquals(prevName, currName);
         assertEquals(updatedName, currName);
+    }
+
+    @Test
+    void shouldFindByName() {
+        Faculty facu = dao.findByName(NAME);
+        assertNotNull(facu);
     }
 
 }

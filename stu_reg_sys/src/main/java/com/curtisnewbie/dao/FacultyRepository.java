@@ -23,6 +23,7 @@ public class FacultyRepository implements FacultyDao {
 
     private final String SELECT_ALL = "SELECT * FROM faculty";
     private final String SELECT_BY_ID = "SELECT * FROM faculty WHERE id = ?";
+    private final String SELECT_BY_NAME = "SELECT * FROM faculty WHERE name = ?";
     private final String DELETE_BY_ID = "DELETE FROM faculty WHERE id = ?";
     private final String UPDATE_NAME = "UPDATE faculty SET name = ? WHERE id = ?";
 
@@ -89,8 +90,19 @@ public class FacultyRepository implements FacultyDao {
 
     @Override
     public Faculty findByName(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        logger.info(String.format("Find name: '%s'", name));
+        Faculty facu = null;
+        try {
+            var stmt = conn.prepareStatement(SELECT_BY_NAME);
+            stmt.setString(1, name);
+            var set = stmt.executeQuery();
+            if (set.next()) {
+                facu = new Faculty(set.getInt(1), set.getString(2));
+            }
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return facu;
     }
 
     @Override
