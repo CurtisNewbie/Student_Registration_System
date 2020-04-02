@@ -59,4 +59,12 @@ public interface LecturerDao extends Dao<Lecturer> {
      */
     public List<Lecturer> findByLastname(String lname);
 
+    /**
+     * Find a list of {@link Lecturer} by position
+     * 
+     * @param pos position
+     * @return a list of {@link Lecturer}
+     */
+    public List<Lecturer> findByPosition(String pos);
+
 }

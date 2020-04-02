@@ -36,6 +36,8 @@ public class LecturerDaoTest {
 
     private final String FNAME = "John";
     private final String LNAME = "Cena";
+    private final String POSITION = "Pricipal Lecturer";
+
     private final LecturerDao dao = new LecturerRepository();
 
     @BeforeAll
@@ -119,6 +121,12 @@ public class LecturerDaoTest {
     @Test
     void shouldFindLecturerByLastname() {
         List<Lecturer> lect = dao.findByLastname(LNAME);
+        assertTrue(lect.size() > 0);
+    }
+
+    @Test
+    void shouldFindLecturerByPosition() {
+        List<Lecturer> lect = dao.findByPosition(POSITION);
         assertTrue(lect.size() > 0);
     }
 
