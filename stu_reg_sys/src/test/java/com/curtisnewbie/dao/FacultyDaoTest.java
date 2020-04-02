@@ -1,5 +1,6 @@
 package com.curtisnewbie.dao;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
@@ -31,6 +32,12 @@ public class FacultyDaoTest {
     void shouldGetAllFaculties() {
         List<Faculty> list = dao.getAll();
         assertTrue(list.size() > 0);
+    }
+
+    @Test
+    void shouldFindFacultyById() {
+        Faculty facu = dao.findById(READ_ONLY_ID);
+        assertNotNull(facu.getName());
     }
 
 }
