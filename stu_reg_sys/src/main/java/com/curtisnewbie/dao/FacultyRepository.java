@@ -24,6 +24,7 @@ public class FacultyRepository implements FacultyDao {
     private final String SELECT_ALL = "SELECT * FROM faculty";
     private final String SELECT_BY_ID = "SELECT * FROM faculty WHERE id = ?";
     private final String DELETE_BY_ID = "DELETE FROM faculty WHERE id = ?";
+    private final String UPDATE_NAME = "UPDATE faculty SET name = ? WHERE id = ?";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -94,7 +95,16 @@ public class FacultyRepository implements FacultyDao {
 
     @Override
     public boolean updateName(int id, String name) {
-        // TODO Auto-generated method stub
+        logger.info(String.format("Update id: '%d', name updated to '%s'", id, name));
+        try {
+            var stmt = conn.prepareStatement(UPDATE_NAME);
+            stmt.setString(1, name);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
         return false;
     }
 }
