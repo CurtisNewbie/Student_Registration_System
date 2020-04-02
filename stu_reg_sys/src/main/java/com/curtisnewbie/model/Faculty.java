@@ -52,4 +52,9 @@ public class Faculty {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Faculty - {id: %d, name: %s}", getId(), getName());
+    }
 }
