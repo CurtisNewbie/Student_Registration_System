@@ -22,6 +22,8 @@ public class CourseDaoTest {
     /** the id of a Course instance that will be created */
     private final int CREATED_ID = 10;
 
+    private final String NAME = "Computer Science";
+
     private final CourseDao dao = new CourseRepository();
 
     @BeforeAll
@@ -46,5 +48,12 @@ public class CourseDaoTest {
     void shouldDeleteCourse() {
         assertTrue(dao.deleteById(DELETED_ID));
         assertNull(dao.findById(DELETED_ID));
+    }
+
+    @Test
+    void shouldFindByName() {
+        Course lect = dao.findByName(NAME);
+        assertNotNull(lect.getName());
+        assertNotNull(lect.getCredit());
     }
 }

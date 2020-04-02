@@ -11,9 +11,9 @@ import com.curtisnewbie.util.LoggerWrapper;
 public class CourseRepository implements CourseDao {
 
     private final String SELECT_ALL = "SELECT * FROM course";
-    private final String DELETE_BY_ID = "DELETE FROM course WHERE id = ?";
-
     private final String SELECT_BY_ID = "SELECT * FROM course WHERE id = ?";
+    private final String SELECT_BY_NAME = "SELECT * FROM course WHERE name = ?";
+    private final String DELETE_BY_ID = "DELETE FROM course WHERE id = ?";
 
     private final Connection conn = new DBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -78,8 +78,19 @@ public class CourseRepository implements CourseDao {
 
     @Override
     public Course findByName(String name) {
-        // TODO Auto-generated method stub
-        return null;
+        logger.info(String.format("Find name: '%s'", name));
+        Course cour = null;
+        try {
+            var stmt = conn.prepareStatement(SELECT_BY_NAME);
+            stmt.setString(1, name);
+            var set = stmt.executeQuery();
+            if (set.next()) {
+                cour = new Course(set.getInt(1), set.getString(2), set.getInt(3));
+            }
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return cour;
     }
 
     @Override
