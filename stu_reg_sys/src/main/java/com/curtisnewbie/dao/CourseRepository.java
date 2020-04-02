@@ -11,6 +11,7 @@ import com.curtisnewbie.util.LoggerWrapper;
 public class CourseRepository implements CourseDao {
 
     private final String SELECT_ALL = "SELECT * FROM course";
+    private final String DELETE_BY_ID = "DELETE FROM course WHERE id = ?";
 
     private final String SELECT_BY_ID = "SELECT * FROM course WHERE id = ?";
 
@@ -34,7 +35,15 @@ public class CourseRepository implements CourseDao {
 
     @Override
     public boolean deleteById(int id) {
-        // TODO Auto-generated method stub
+        logger.info(String.format("Delete id: '%d'", id));
+        try {
+            var stmt = conn.prepareStatement(DELETE_BY_ID);
+            stmt.setInt(1, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
         return false;
     }
 
