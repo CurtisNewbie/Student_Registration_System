@@ -1,6 +1,7 @@
 package com.curtisnewbie.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,7 +69,33 @@ public class CourseRepository implements CourseDao {
     }
 
     @Override
-    public boolean update(Course obj) {
+    public boolean update(Course cour) {
+        logger.info(String.format("Update course to: '%s'", cour.toString()));
+        try {
+            conn.setAutoCommit(false);
+            if (findById(cour.getId()) != null) {
+                boolean succeeded = true;
+                if (!updateName(cour.getId(), cour.getName()))
+                    succeeded = false;
+
+                if (succeeded && !updateCredit(cour.getId(), cour.getCredit()))
+                    succeeded = false;
+
+                if (succeeded) {
+                    conn.commit();
+                    return true;
+                } else {
+                    conn.rollback();
+                }
+            }
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+            try {
+                conn.rollback();
+            } catch (SQLException e1) {
+                logger.severe(e1.getMessage());
+            }
+        }
         return false;
     }
 

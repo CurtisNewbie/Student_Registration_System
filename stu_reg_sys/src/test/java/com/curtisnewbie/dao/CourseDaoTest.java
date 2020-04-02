@@ -86,4 +86,18 @@ public class CourseDaoTest {
         assertEquals(updatedCredit, currCredit);
     }
 
+    @Test
+    void shouldUpdateCourse() {
+        var prev = dao.findById(MODIFIED_ID);
+        var updatedName = prev.getName() + "_updated";
+        var updatedCredit = prev.getCredit() + 1;
+        Course stu = new Course(MODIFIED_ID, updatedName, updatedCredit);
+        dao.update(stu);
+        var updated = dao.findById(MODIFIED_ID);
+        assertNotEquals(prev.getName(), updated.getName());
+        assertNotEquals(prev.getCredit(), updated.getCredit());
+        assertEquals(updatedName, updated.getName());
+        assertEquals(updatedCredit, updated.getCredit());
+    }
+
 }
