@@ -1,6 +1,7 @@
 package com.curtisnewbie.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,9 @@ public class CourseRepository implements CourseDao {
     private final String DELETE_BY_ID = "DELETE FROM course WHERE id = ?";
     private final String UPDATE_NAME = "UPDATE course SET name = ? WHERE id = ?";
     private final String UPDATE_CREDIT = "UPDATE course SET credit = ? WHERE id = ?";
+    // should be changed once all setup
+    private final String CREATE_COURSE_WITH_ID = "INSERT INTO course VALUES (?,?,?, NULL, NULL)";
+    private final String CREATE_COURSE_WITHOUT_ID = "INSERT INTO course (name, credit, sch_fk, lec_fk) VALUES (?,?,NULL, NULL)";
 
     private final Connection conn = new DBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -100,8 +104,28 @@ public class CourseRepository implements CourseDao {
     }
 
     @Override
-    public boolean create(Course obj) {
-        // TODO Auto-generated method stub
+    public boolean create(Course cour) {
+        logger.info("Create course: '" + cour.toString() + "'");
+        boolean withId = true;
+        if (cour.getId() == Dao.GENERATED_ID)
+            withId = false;
+
+        try {
+            PreparedStatement stmt;
+            int i = 1;
+            if (withId) {
+                stmt = conn.prepareStatement(CREATE_COURSE_WITH_ID);
+                stmt.setInt(i++, cour.getId());
+            } else {
+                stmt = conn.prepareStatement(CREATE_COURSE_WITHOUT_ID);
+            }
+            stmt.setString(i++, cour.getName());
+            stmt.setInt(i++, cour.getCredit());
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
         return false;
     }
 

@@ -100,4 +100,10 @@ public class CourseDaoTest {
         assertEquals(updatedCredit, updated.getCredit());
     }
 
+    @Test
+    void shouldCreateCourse() {
+        assertTrue(dao.create(new Course(CREATED_ID, "CreatedCourse", 200)));
+        assertNotNull(dao.findById(CREATED_ID));
+    }
+
 }
