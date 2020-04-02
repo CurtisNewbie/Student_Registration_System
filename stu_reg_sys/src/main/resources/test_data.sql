@@ -8,3 +8,8 @@ INSERT INTO lecturer VALUES
     (1, "John", "Cena", "Pricipal Lecturer"),
     (2, "Apple", "Juice", "Senior Lecturer"),
     (3, "to_be_deleted", "someone", "temp staff");
+
+INSERT INTO course VALUES
+    (1, "Computer Science", 180, NULL, NULL),
+    (2, "Information Systems", 180, NULL, NULL),
+    (3, "Data Science", 180, NULL, NULL);

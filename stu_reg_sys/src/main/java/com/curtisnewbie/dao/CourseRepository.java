@@ -1,6 +1,7 @@
 package com.curtisnewbie.dao;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.curtisnewbie.model.Course;
@@ -9,13 +10,24 @@ import com.curtisnewbie.util.LoggerWrapper;
 
 public class CourseRepository implements CourseDao {
 
+    private final String SELECT_ALL = "SELECT * FROM course";
+
     private final Connection conn = new DBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
     @Override
     public List<Course> getAll() {
-        // TODO Auto-generated method stub
-        return null;
+        logger.info("Get all courses");
+        List<Course> list = new ArrayList<>();
+        try {
+            var stmt = conn.createStatement();
+            var set = stmt.executeQuery(SELECT_ALL);
+            while (set.next())
+                list.add(new Course(set.getInt(1), set.getString(2), set.getInt(3)));
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return list;
     }
 
     @Override
