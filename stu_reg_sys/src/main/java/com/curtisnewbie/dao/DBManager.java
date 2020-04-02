@@ -39,6 +39,19 @@ public class DBManager {
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
     /**
+     * internally stores a db manager without creating it again and again, it's not
+     * necessary a singleton
+     */
+    private static final DBManager dbManager = new DBManager();
+
+    /**
+     * Get a {@code DBManager}
+     */
+    public static DBManager getDBManager() {
+        return dbManager;
+    }
+
+    /**
      * Get database connection
      * 
      * @return created Connection or {@code NULL} if database access error found

@@ -22,7 +22,7 @@ public class TestDBInit {
             // disable logger
             LoggerProducer.disableLogging();
             // db operations
-            DBManager dbManager = new DBManager();
+            DBManager dbManager = DBManager.getDBManager();
             dbManager.dropTables();
             dbManager.createTables();
             dbManager.insertTestData();

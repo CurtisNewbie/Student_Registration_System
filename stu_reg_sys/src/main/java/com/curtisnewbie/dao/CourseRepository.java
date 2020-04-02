@@ -34,7 +34,7 @@ public class CourseRepository implements CourseDao {
     private final String CREATE_COURSE_WITH_ID = "INSERT INTO course VALUES (?,?,?, NULL, NULL)";
     private final String CREATE_COURSE_WITHOUT_ID = "INSERT INTO course (name, credit, sch_fk, lec_fk) VALUES (?,?,NULL, NULL)";
 
-    private final Connection conn = new DBManager().getConnection();
+    private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
     @Override

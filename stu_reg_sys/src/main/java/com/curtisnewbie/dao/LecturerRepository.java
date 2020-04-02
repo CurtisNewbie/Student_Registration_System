@@ -36,7 +36,7 @@ public class LecturerRepository implements LecturerDao {
     private final String CREATE_LECTURER_WITH_ID = "INSERT INTO lecturer VALUES (?,?,?,?)";
     private final String CREATE_LECTURER_WITHOUT_ID = "INSERT INTO lecturer (firstname, lastname, position) VALUES (?,?,?)";
 
-    private final Connection conn = new DBManager().getConnection();
+    private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
     @Override
