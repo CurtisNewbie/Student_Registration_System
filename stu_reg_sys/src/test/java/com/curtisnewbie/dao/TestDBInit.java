@@ -20,7 +20,8 @@ public class TestDBInit {
     static void init() {
         if (!started) {
             // disable logger
-            LoggerProducer.disableLogging();
+            // LoggerProducer.disableLogging();
+            LoggerProducer.initFormatter();
             // db operations
             DBManager dbManager = DBManager.getDBManager();
             dbManager.dropTables();

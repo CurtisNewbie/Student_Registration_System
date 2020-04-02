@@ -1,5 +1,6 @@
 package com.curtisnewbie.util;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -34,6 +35,11 @@ public class LoggerWrapper {
 
     public void severe(String msg) {
         if (!disabled)
-            logger.info(msg);
+            logger.severe(msg);
+    }
+
+    public void log(Level level, String msg) {
+        if (!disabled)
+            logger.log(level, msg);
     }
 }

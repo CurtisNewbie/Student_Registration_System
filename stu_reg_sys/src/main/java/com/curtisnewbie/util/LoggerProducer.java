@@ -1,6 +1,7 @@
 package com.curtisnewbie.util;
 
-import java.util.logging.Logger;
+import java.io.IOException;
+import java.util.logging.LogManager;
 
 /**
  * ------------------------------------
@@ -19,6 +20,21 @@ public class LoggerProducer {
 
     /** Control whether the logging functionalities should be disabled */
     private static boolean disabled = false;
+
+    /**
+     * Initialise formatter for the messages logged on terminal, this method should
+     * be invoked before getLogger(). Wihout calling this method, the logger will
+     * use the default configuration.
+     */
+    public static void initFormatter() {
+        LogManager manager = LogManager.getLogManager();
+        try {
+            var in = LoggerProducer.class.getClassLoader().getResourceAsStream("logging.properties");
+            manager.readConfiguration(in);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Get logger with the name of the class. See {@link LoggerWrapper}
