@@ -10,6 +10,17 @@ import com.curtisnewbie.model.Course;
 import com.curtisnewbie.util.LoggerProducer;
 import com.curtisnewbie.util.LoggerWrapper;
 
+/**
+ * ------------------------------------
+ * 
+ * Author: Yongjie Zhuang
+ * 
+ * ------------------------------------
+ * <p>
+ * Implementation of {@link com.curtisnewbie.dao.CourseDao} for
+ * {@link com.curtisnewbie.model.Course} resources
+ * </p>
+ */
 public class CourseRepository implements CourseDao {
 
     private final String SELECT_ALL = "SELECT * FROM course";

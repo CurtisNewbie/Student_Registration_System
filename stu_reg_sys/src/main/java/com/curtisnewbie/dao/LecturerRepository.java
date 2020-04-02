@@ -11,6 +11,17 @@ import com.curtisnewbie.model.Lecturer;
 import com.curtisnewbie.util.LoggerProducer;
 import com.curtisnewbie.util.LoggerWrapper;
 
+/**
+ * ------------------------------------
+ * 
+ * Author: Yongjie Zhuang
+ * 
+ * ------------------------------------
+ * <p>
+ * Implementation of {@link com.curtisnewbie.dao.LecturerDao} for
+ * {@link com.curtisnewbie.model.Lecturer} resources
+ * </p>
+ */
 public class LecturerRepository implements LecturerDao {
 
     private final String SELECT_ALL = "SELECT * FROM lecturer";

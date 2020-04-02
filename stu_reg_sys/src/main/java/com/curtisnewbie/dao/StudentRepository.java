@@ -20,7 +20,8 @@ import com.curtisnewbie.util.LoggerWrapper;
  * 
  * ------------------------------------
  * <p>
- * Implementation of StudentDAO for student table.
+ * Implementation of {@link com.curtisnewbie.dao.StudentDao} for
+ * {@link com.curtisnewbie.model.Student} table.
  * </p>
  */
 public class StudentRepository implements StudentDao {

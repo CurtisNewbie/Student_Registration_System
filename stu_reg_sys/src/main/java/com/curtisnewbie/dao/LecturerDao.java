@@ -11,7 +11,7 @@ import com.curtisnewbie.model.Lecturer;
  * 
  * ------------------------------------
  * <p>
- * Dao for {@link Lecturer} resources
+ * Dao for {@link com.curtisnewbie.model.Lecturer} resources
  * </p>
  */
 public interface LecturerDao extends Dao<Lecturer> {

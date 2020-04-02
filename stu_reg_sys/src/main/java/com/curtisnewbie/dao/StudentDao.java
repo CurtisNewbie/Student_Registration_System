@@ -12,7 +12,7 @@ import com.curtisnewbie.model.Student;
  * 
  * ------------------------------------
  * <p>
- * Dao for Student resources
+ * Dao for {@link com.curtisnewbie.model.Student} resources
  * </p>
  */
 public interface StudentDao extends Dao<Student> {
