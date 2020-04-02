@@ -172,7 +172,7 @@ public class LecturerRepository implements LecturerDao {
 
     @Override
     public boolean updatePosition(int id, String pos) {
-        logger.info(String.format("Update id: '%d', lastname updated to '%s'", id, pos));
+        logger.info(String.format("Update id: '%d', position updated to '%s'", id, pos));
         try {
             var stmt = conn.prepareStatement(UPDATE_POSITION);
             stmt.setString(1, pos);
