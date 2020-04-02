@@ -12,6 +12,8 @@ public class CourseRepository implements CourseDao {
 
     private final String SELECT_ALL = "SELECT * FROM course";
 
+    private final String SELECT_BY_ID = "SELECT * FROM course WHERE id = ?";
+
     private final Connection conn = new DBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
@@ -38,8 +40,19 @@ public class CourseRepository implements CourseDao {
 
     @Override
     public Course findById(int id) {
-        // TODO Auto-generated method stub
-        return null;
+        logger.info(String.format("Find id: '%d'", id));
+        Course cour = null;
+        try {
+            var stmt = conn.prepareStatement(SELECT_BY_ID);
+            stmt.setInt(1, id);
+            var set = stmt.executeQuery();
+            if (set.next())
+                cour = new Course(set.getInt(1), set.getString(2), set.getInt(3));
+            return cour;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return cour;
     }
 
     @Override
