@@ -42,9 +42,9 @@ public class CourseDaoTest {
 
     @Test
     void shouldFindCourseById() {
-        Course lect = dao.findById(READ_ONLY_ID);
-        assertNotNull(lect.getName());
-        assertNotNull(lect.getCredit());
+        Course cour = dao.findById(READ_ONLY_ID);
+        assertNotNull(cour.getName());
+        assertNotNull(cour.getCredit());
     }
 
     @Test
@@ -55,9 +55,9 @@ public class CourseDaoTest {
 
     @Test
     void shouldFindByName() {
-        Course lect = dao.findByName(NAME);
-        assertNotNull(lect.getName());
-        assertNotNull(lect.getCredit());
+        Course cour = dao.findByName(NAME);
+        assertNotNull(cour.getName());
+        assertNotNull(cour.getCredit());
     }
 
     @Test
