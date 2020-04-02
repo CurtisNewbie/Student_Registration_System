@@ -25,6 +25,7 @@ public class CourseDaoTest {
     private final int CREATED_ID = 10;
 
     private final String NAME = "Computer Science";
+    private final int CREDIT = 180;
 
     private final CourseDao dao = new CourseRepository();
 
@@ -57,6 +58,12 @@ public class CourseDaoTest {
         Course lect = dao.findByName(NAME);
         assertNotNull(lect.getName());
         assertNotNull(lect.getCredit());
+    }
+
+    @Test
+    void shouldFindByCredit() {
+        List<Course> list = dao.findByCredit(CREDIT);
+        assertTrue(list.size() > 0);
     }
 
     @Test

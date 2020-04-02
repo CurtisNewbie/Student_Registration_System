@@ -35,7 +35,7 @@ public interface CourseDao extends Dao<Course> {
      * 
      * @return a list of {@link Course}
      */
-    public List<Course> findByCredit(String name);
+    public List<Course> findByCredit(int credit);
 
     /**
      * Update the credit of the {@link Course} with the given id
