@@ -94,20 +94,16 @@ public class StudentRepository implements StudentDao {
         logger.info(String.format("Update student to: '%s'", stu.toString()));
         try {
             conn.setAutoCommit(false);
-            Student prev;
-            if ((prev = findById(stu.getId())) != null) {
+            if (findById(stu.getId()) != null) {
                 boolean succeeded = true;
-                if (!prev.getDateOfRegi().equals(stu.getDateOfRegi()))
-                    if (!updateDateOfReg(stu.getId(), stu.getDateOfRegi()))
-                        succeeded = false;
+                if (!updateDateOfReg(stu.getId(), stu.getDateOfRegi()))
+                    succeeded = false;
 
-                if (succeeded && !prev.getFirstname().equals(stu.getFirstname()))
-                    if (!updateFirstname(stu.getId(), stu.getFirstname()))
-                        succeeded = false;
+                if (succeeded && !updateFirstname(stu.getId(), stu.getFirstname()))
+                    succeeded = false;
 
-                if (succeeded && !prev.getLastname().equals(stu.getLastname()))
-                    if (!updateLastname(stu.getId(), stu.getLastname()))
-                        succeeded = false;
+                if (succeeded && !updateLastname(stu.getId(), stu.getLastname()))
+                    succeeded = false;
 
                 if (succeeded) {
                     conn.commit();

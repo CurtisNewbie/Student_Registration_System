@@ -81,20 +81,16 @@ public class LecturerRepository implements LecturerDao {
         logger.info(String.format("Update lecturer to: '%s'", lect.toString()));
         try {
             conn.setAutoCommit(false);
-            Lecturer prev;
-            if ((prev = findById(lect.getId())) != null) {
+            if (findById(lect.getId()) != null) {
                 boolean succeeded = true;
-                if (!prev.getPosition().equals(lect.getPosition()))
-                    if (!updatePosition(lect.getId(), lect.getPosition()))
-                        succeeded = false;
+                if (!updatePosition(lect.getId(), lect.getPosition()))
+                    succeeded = false;
 
-                if (succeeded && !prev.getFirstname().equals(lect.getFirstname()))
-                    if (!updateFirstname(lect.getId(), lect.getFirstname()))
-                        succeeded = false;
+                if (succeeded && !updateFirstname(lect.getId(), lect.getFirstname()))
+                    succeeded = false;
 
-                if (succeeded && !prev.getLastname().equals(lect.getLastname()))
-                    if (!updateLastname(lect.getId(), lect.getLastname()))
-                        succeeded = false;
+                if (succeeded && !updateLastname(lect.getId(), lect.getLastname()))
+                    succeeded = false;
 
                 if (succeeded) {
                     conn.commit();
