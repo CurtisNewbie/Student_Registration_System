@@ -13,3 +13,9 @@ INSERT INTO course VALUES
     (1, "Computer Science", 180, NULL, NULL),
     (2, "Information Systems", 180, NULL, NULL),
     (3, "Data Science", 180, NULL, NULL);
+
+INSERT INTO faculty VALUES
+    (1, "Faculty of Social Science"),
+    (2, "Faculty of Engineering"),
+    (3, "Faculty of Business");
+    

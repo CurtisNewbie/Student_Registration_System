@@ -1,6 +1,7 @@
 package com.curtisnewbie.dao;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.curtisnewbie.model.Faculty;
@@ -20,13 +21,24 @@ import com.curtisnewbie.util.LoggerWrapper;
  */
 public class FacultyRepository implements FacultyDao {
 
+    private final String SELECT_ALL = "SELECT * FROM faculty";
+
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
     @Override
     public List<Faculty> getAll() {
-        // TODO Auto-generated method stub
-        return null;
+        logger.info("Get all faculties");
+        List<Faculty> list = new ArrayList<>();
+        try {
+            var stmt = conn.createStatement();
+            var set = stmt.executeQuery(SELECT_ALL);
+            while (set.next())
+                list.add(new Faculty(set.getInt(1), set.getString(2)));
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return list;
     }
 
     @Override
