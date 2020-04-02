@@ -38,12 +38,12 @@ public class LogFormatter extends Formatter {
 
     @Override
     public String format(LogRecord record) {
-        var colour = ANSI_GREEN;
+        var levelColour = ANSI_GREEN;
         if (record.getLevel().equals(Level.SEVERE))
-            colour = ANSI_RED;
+            levelColour = ANSI_RED;
         StringBuilder sb = new StringBuilder();
         // append level msg
-        sb.append(String.format("[%s%s%s%s]", ANSI_BOLD, colour, record.getLevel(), ANSI_RESET_ALL));
+        sb.append(String.format("[%s%s%s%s]", ANSI_BOLD, levelColour, record.getLevel(), ANSI_RESET_ALL));
         // append date, time
         sb.append(String.format(" %s ", datestr(record.getInstant())));
         // append logger name
