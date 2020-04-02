@@ -14,6 +14,7 @@ public class CourseRepository implements CourseDao {
     private final String SELECT_BY_ID = "SELECT * FROM course WHERE id = ?";
     private final String SELECT_BY_NAME = "SELECT * FROM course WHERE name = ?";
     private final String DELETE_BY_ID = "DELETE FROM course WHERE id = ?";
+    private final String UPDATE_NAME = "UPDATE course SET name = ? WHERE id = ?";
 
     private final Connection conn = new DBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -66,7 +67,6 @@ public class CourseRepository implements CourseDao {
 
     @Override
     public boolean update(Course obj) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -95,7 +95,16 @@ public class CourseRepository implements CourseDao {
 
     @Override
     public boolean updateName(int id, String name) {
-        // TODO Auto-generated method stub
+        logger.info(String.format("Update id: '%d', name updated to '%s'", id, name));
+        try {
+            var stmt = conn.prepareStatement(UPDATE_NAME);
+            stmt.setString(1, name);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
         return false;
     }
 
