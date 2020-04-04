@@ -13,7 +13,7 @@
 
     -- the id of a instance that will be created 
         -- CREATED_ID = 10;
-        
+
 INSERT INTO faculty VALUES
     (1, "Faculty of Social Science"),
     (2, "Faculty of Engineering"),
@@ -29,17 +29,21 @@ INSERT INTO lecturer VALUES
     (2, "Apple", "Juice", "Senior Lecturer"),
     (3, "to_be_deleted", "someone", "temp staff");
 
+INSERT INTO module VALUES
+    (1, "Intro to Computational Thinking", 15),
+    (2, "Data Structure", 20),
+    (3, "Basic Algorithms", 20);
+
 INSERT INTO course VALUES
     (1, "Data Science", 180, 1, 1),
     (2, "Information Systems", 180, 1, 1),
     (3, "to_be_deleted", 180, 1, 1);
+
+-- the course with id = 2, should always have at least one module
+INSERT INTO course_module VALUES (2 , 2);
 
 INSERT INTO student VALUES 
     (1, "Curtis", "Newbie", "2020-01-21", 1),
     (2, "Sharon", "Lalala", "2020-02-01", 1),
     (3, "to_be_deleted", "nonono", "2020-03-01", 1);
 
-INSERT INTO module VALUES
-    (1, "Intro to Computational Thinking", 15),
-    (2, "Data Structure", 20),
-    (3, "Basic Algorithms", 20);
