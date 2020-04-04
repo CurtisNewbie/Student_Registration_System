@@ -24,7 +24,9 @@ public class CourseDaoTest {
     /** the id of a Course instance that will be created */
     private final int CREATED_ID = 10;
 
-    private final String NAME = "Computer Science";
+    private final int SCHOOL_ID = 1;
+    private final int LECTURER_ID = 1;
+    private final String NAME = "Data Science";
     private final int CREDIT = 180;
 
     private final CourseDao dao = new CourseRepository();
@@ -91,7 +93,7 @@ public class CourseDaoTest {
         var prev = dao.findById(MODIFIED_ID);
         var updatedName = prev.getName() + "_updated";
         var updatedCredit = prev.getCredit() + 1;
-        Course stu = new Course(MODIFIED_ID, updatedName, updatedCredit);
+        Course stu = new Course(MODIFIED_ID, updatedName, updatedCredit, SCHOOL_ID, LECTURER_ID);
         dao.update(stu);
         var updated = dao.findById(MODIFIED_ID);
         assertNotEquals(prev.getName(), updated.getName());
@@ -102,7 +104,7 @@ public class CourseDaoTest {
 
     @Test
     void shouldCreateCourse() {
-        assertTrue(dao.create(new Course(CREATED_ID, "CreatedCourse", 200)));
+        assertTrue(dao.create(new Course(CREATED_ID, "CreatedCourse", 200, SCHOOL_ID, LECTURER_ID)));
         assertNotNull(dao.findById(CREATED_ID));
     }
 

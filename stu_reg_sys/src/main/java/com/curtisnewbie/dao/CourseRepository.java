@@ -30,9 +30,8 @@ public class CourseRepository implements CourseDao {
     private final String DELETE_BY_ID = "DELETE FROM course WHERE id = ?";
     private final String UPDATE_NAME = "UPDATE course SET name = ? WHERE id = ?";
     private final String UPDATE_CREDIT = "UPDATE course SET credit = ? WHERE id = ?";
-    // should be changed once all setup
-    private final String CREATE_COURSE_WITH_ID = "INSERT INTO course VALUES (?,?,?, NULL, NULL)";
-    private final String CREATE_COURSE_WITHOUT_ID = "INSERT INTO course (name, credit, sch_fk, lec_fk) VALUES (?,?,NULL, NULL)";
+    private final String CREATE_COURSE_WITH_ID = "INSERT INTO course VALUES (?,?,?,?,?)";
+    private final String CREATE_COURSE_WITHOUT_ID = "INSERT INTO course (name, credit, sch_fk, lec_fk) VALUES (?,?,?,?)";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -45,7 +44,7 @@ public class CourseRepository implements CourseDao {
             var stmt = conn.createStatement();
             var set = stmt.executeQuery(SELECT_ALL);
             while (set.next())
-                list.add(new Course(set.getInt(1), set.getString(2), set.getInt(3)));
+                list.add(new Course(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4), set.getInt(5)));
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
@@ -75,7 +74,7 @@ public class CourseRepository implements CourseDao {
             stmt.setInt(1, id);
             var set = stmt.executeQuery();
             if (set.next())
-                cour = new Course(set.getInt(1), set.getString(2), set.getInt(3));
+                cour = new Course(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4), set.getInt(5));
             return cour;
         } catch (Exception e) {
             logger.severe(e.getMessage());
@@ -132,6 +131,8 @@ public class CourseRepository implements CourseDao {
             }
             stmt.setString(i++, cour.getName());
             stmt.setInt(i++, cour.getCredit());
+            stmt.setInt(i++, cour.getSchoolFk());
+            stmt.setInt(i++, cour.getLecturerFk());
             stmt.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -149,7 +150,7 @@ public class CourseRepository implements CourseDao {
             stmt.setString(1, name);
             var set = stmt.executeQuery();
             if (set.next()) {
-                cour = new Course(set.getInt(1), set.getString(2), set.getInt(3));
+                cour = new Course(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4), set.getInt(5));
             }
         } catch (Exception e) {
             logger.severe(e.getMessage());
@@ -181,7 +182,7 @@ public class CourseRepository implements CourseDao {
             stmt.setInt(1, credit);
             var set = stmt.executeQuery();
             while (set.next())
-                list.add(new Course(set.getInt(1), set.getString(2), set.getInt(3)));
+                list.add(new Course(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4), set.getInt(5)));
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
