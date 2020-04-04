@@ -19,3 +19,7 @@ INSERT INTO faculty VALUES
     (2, "Faculty of Engineering"),
     (3, "Faculty of Business");
     
+INSERT INTO school VALUES
+    (1, "Information School", NULL),
+    (2, "Management School", NULL),
+    (3, "School of Education", NULL);
