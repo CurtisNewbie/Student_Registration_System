@@ -20,9 +20,9 @@ INSERT INTO faculty VALUES
     (3, "Faculty of Business");
     
 INSERT INTO school VALUES
-    (1, "Information School", NULL),
-    (2, "Management School", NULL),
-    (3, "School of Education", NULL);
+    (1, "Information School", 1),
+    (2, "Management School", 1),
+    (3, "School of Education", 1);
 
 INSERT INTO module VALUES
     (1, "Intro to Computational Thinking", 15),

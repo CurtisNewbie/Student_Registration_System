@@ -24,6 +24,7 @@ public class SchoolDaoTest {
     /** the id of a School instance that will be created */
     private final int CREATED_ID = 10;
 
+    private final int FACULTY_ID = 1;
     private final String NAME = "Information School";
 
     private final SchoolDao dao = new SchoolRepository();
@@ -71,7 +72,7 @@ public class SchoolDaoTest {
     void shouldUpdateSchool() {
         var prev = dao.findById(MODIFIED_ID);
         var updatedName = prev.getName() + "_updated";
-        School scho = new School(MODIFIED_ID, updatedName);
+        School scho = new School(MODIFIED_ID, updatedName, prev.getFacultyFk());
         dao.update(scho);
         var updated = dao.findById(MODIFIED_ID);
         assertNotEquals(prev.getName(), updated.getName());
@@ -80,7 +81,7 @@ public class SchoolDaoTest {
 
     @Test
     void shouldCreateSchool() {
-        assertTrue(dao.create(new School(CREATED_ID, "created School")));
+        assertTrue(dao.create(new School(CREATED_ID, "created School", FACULTY_ID)));
         assertNotNull(dao.findById(CREATED_ID));
     }
 }

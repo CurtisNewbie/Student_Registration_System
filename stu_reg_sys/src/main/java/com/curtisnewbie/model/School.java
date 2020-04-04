@@ -14,15 +14,20 @@ public class School {
 
     private int id;
     private String name;
+    /** Foreign key that references to a {@code Faculty} */
+    private int facultyFk;
 
     /**
      * 
-     * @param id   set to {@link Dao#GENERATED_ID} if it needs to be auto-generated
+     * @param id        set to {@link Dao#GENERATED_ID} if it needs to be
+     *                  auto-generated
      * @param name
+     * @param facultyId id of {@code Faculty}
      */
-    public School(int id, String name) {
+    public School(int id, String name, int facultyId) {
         this.id = id;
         this.name = name;
+        this.facultyFk = facultyId;
     }
 
     /**
@@ -51,5 +56,24 @@ public class School {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    /**
+     * @return the facultyFk
+     */
+    public int getFacultyFk() {
+        return facultyFk;
+    }
+
+    /**
+     * @param facultyFk the facultyFk to set
+     */
+    public void setFacultyFk(int facultyFk) {
+        this.facultyFk = facultyFk;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("School - {id: %d, name: %s, faculty_fk: %d}", getId(), getName(), getFacultyFk());
     }
 }

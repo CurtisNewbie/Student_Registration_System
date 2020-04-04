@@ -27,8 +27,8 @@ public class SchoolRepository implements SchoolDao {
     private final String SELECT_BY_NAME = "SELECT * FROM school WHERE name = ?";
     private final String DELETE_BY_ID = "DELETE FROM school WHERE id = ?";
     private final String UPDATE_NAME = "UPDATE school SET name = ? WHERE id = ?";
-    private final String CREATE_SCHOOL_WITH_ID = "INSERT INTO school VALUES (?,?,NULL)";
-    private final String CREATE_SCHOOL_WITHOUT_ID = "INSERT INTO school (name, fac_fk) VALUES (?, NULL)";
+    private final String CREATE_SCHOOL_WITH_ID = "INSERT INTO school VALUES (?,?,?)";
+    private final String CREATE_SCHOOL_WITHOUT_ID = "INSERT INTO school (name, fac_fk) VALUES (?,?)";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -41,7 +41,7 @@ public class SchoolRepository implements SchoolDao {
             var stmt = conn.createStatement();
             var set = stmt.executeQuery(SELECT_ALL);
             while (set.next())
-                list.add(new School(set.getInt(1), set.getString(2)));
+                list.add(new School(set.getInt(1), set.getString(2), set.getInt(3)));
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
@@ -71,7 +71,7 @@ public class SchoolRepository implements SchoolDao {
             stmt.setInt(1, id);
             var set = stmt.executeQuery();
             if (set.next())
-                scho = new School(set.getInt(1), set.getString(2));
+                scho = new School(set.getInt(1), set.getString(2), set.getInt(3));
             return scho;
         } catch (Exception e) {
             logger.severe(e.getMessage());
@@ -81,12 +81,22 @@ public class SchoolRepository implements SchoolDao {
 
     @Override
     public boolean update(School scho) {
+        if (scho == null) {
+            logger.severe("The school to be updated is null!");
+            return false;
+        }
+
         logger.info(String.format("Update school to: '%s'", scho.toString()));
         return updateName(scho.getId(), scho.getName());
     }
 
     @Override
     public boolean create(School scho) {
+        if (scho == null) {
+            logger.severe("The school to be created is null!");
+            return false;
+        }
+
         logger.info("Create school: '" + scho.toString() + "'");
         boolean withId = true;
         if (scho.getId() == Dao.GENERATED_ID)
@@ -102,6 +112,7 @@ public class SchoolRepository implements SchoolDao {
                 stmt = conn.prepareStatement(CREATE_SCHOOL_WITHOUT_ID);
             }
             stmt.setString(i++, scho.getName());
+            stmt.setInt(i++, scho.getFacultyFk());
             stmt.executeUpdate();
             return true;
         } catch (Exception e) {
@@ -112,14 +123,19 @@ public class SchoolRepository implements SchoolDao {
 
     @Override
     public School findByName(String name) {
-        logger.info(String.format("Find name: '%s'", name));
         School scho = null;
+        if (name == null) {
+            logger.severe("The name to be found is null!");
+            return scho;
+        }
+
+        logger.info(String.format("Find name: '%s'", name));
         try {
             var stmt = conn.prepareStatement(SELECT_BY_NAME);
             stmt.setString(1, name);
             var set = stmt.executeQuery();
             if (set.next()) {
-                scho = new School(set.getInt(1), set.getString(2));
+                scho = new School(set.getInt(1), set.getString(2), set.getInt(3));
             }
         } catch (Exception e) {
             logger.severe(e.getMessage());
@@ -129,6 +145,11 @@ public class SchoolRepository implements SchoolDao {
 
     @Override
     public boolean updateName(int id, String name) {
+        if (name == null) {
+            logger.severe("The name to be updated is null!");
+            return false;
+        }
+
         logger.info(String.format("Update id: '%d', name updated to '%s'", id, name));
         try {
             var stmt = conn.prepareStatement(UPDATE_NAME);
@@ -141,5 +162,4 @@ public class SchoolRepository implements SchoolDao {
         }
         return false;
     }
-
 }
