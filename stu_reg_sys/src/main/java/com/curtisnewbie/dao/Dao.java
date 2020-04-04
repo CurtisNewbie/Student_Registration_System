@@ -9,7 +9,7 @@ import java.util.List;
  * 
  * ------------------------------------
  * <p>
- * Abstract DAO that contains common methods shared by all kind of DAO.
+ * Abstract DAO that contains common methods shared by all kinds of DAO.
  * </p>
  */
 public interface Dao<T> {
