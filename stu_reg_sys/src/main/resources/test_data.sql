@@ -23,3 +23,8 @@ INSERT INTO school VALUES
     (1, "Information School", NULL),
     (2, "Management School", NULL),
     (3, "School of Education", NULL);
+
+INSERT INTO module VALUES
+    (1, "Intro to Computational Thinking", 15),
+    (2, "Data Structure", 20),
+    (3, "Basic Algorithms", 20);
