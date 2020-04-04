@@ -41,6 +41,8 @@ public class StudentDaoTest {
     private final int DAY = 21;
     private final String FNAME = "Curtis";
     private final String LNAME = "Newbie";
+    private final int COURSE_ID = 1;
+
     private final StudentDao dao = new StudentRepository();
 
     @BeforeAll
@@ -116,7 +118,7 @@ public class StudentDaoTest {
     void shouldUpdateStudent() {
         var prev = dao.findById(MODIFIED_ID);
         Student stu = new Student(MODIFIED_ID, prev.getFirstname() + "PenPineapple", prev.getLastname() + "ApplePen",
-                new Date(prev.getDateOfRegi().getTime() - 24 * 60 * 60 * 1000));
+                new Date(prev.getDateOfRegi().getTime() - 24 * 60 * 60 * 1000), COURSE_ID);
         dao.update(stu);
         var updated = dao.findById(MODIFIED_ID);
         assertNotEquals(prev.getDateOfRegi(), updated.getDateOfRegi());
@@ -132,7 +134,7 @@ public class StudentDaoTest {
 
     @Test
     void shouldCreateStudent() {
-        var stu = new Student(CREATED_ID, "PenPineapple", "ApplePen", new Date(System.currentTimeMillis()));
+        var stu = new Student(CREATED_ID, "PenPineapple", "ApplePen", new Date(System.currentTimeMillis()), COURSE_ID);
         assertTrue(dao.create(stu));
         assertNotNull(dao.findById(CREATED_ID));
     }

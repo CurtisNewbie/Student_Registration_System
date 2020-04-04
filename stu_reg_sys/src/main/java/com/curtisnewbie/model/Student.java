@@ -20,6 +20,8 @@ public class Student {
     private String firstname;
     private String lastname;
     private Date dateOfRegi;
+    /** Foreign key that references to a {@code Course} */
+    private int courseFk;
 
     /**
      * 
@@ -28,12 +30,14 @@ public class Student {
      * @param fname      firstname
      * @param lname      lastname
      * @param dateOfRegi date of registration
+     * @param courseId   id of a {@code Course}
      */
-    public Student(int id, String fname, String lname, Date dateOfRegi) {
+    public Student(int id, String fname, String lname, Date dateOfRegi, int courseId) {
         this.id = id;
         this.firstname = fname;
         this.lastname = lname;
         this.dateOfRegi = dateOfRegi;
+        this.courseFk = courseId;
     }
 
     /**
@@ -92,9 +96,25 @@ public class Student {
         this.dateOfRegi = dateOfRegi;
     }
 
+    /**
+     * @return the courseFk
+     */
+    public int getCourseFk() {
+        return courseFk;
+    }
+
+    /**
+     * @param courseFk the courseFk to set
+     */
+    public void setCourseFk(int courseFk) {
+        this.courseFk = courseFk;
+    }
+
     @Override
     public String toString() {
-        return String.format("Student - {registration_ID: %d, firstname: %s, lastname: %s, registration_date: %s}",
-                getId(), getFirstname(), getLastname(), getDateOfRegi().toString());
+        return String.format(
+                "Student - {registration_ID: %d, firstname: %s, lastname: %s, registration_date: %s, course_fk: %d}",
+                getId(), getFirstname(), getLastname(), getDateOfRegi().toString(), getCourseFk());
     }
+
 }
