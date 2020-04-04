@@ -71,4 +71,9 @@ public class Module {
         this.credit = credit;
     }
 
+    @Override
+    public String toString() {
+        return String.format("Module - {id: %d, name: %s, credit:%d}", getId(), getName(), getCredit());
+    }
+
 }
