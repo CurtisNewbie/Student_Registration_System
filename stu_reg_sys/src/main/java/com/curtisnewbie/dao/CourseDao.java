@@ -3,7 +3,6 @@ package com.curtisnewbie.dao;
 import java.util.List;
 
 import com.curtisnewbie.model.Course;
-import com.curtisnewbie.model.Module;
 
 /**
  * ------------------------------------
@@ -49,31 +48,4 @@ public interface CourseDao extends UnitDao<Course> {
      * @return {@code True} if successful else {@code False}
      */
     public boolean updateCredit(int id, int credit);
-
-    /**
-     * Add a {@code Module} to the {@code Course}
-     * 
-     * @param courseId id of {@code Course}
-     * @param moduleId id of {@code Module}
-     * @return {@code True} if successful else {@code False}
-     */
-    public boolean addModule(int courseId, int moduleId);
-
-    /**
-     * remove a {@code Module} from a {@code Course}
-     * 
-     * @param courseId id of {@code Course}
-     * @param moduleId id of {@code Module}
-     * @return {@code True} if successful else {@code False}
-     */
-    public boolean removeModule(int courseId, int moduleId);
-
-    /**
-     * get all {@code Module}(s) from a {@code Course}
-     * 
-     * @param courseId id of {@code Course}
-     * @param moduleId id of {@code Module}
-     * @return A list of {@code Module}(s) belong to this {@code Course}
-     */
-    public List<Module> getAllModules(int courseId);
 }

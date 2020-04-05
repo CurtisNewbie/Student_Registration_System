@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.curtisnewbie.model.Course;
-import com.curtisnewbie.model.Module;
 import com.curtisnewbie.util.LoggerProducer;
 import com.curtisnewbie.util.LoggerWrapper;
 
@@ -33,9 +32,7 @@ public class CourseRepository implements CourseDao {
     private final String UPDATE_CREDIT = "UPDATE course SET credit = ? WHERE id = ?";
     private final String CREATE_COURSE_WITH_ID = "INSERT INTO course VALUES (?,?,?,?,?)";
     private final String CREATE_COURSE_WITHOUT_ID = "INSERT INTO course (name, credit, sch_fk, lec_fk) VALUES (?,?,?,?)";
-    private final String ADD_MODULE = "INSERT INTO course_module VALUES (?,?)";
-    private final String REMOVE_MODULE = "DELETE FROM course_module WHERE cou_fk = ? AND mod_fk = ?";
-    private final String SELECT_ALL_MODULES = "SELECT m.* FROM course c INNER JOIN course_module cm on c.id = cm.cou_fk INNER JOIN module m on m.id = cm.mod_fk WHERE c.id = ?";
+
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
@@ -205,51 +202,5 @@ public class CourseRepository implements CourseDao {
             logger.severe(e.getMessage());
         }
         return false;
-    }
-
-    @Override
-    public boolean addModule(int courseId, int moduleId) {
-        logger.info(String.format("Add module: %d to course: %d", moduleId, courseId));
-        try {
-            var stmt = conn.prepareStatement(ADD_MODULE);
-            stmt.setInt(1, courseId);
-            stmt.setInt(2, moduleId);
-            stmt.executeUpdate();
-            return true;
-        } catch (Exception e) {
-            logger.severe(e.getMessage());
-        }
-        return false;
-    }
-
-    @Override
-    public boolean removeModule(int courseId, int moduleId) {
-        logger.info(String.format("Remove module: %d from course: %d", moduleId, courseId));
-        try {
-            var stmt = conn.prepareStatement(REMOVE_MODULE);
-            stmt.setInt(1, courseId);
-            stmt.setInt(2, moduleId);
-            stmt.executeUpdate();
-            return true;
-        } catch (Exception e) {
-            logger.severe(e.getMessage());
-        }
-        return false;
-    }
-
-    @Override
-    public List<Module> getAllModules(int courseId) {
-        logger.info(String.format("Get all modules from course: %d", courseId));
-        List<Module> list = new ArrayList<>();
-        try {
-            var stmt = conn.prepareStatement(SELECT_ALL_MODULES);
-            stmt.setInt(1, courseId);
-            var set = stmt.executeQuery();
-            while (set.next())
-                list.add(new Module(set.getInt(1), set.getString(2), set.getInt(3)));
-        } catch (Exception e) {
-            logger.severe(e.getMessage());
-        }
-        return list;
     }
 }
