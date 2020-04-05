@@ -23,12 +23,6 @@ public class CourseDaoTest {
     private final int DELETED_ID = 3;
     /** id of a Course instance that will be created */
     private final int CREATED_ID = 10;
-    /** id of a Course instance that should always have at least one module */
-    private final int COURSE_WITH_MODULE = 2;
-    /** id of a Module instance that is added to a Course */
-    private final int MODULE_ADDED_ID = 1;
-    /** id of a Module instance that is removed from a Course */
-    private final int MODULE_REMOVED_ID = 2;
     /** id of a School instance that must exist */
     private final int SCHOOL_ID = 1;
     /** id of a Lecturer instance that must exist */
@@ -115,20 +109,5 @@ public class CourseDaoTest {
     void shouldCreateCourse() {
         assertTrue(dao.create(new Course(CREATED_ID, "CreatedCourse", 200, SCHOOL_ID, LECTURER_ID)));
         assertNotNull(dao.findById(CREATED_ID));
-    }
-
-    @Test
-    void shouldAddModule() {
-        assertTrue(dao.addModule(COURSE_WITH_MODULE, MODULE_ADDED_ID));
-    }
-
-    @Test
-    void shouldRemoveModule() {
-        assertTrue(dao.removeModule(COURSE_WITH_MODULE, MODULE_REMOVED_ID));
-    }
-
-    @Test
-    void shouldGetAllModules() {
-        assertTrue(dao.getAllModules(COURSE_WITH_MODULE).size() > 0);
     }
 }
