@@ -89,7 +89,7 @@ public class FacultyRepository implements FacultyDao {
     public boolean create(Faculty facu) {
         logger.info("Create faculty: '" + facu.toString() + "'");
         boolean withId = true;
-        if (facu.getId() == Dao.GENERATED_ID)
+        if (facu.getId() == UnitDao.GENERATED_ID)
             withId = false;
 
         try {

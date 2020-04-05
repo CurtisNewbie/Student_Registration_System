@@ -12,7 +12,7 @@ import com.curtisnewbie.model.School;
  * Dao for {@link com.curtisnewbie.model.School} resources
  * </p>
  */
-public interface SchoolDao extends Dao<School> {
+public interface SchoolDao extends UnitDao<School> {
 
     /**
      * Find {@code School} by name

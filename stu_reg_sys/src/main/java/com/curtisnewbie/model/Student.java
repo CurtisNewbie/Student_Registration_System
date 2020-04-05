@@ -2,7 +2,7 @@ package com.curtisnewbie.model;
 
 import java.util.Date;
 
-import com.curtisnewbie.dao.Dao;
+import com.curtisnewbie.dao.UnitDao;
 
 /**
  * ------------------------------------
@@ -25,7 +25,7 @@ public class Student {
 
     /**
      * 
-     * @param id         id, set to {@link Dao#GENERATED_ID} if it needs to be
+     * @param id         id, set to {@link UnitDao#GENERATED_ID} if it needs to be
      *                   auto-generated.
      * @param fname      firstname
      * @param lname      lastname

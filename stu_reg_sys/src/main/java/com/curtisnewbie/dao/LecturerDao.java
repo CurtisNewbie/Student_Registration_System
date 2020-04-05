@@ -14,7 +14,7 @@ import com.curtisnewbie.model.Lecturer;
  * Dao for {@link com.curtisnewbie.model.Lecturer} resources
  * </p>
  */
-public interface LecturerDao extends Dao<Lecturer> {
+public interface LecturerDao extends UnitDao<Lecturer> {
 
     /**
      * Update firstname of a {@link Lecturer}

@@ -16,11 +16,11 @@ import com.curtisnewbie.model.Module;
  * 
  * @see {@link com.curtisnewbie.model.Course}
  * @see {@link com.curtisnewbie.model.Module}
- * @see {@link com.curtisnewbie.dao.Dao}
+ * @see {@link com.curtisnewbie.dao.UnitDao}
  * 
  *      </p>
  */
-public interface CourseDao extends Dao<Course> {
+public interface CourseDao extends UnitDao<Course> {
 
     /**
      * Find {@code Course} by name

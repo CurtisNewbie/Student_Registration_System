@@ -9,10 +9,26 @@ import java.util.List;
  * 
  * ------------------------------------
  * <p>
- * Abstract DAO that contains common methods shared by all kinds of DAO.
+ * Abstract DAO that contains common methods shared by all kinds of DAOs that
+ * serve a specific model.
  * </p>
+ * <p>
+ * These include:
+ * <ul>
+ * <li>{@link com.curtisnewbie.dao.CourseDao}</li>
+ * <li>{@link com.curtisnewbie.dao.FacultyDao}</li>
+ * <li>{@link com.curtisnewbie.dao.LecturerDao}</li>
+ * <li>{@link com.curtisnewbie.dao.ModuleDao}</li>
+ * <li>{@link com.curtisnewbie.dao.SchoolDao}</li>
+ * <li>{@link com.curtisnewbie.dao.StudentDao}</li>
+ * </ul>
+ * These DAOs are for handling a specific model. For the one that serves the
+ * whole system:
+ * 
+ * @see {@link com.curtisnewbie.dao.CommonDao}
+ *      </p>
  */
-public interface Dao<T> {
+public interface UnitDao<T> {
 
     /** id can be generated if id is set to GENERATED_ID */
     public static final int GENERATED_ID = -1;

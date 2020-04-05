@@ -14,7 +14,7 @@ import com.curtisnewbie.model.Module;
  * Dao for {@link com.curtisnewbie.model.Module} resources
  * </p>
  */
-public interface ModuleDao extends Dao<Module> {
+public interface ModuleDao extends UnitDao<Module> {
 
     /**
      * Find {@link Module} by name

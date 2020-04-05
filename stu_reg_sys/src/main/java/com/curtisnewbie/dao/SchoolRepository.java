@@ -99,7 +99,7 @@ public class SchoolRepository implements SchoolDao {
 
         logger.info("Create school: '" + scho.toString() + "'");
         boolean withId = true;
-        if (scho.getId() == Dao.GENERATED_ID)
+        if (scho.getId() == UnitDao.GENERATED_ID)
             withId = false;
 
         try {

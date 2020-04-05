@@ -125,7 +125,7 @@ public class LecturerRepository implements LecturerDao {
     public boolean create(Lecturer lect) {
         logger.info("Create lecturer: '" + lect.toString() + "'");
         boolean withId = true;
-        if (lect.getId() == Dao.GENERATED_ID)
+        if (lect.getId() == UnitDao.GENERATED_ID)
             withId = false;
 
         try {

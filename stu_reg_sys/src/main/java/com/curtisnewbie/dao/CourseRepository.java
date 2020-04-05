@@ -120,7 +120,7 @@ public class CourseRepository implements CourseDao {
     public boolean create(Course cour) {
         logger.info("Create course: '" + cour.toString() + "'");
         boolean withId = true;
-        if (cour.getId() == Dao.GENERATED_ID)
+        if (cour.getId() == UnitDao.GENERATED_ID)
             withId = false;
 
         try {

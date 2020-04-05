@@ -117,7 +117,7 @@ public class ModuleRepository implements ModuleDao {
     public boolean create(Module modu) {
         logger.info("Create module: '" + modu.toString() + "'");
         boolean withId = true;
-        if (modu.getId() == Dao.GENERATED_ID)
+        if (modu.getId() == UnitDao.GENERATED_ID)
             withId = false;
 
         try {

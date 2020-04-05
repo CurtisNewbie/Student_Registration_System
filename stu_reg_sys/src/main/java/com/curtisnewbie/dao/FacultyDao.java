@@ -12,7 +12,7 @@ import com.curtisnewbie.model.Faculty;
  * Dao for {@link com.curtisnewbie.model.Faculty} resources
  * </p>
  */
-public interface FacultyDao extends Dao<Faculty> {
+public interface FacultyDao extends UnitDao<Faculty> {
 
     /**
      * Find {@code Faculty} by name
