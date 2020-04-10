@@ -8,6 +8,7 @@ import com.curtisnewbie.dao.StudentRepository;
 import com.curtisnewbie.model.Student;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -24,6 +25,8 @@ import javafx.stage.Stage;
  * </p>
  */
 public class App extends Application {
+
+    private final int MAX_WID = 1080;
 
     /** Primary Stage of Javafx App, may be used to create alerts. */
     static Stage primaryStage;
@@ -42,19 +45,25 @@ public class App extends Application {
          * 
          * ------------------------------------
          */
-        var manager = new DBManager();
-        manager.dropTables();
-        manager.createTables();
-        manager.insertDemoData();
+        // var manager = new DBManager();
+        // manager.dropTables();
+        // manager.createTables();
+        // manager.insertDemoData();
+
+        // load fxml
+        var fxmlIn = this.getClass().getClassLoader().getResourceAsStream("gui.fxml");
+        root = new FXMLLoader().load(fxmlIn);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         App.primaryStage = primaryStage;
 
-        Scene s = new Scene(new Pane());
+        Scene s = new Scene(root);
         primaryStage.setScene(s);
         primaryStage.setTitle(TITLE);
+        primaryStage.setWidth(MAX_WID);
+        primaryStage.setResizable(false);
         primaryStage.setOnCloseRequest(e -> {
             System.exit(0);
         });

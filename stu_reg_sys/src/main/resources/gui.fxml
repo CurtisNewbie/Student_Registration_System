@@ -1,0 +1,774 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane prefHeight="900.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <columnConstraints>
+      <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="70.0" />
+      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="30.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" />
+   </rowConstraints>
+   <children>
+      <TabPane minHeight="-Infinity" minWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+         <tabs>
+            <Tab text="Faculty">
+               <content>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Find Faculty" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="34.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <AnchorPane layoutX="40.0" layoutY="75.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="380.0">
+                           <children>
+                              <HBox maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="SOMETIMES" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="104.0" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="SOMETIMES" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="396.0" layoutY="77.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="24.0">
+                           <children>
+                              <HBox prefHeight="26.0" prefWidth="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="SOMETIMES" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="102.0" prefHeight="26.0" prefWidth="280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="SOMETIMES" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <Label text="Faculty Details" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="142.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="683.0" layoutY="803.0" mnemonicParsing="false" text="Update Course" AnchorPane.bottomAnchor="38.0" AnchorPane.rightAnchor="49.0" />
+                        <ListView layoutX="47.0" layoutY="281.0" minHeight="80.0" prefHeight="480.0" prefWidth="746.0" AnchorPane.bottomAnchor="106.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="281.0" />
+                        <Label layoutX="40.0" layoutY="238.0" text="Schools" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="238.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="School">
+               <content>
+                  <AnchorPane prefWidth="200.0">
+                     <children>
+                        <Label layoutX="40.0" layoutY="34.0" text="Find School" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="34.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <AnchorPane layoutX="40.0" layoutY="75.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="376.0">
+                           <children>
+                              <HBox maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="104.0" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="221.0" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="396.0" layoutY="75.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="20.0">
+                           <children>
+                              <HBox prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="104.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="219.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <Label layoutX="40.0" layoutY="142.0" text="School Details" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="142.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="40.0" layoutY="258.0" text="In Faculty" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="258.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="683.0" layoutY="806.0" mnemonicParsing="false" text="Update Course" AnchorPane.bottomAnchor="35.0" AnchorPane.rightAnchor="49.0" />
+                        <ListView layoutX="47.0" layoutY="398.0" minHeight="80.0" prefHeight="381.0" prefWidth="746.0" AnchorPane.bottomAnchor="88.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="398.0" />
+                        <Label layoutX="43.0" layoutY="361.0" text="Courses" AnchorPane.leftAnchor="43.0" AnchorPane.topAnchor="361.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Course">
+               <content>
+                  <AnchorPane prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Find Course" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="21.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <AnchorPane layoutX="40.0" layoutY="62.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="376.0">
+                           <children>
+                              <HBox maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="48.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By Credit:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="129.0" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="176.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="Credit:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="358.0" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="280.0" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="396.0" layoutY="62.0" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="20.0">
+                           <children>
+                              <HBox prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="129.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="358.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="School Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="280.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <ListView layoutX="47.0" layoutY="521.0" minHeight="80.0" prefHeight="268.0" prefWidth="746.0" AnchorPane.bottomAnchor="78.0" AnchorPane.leftAnchor="47.0" AnchorPane.rightAnchor="47.0" AnchorPane.topAnchor="521.0" />
+                        <Label layoutX="40.0" layoutY="470.0" text="Modules In Course" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="470.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="40.0" layoutY="161.0" text="Course Details" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="161.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="40.0" layoutY="388.0" text="In School" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="388.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="689.0" layoutY="811.0" mnemonicParsing="false" text="Update Course" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="49.0" />
+                        <Label layoutX="40.0" layoutY="302.0" text="Course Leader">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Module">
+               <content>
+                  <AnchorPane prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Find Module" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="21.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <AnchorPane layoutX="40.0" layoutY="62.0" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="376.0">
+                           <children>
+                              <HBox maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="48.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By Credit:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="144.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="ID:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="195.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="Credit:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutX="396.0" layoutY="62.0" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="20.0">
+                           <children>
+                              <HBox prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="48.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="By Position:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                              <HBox layoutY="144.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                 <children>
+                                    <Label text="Module Name:">
+                                       <HBox.margin>
+                                          <Insets right="3.0" top="3.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                 </children>
+                              </HBox>
+                           </children>
+                        </AnchorPane>
+                        <ListView layoutX="40.0" layoutY="477.0" minHeight="80.0" prefHeight="321.0" prefWidth="606.0" AnchorPane.bottomAnchor="69.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="54.0" AnchorPane.topAnchor="477.0" />
+                        <Label layoutX="40.0" layoutY="440.0" text="Students In Module" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="440.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="40.0" layoutY="164.0" text="Module Details" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="164.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <ListView layoutX="40.0" layoutY="335.0" minHeight="80.0" prefHeight="84.0" prefWidth="606.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="54.0" AnchorPane.topAnchor="335.0" />
+                        <Label layoutX="40.0" layoutY="302.0" text="In Courses" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="302.0">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="522.0" layoutY="819.0" mnemonicParsing="false" text="Update Module" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="49.0" />
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab text="Lecturer">
+               <content>
+                  <ScrollPane fitToHeight="true" fitToWidth="true">
+                     <content>
+                        <AnchorPane prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="28.0" layoutY="27.0" text="Find Lecturer" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="21.0">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane layoutX="40.0" layoutY="62.0" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="376.0">
+                                 <children>
+                                    <HBox maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="By ID:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="48.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="By Lastname:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="142.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="ID:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="194.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="Lastname:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                              <AnchorPane layoutX="396.0" layoutY="62.0" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="20.0">
+                                 <children>
+                                    <HBox prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="By Firstname:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="48.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="By Position:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="142.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="Firstname:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="194.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="Position:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                              <Label layoutX="28.0" layoutY="167.0" text="Lecturer Details" AnchorPane.leftAnchor="40.0">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <ListView layoutX="40.0" layoutY="530.0" minHeight="80.0" prefHeight="177.0" prefWidth="606.0" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="530.0" />
+                              <Label layoutX="40.0" layoutY="496.0" text="Teaching Modules" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="496.0">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <ListView layoutX="40.0" layoutY="333.0" minHeight="80.0" prefHeight="145.0" prefWidth="610.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="333.0" />
+                              <Label layoutX="29.0" layoutY="301.0" text="Leading Courses" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="301.0">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="529.0" layoutY="720.0" mnemonicParsing="false" text="Update Lecturer" AnchorPane.bottomAnchor="21.0" AnchorPane.rightAnchor="49.0" />
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+            <Tab text="Student">
+               <content>
+                  <ScrollPane fitToHeight="true" fitToWidth="true">
+                     <content>
+                        <AnchorPane prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="40.0" layoutY="21.0" text="Find Student">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane layoutX="42.0" layoutY="62.0" maxWidth="300.0" minWidth="250.0" prefWidth="300.0" AnchorPane.leftAnchor="42.0" AnchorPane.rightAnchor="376.0" AnchorPane.topAnchor="62.0">
+                                 <children>
+                                    <HBox maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="286.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0">
+                                       <children>
+                                          <Label text="By ID:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="44.0" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-2.0">
+                                       <children>
+                                          <Label text="By Lastname:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="123.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="ID:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="169.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="Lastname:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="250.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="ID:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="298.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="Credit:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="379.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="ID:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                              <Label layoutX="40.0" layoutY="152.0" text="Student Details">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="40.0" layoutY="276.0" text="Registered Course">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="40.0" layoutY="409.0" text="School">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                              <AnchorPane layoutX="396.0" layoutY="62.0" maxWidth="1.7976931348623157E308" AnchorPane.leftAnchor="396.0" AnchorPane.rightAnchor="20.0">
+                                 <children>
+                                    <HBox prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="By Firstname:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="123.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="Firstname:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="44.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="By Date:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="169.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="Date of Registration">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="250.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="Course Name:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                    <HBox layoutY="379.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                       <children>
+                                          <Label text="School Name:">
+                                             <HBox.margin>
+                                                <Insets right="3.0" top="3.0" />
+                                             </HBox.margin>
+                                          </Label>
+                                          <TextField editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </AnchorPane>
+                              <Button layoutX="530.0" layoutY="510.0" mnemonicParsing="false" text="Update Student" AnchorPane.bottomAnchor="31.0" AnchorPane.rightAnchor="49.0" />
+                              <ListView layoutX="44.0" layoutY="513.0" minHeight="80.0" prefHeight="177.0" prefWidth="606.0" AnchorPane.bottomAnchor="77.0" AnchorPane.leftAnchor="44.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="513.0" />
+                              <Label layoutX="41.0" layoutY="482.0" text="Registered Modules">
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </AnchorPane>
+                     </content>
+                  </ScrollPane>
+               </content>
+            </Tab>
+         </tabs>
+      </TabPane>
+      <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
+         <center>
+            <ListView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+         </center>
+         <top>
+            <Label text="List" textAlignment="CENTER" textFill="#1b1919" BorderPane.alignment="CENTER">
+               <font>
+                  <Font size="17.0" />
+               </font>
+               <BorderPane.margin>
+                  <Insets top="6.0" />
+               </BorderPane.margin>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+            </Label>
+         </top>
+      </BorderPane>
+   </children>
+</GridPane>
