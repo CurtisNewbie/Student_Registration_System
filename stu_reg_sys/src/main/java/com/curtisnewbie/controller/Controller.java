@@ -85,6 +85,8 @@ public class Controller {
 	private TextField schFacNameTf;
 	@FXML
 	private Button schBtn;
+	@FXML
+	private ListView<String> schCouLv;
 
 	/*
 	 * ------------------------------------
@@ -258,6 +260,7 @@ public class Controller {
 	@FXML
 	public void initialize() {
 		this.facultyTab = new FacultyTabController();
+		this.schoolTab = new SchoolTabController();
 		this.addTabSelectionEventHandler();
 		this.setContextMenuToCommonLv();
 	}
@@ -354,18 +357,16 @@ public class Controller {
 		 */
 		private void addFindByIdEventHandler() {
 			ctrler.facByIdTf.setOnAction(e -> {
-				int id = -1;
 				try {
-					id = Integer.parseInt(facByIdTf.getText());
+					int id = Integer.parseInt(facByIdTf.getText());
+					displayById(id);
 				} catch (NumberFormatException ne) {
 				}
-				if (id != -1)
-					displayById(id);
 			});
 		}
 
 		/**
-		 * Display the content of a faculty
+		 * Display the content of a {@code Faculty}
 		 */
 		public void displayById(int id) {
 			var faculty = ctrler.facuDao.findById(id);
@@ -418,6 +419,69 @@ public class Controller {
 	private class SchoolTabController {
 		private Controller ctrler = Controller.this;
 
+		SchoolTabController() {
+			addFindByIdEventHandler();
+			addFindByNameEventHandler();
+		}
+
+		private void addFindByIdEventHandler() {
+			ctrler.schByIdTf.setOnAction(e -> {
+				try {
+					int id = Integer.parseInt(ctrler.schByIdTf.getText());
+					displayContentOf(id);
+				} catch (NumberFormatException e1) {
+				}
+			});
+		}
+
+		private void addFindByNameEventHandler() {
+			ctrler.schByNameTf.setOnAction(e -> {
+				var sch = schoDao.findByName(schByNameTf.getText());
+				if (sch != null)
+					displayContentOf(sch.getId());
+			});
+		}
+
+		/**
+		 * Display the content of a {@code School}
+		 * 
+		 * @param schoolId
+		 */
+		public void displayContentOf(int schoolId) {
+			if (schoolId >= 0) {
+				var school = schoDao.findById(schoolId);
+				if (school != null) {
+					Platform.runLater(() -> {
+						ctrler.schIdTf.setText(school.getId() + "");
+						ctrler.schNameTf.setText(school.getName());
+					});
+					displayCoursesInSchool(schoolId);
+					displayFacultyOfSchool(school.getFacultyFk());
+				}
+			}
+		}
+
+		private void displayCoursesInSchool(int schoolId) {
+			if (schoolId >= 0) {
+				var list = comDao.getAllSchoInFacu(schoolId);
+				var strlist = new ArrayList<String>();
+				for (var cou : list)
+					strlist.add(cou.toString());
+				Platform.runLater(() -> {
+					ctrler.schCouLv.setItems(FXCollections.observableList(strlist));
+				});
+			}
+		}
+
+		private void displayFacultyOfSchool(int facultyId) {
+			var faculty = facuDao.findById(facultyId);
+			if (faculty != null) {
+				Platform.runLater(() -> {
+					ctrler.schFacIdTf.setText(faculty.getId() + "");
+					ctrler.schFacNameTf.setText(faculty.getName());
+				});
+			}
+		}
 	}
 
 	/**
