@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.curtisnewbie.dao.*;
+import com.curtisnewbie.model.Faculty;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.util.Callback;
 
 /**
  * ------------------------------------
@@ -217,7 +222,7 @@ public class Controller {
 	 * ------------------------------------
 	 */
 	@FXML
-	private ListView<String> commonLv; /* Type of items in ListView should be determined */
+	private ListView<Object> commonLv; /* Type of items in ListView should be determined */
 	@FXML
 	private TabPane tabpane;
 
@@ -254,6 +259,7 @@ public class Controller {
 	public void initialize() {
 		this.facultyTab = new FacultyTabController();
 		this.addTabSelectionEventHandler();
+		this.setContextMenuToCommonLv();
 	}
 
 	private void addTabSelectionEventHandler() {
@@ -283,17 +289,49 @@ public class Controller {
 		});
 	}
 
+	/*
+	 * ------------------------------------
+	 * 
+	 * setContextMenuToCommonLv() not yet finished
+	 * 
+	 * ------------------------------------
+	 */
+	/**
+	 * Set a context menu to the {@code CommonLv}
+	 * 
+	 */
+	private void setContextMenuToCommonLv() {
+		// create context menu
+		MenuItem selectItem = new MenuItem("Select");
+		MenuItem deleteItem = new MenuItem("Delete");
+		ContextMenu ctxMenu = new ContextMenu();
+		selectItem.setOnAction(e1 -> {
+			var item = commonLv.getSelectionModel().getSelectedItem();
+			if (item instanceof Faculty)
+				facultyTab.displayById(((Faculty) item).getId());
+		});
+		deleteItem.setOnAction(e2 -> {
+			var item = commonLv.getSelectionModel().getSelectedItem();
+			if (item instanceof Faculty) {
+				facuDao.deleteById(((Faculty) item).getId());
+				displayAll(facuDao.getAll());
+			}
+		});
+		ctxMenu.getItems().addAll(selectItem, deleteItem);
+		this.commonLv.setContextMenu(ctxMenu);
+	}
+
 	/**
 	 * Display a list of objects on {@code commonLv} list view
 	 * 
 	 * @param list
 	 */
 	private void displayAll(List<? extends Object> list) {
-		var strlist = new ArrayList<String>();
-		for (var facu : list)
-			strlist.add(facu.toString());
+		List<Object> items = new ArrayList<>();
+		for (var i : list)
+			items.add((Object) i);
 		Platform.runLater(() -> {
-			commonLv.setItems(FXCollections.observableList(strlist));
+			commonLv.setItems(FXCollections.observableList(items));
 		});
 	}
 
@@ -310,6 +348,7 @@ public class Controller {
 
 		/**
 		 * Add EventHandler to {@link Controller#facByIdTf}. It internally calls
+		 * {@link FacultyTabController#displayById(int)} and
 		 * {@link FacultyTabController#displaySchoolsInFaculty(int)} to refresh the
 		 * listview for displaying schools in this faculty.
 		 */
@@ -320,17 +359,23 @@ public class Controller {
 					id = Integer.parseInt(facByIdTf.getText());
 				} catch (NumberFormatException ne) {
 				}
-				if (id != -1) {
-					var faculty = ctrler.facuDao.findById(id);
-					if (faculty != null) {
-						Platform.runLater(() -> {
-							ctrler.facIdTf.setText(faculty.getId() + "");
-							ctrler.facNameTf.setText(faculty.getName() == null ? "" : faculty.getName());
-						});
-						displaySchoolsInFaculty(id);
-					}
-				}
+				if (id != -1)
+					displayById(id);
 			});
+		}
+
+		/**
+		 * Display the content of a faculty
+		 */
+		public void displayById(int id) {
+			var faculty = ctrler.facuDao.findById(id);
+			if (faculty != null) {
+				Platform.runLater(() -> {
+					ctrler.facIdTf.setText(faculty.getId() + "");
+					ctrler.facNameTf.setText(faculty.getName() == null ? "" : faculty.getName());
+				});
+				displaySchoolsInFaculty(id);
+			}
 		}
 
 		/**
