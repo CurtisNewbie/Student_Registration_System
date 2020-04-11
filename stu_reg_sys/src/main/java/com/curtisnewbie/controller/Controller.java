@@ -24,7 +24,7 @@ import javafx.scene.control.TextField;
  * </p>
  * <p>
  * This Controller is mainly responsible for the interactions between the
- * high-level components (tabs and {@link Controller#generalLv}). The control of
+ * high-level components (tabs and {@link Controller#commonLv}). The control of
  * each tab is delegated to each sub-controller, e.g.,
  * {@code FacultyTabController}.
  * </p>
@@ -212,12 +212,12 @@ public class Controller {
 	/*
 	 * ------------------------------------
 	 * 
-	 * General ListView (on the right-hand side of the screen) and Tabpane
+	 * Common ListView (on the right-hand side of the screen) and Tabpane
 	 * 
 	 * ------------------------------------
 	 */
 	@FXML
-	private ListView<String> generalLv; /* Type of items in ListView should be determined */
+	private ListView<String> commonLv; /* Type of items in ListView should be determined */
 	@FXML
 	private TabPane tabpane;
 
@@ -284,7 +284,7 @@ public class Controller {
 	}
 
 	/**
-	 * Display a list of objects on {@code generalLv} list view
+	 * Display a list of objects on {@code commonLv} list view
 	 * 
 	 * @param list
 	 */
@@ -293,7 +293,7 @@ public class Controller {
 		for (var facu : list)
 			strlist.add(facu.toString());
 		Platform.runLater(() -> {
-			generalLv.setItems(FXCollections.observableList(strlist));
+			commonLv.setItems(FXCollections.observableList(strlist));
 		});
 	}
 
