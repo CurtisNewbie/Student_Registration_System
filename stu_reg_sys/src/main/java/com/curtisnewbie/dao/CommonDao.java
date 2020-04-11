@@ -140,10 +140,19 @@ public interface CommonDao {
     public List<Module> getAllModuOfStud(int studentId);
 
     /**
-     * Get all {@code Schoool}(s) in {@code Faculty}
+     * Get all {@code School}(s) in {@code Faculty}
      * 
      * @param facultyId
      * @return A list of {@code School}(s)
      */
     public List<School> getAllSchoInFacu(int facultyId);
+
+    /**
+     * Get all {@code Course}(s) in {@code School}
+     * 
+     * @param schoolId
+     * @return A list of {@code Course}(s)
+     */
+    public List<Course> getAllCourInScho(int schoolId);
+
 }
