@@ -7,6 +7,7 @@ import java.util.List;
 import com.curtisnewbie.model.Course;
 import com.curtisnewbie.model.Lecturer;
 import com.curtisnewbie.model.Module;
+import com.curtisnewbie.model.School;
 import com.curtisnewbie.model.Student;
 import com.curtisnewbie.util.LoggerProducer;
 import com.curtisnewbie.util.LoggerWrapper;
@@ -37,6 +38,8 @@ public class CommonDaoImpl implements CommonDao {
     private final String GET_MODU_OF_STUD = "SELECT m.* FROM module m INNER JOIN student_module sm ON m.id = sm.mod_fk WHERE sm.stu_fk = ?";
     private final String GET_COUR_OF_MODU = "SELECT c.* FROM course c INNER JOIN course_module cm on c.id = cm.cou_fk WHERE cm.mod_fk = ?";
     private final String GET_LECT_IN_MODU = "SELECT l.* FROM lecturer l INNER JOIN lecturer_module lm on l.id = lm.lec_fk WHERE lm.mod_fk = ?";
+    private final String GET_SCHO_IN_FAC = "SELECT s.* FROM school s WHERE s.fac_fk = ?";
+
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
     private final Connection conn = DBManager.getDBManager().getConnection();
 
@@ -181,6 +184,22 @@ public class CommonDaoImpl implements CommonDao {
             var set = stmt.executeQuery();
             while (set.next())
                 list.add(new Module(set.getInt(1), set.getString(2), set.getInt(3)));
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return list;
+    }
+
+    @Override
+    public List<School> getAllSchoInFacu(int facultyId) {
+        logger.info(String.format("Get all schools in faculty : %d", facultyId));
+        List<School> list = new ArrayList<>();
+        try {
+            var stmt = conn.prepareStatement(GET_SCHO_IN_FAC);
+            stmt.setInt(1, facultyId);
+            var set = stmt.executeQuery();
+            while (set.next())
+                list.add(new School(set.getInt(1), set.getString(2), set.getInt(3)));
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }

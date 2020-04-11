@@ -5,6 +5,7 @@ import java.util.List;
 import com.curtisnewbie.model.Course;
 import com.curtisnewbie.model.Lecturer;
 import com.curtisnewbie.model.Module;
+import com.curtisnewbie.model.School;
 import com.curtisnewbie.model.Student;
 
 /**
@@ -138,4 +139,11 @@ public interface CommonDao {
      */
     public List<Module> getAllModuOfStud(int studentId);
 
+    /**
+     * Get all {@code Schoool}(s) in {@code Faculty}
+     * 
+     * @param facultyId
+     * @return A list of {@code School}(s)
+     */
+    public List<School> getAllSchoInFacu(int facultyId);
 }
