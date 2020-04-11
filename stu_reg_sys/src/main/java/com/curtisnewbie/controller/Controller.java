@@ -289,14 +289,12 @@ public class Controller {
 	 * @param list
 	 */
 	private void displayAll(List<? extends Object> list) {
-		if (list.size() > 0) {
-			var strlist = new ArrayList<String>();
-			for (var facu : list)
-				strlist.add(facu.toString());
-			Platform.runLater(() -> {
-				generalLv.setItems(FXCollections.observableList(strlist));
-			});
-		}
+		var strlist = new ArrayList<String>();
+		for (var facu : list)
+			strlist.add(facu.toString());
+		Platform.runLater(() -> {
+			generalLv.setItems(FXCollections.observableList(strlist));
+		});
 	}
 
 	/**
