@@ -26,7 +26,7 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-    private final int MAX_WID = 1080;
+    private final int MAX_WID = 1095;
 
     /** Primary Stage of Javafx App, may be used to create alerts. */
     static Stage primaryStage;
@@ -45,10 +45,10 @@ public class App extends Application {
          * 
          * ------------------------------------
          */
-        // var manager = new DBManager();
-        // manager.dropTables();
-        // manager.createTables();
-        // manager.insertDemoData();
+        var manager = new DBManager();
+        manager.dropTables();
+        manager.createTables();
+        manager.insertDemoData();
 
         // load fxml
         var fxmlIn = this.getClass().getClassLoader().getResourceAsStream("gui.fxml");

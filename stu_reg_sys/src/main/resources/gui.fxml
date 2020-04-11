@@ -25,7 +25,7 @@
       <RowConstraints minHeight="10.0" />
    </rowConstraints>
    <children>
-      <TabPane minHeight="-Infinity" minWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
+      <TabPane fx:id="tabpane" minHeight="-Infinity" minWidth="-Infinity" tabClosingPolicy="UNAVAILABLE" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
          <tabs>
             <Tab text="Faculty">
                <content>

@@ -1,8 +1,16 @@
 package com.curtisnewbie.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.curtisnewbie.dao.*;
+
+import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 
 /**
@@ -204,12 +212,14 @@ public class Controller {
 	/*
 	 * ------------------------------------
 	 * 
-	 * General ListView (on the right-hand side of the screen)
+	 * General ListView (on the right-hand side of the screen) and Tabpane
 	 * 
 	 * ------------------------------------
 	 */
 	@FXML
 	private ListView<String> generalLv; /* Type of items in ListView should be determined */
+	@FXML
+	private TabPane tabpane;
 
 	/*
 	 * ------------------------------------
@@ -225,9 +235,68 @@ public class Controller {
 	private LecturerTabController lecturerTab;
 	private StudentTabController studentTab;
 
+	/*
+	 * ------------------------------------
+	 * 
+	 * DAOs
+	 * 
+	 * ------------------------------------
+	 */
+	final CommonDao comDao = new CommonDaoImpl();
+	final CourseDao courDao = new CourseRepository();
+	final FacultyDao facuDao = new FacultyRepository();
+	final LecturerDao lectDao = new LecturerRepository();
+	final ModuleDao moduDao = new ModuleRepository();
+	final SchoolDao schoDao = new SchoolRepository();
+	final StudentDao studDao = new StudentRepository();
+
 	@FXML
 	public void initialize() {
 		this.facultyTab = new FacultyTabController();
+		this.addTabSelectionEventHandler();
+	}
+
+	private void addTabSelectionEventHandler() {
+		// tab changed
+		this.tabpane.getSelectionModel().selectedItemProperty().addListener((ov, prev, curr) -> {
+			var index = this.tabpane.getSelectionModel().getSelectedIndex();
+			switch (index) {
+				case 0:
+					displayAll(facuDao.getAll());
+					break;
+				case 1:
+					displayAll(schoDao.getAll());
+					break;
+				case 2:
+					displayAll(courDao.getAll());
+					break;
+				case 3:
+					displayAll(moduDao.getAll());
+					break;
+				case 4:
+					displayAll(lectDao.getAll());
+					break;
+				case 5:
+					displayAll(studDao.getAll());
+					break;
+			}
+		});
+	}
+
+	/**
+	 * Display a list of objects on {@code generalLv} list view
+	 * 
+	 * @param list
+	 */
+	private void displayAll(List<? extends Object> list) {
+		if (list.size() > 0) {
+			var strlist = new ArrayList<String>();
+			for (var facu : list)
+				strlist.add(facu.toString());
+			Platform.runLater(() -> {
+				generalLv.setItems(FXCollections.observableList(strlist));
+			});
+		}
 	}
 
 	/**
@@ -236,6 +305,68 @@ public class Controller {
 	private class FacultyTabController {
 		private Controller ctrler = Controller.this;
 
+		FacultyTabController() {
+			addFindByIdEventHandler();
+			addFindByNameEventHandler();
+		}
+
+		/**
+		 * Add EventHandler to {@link Controller#facByIdTf}. It internally calls
+		 * {@link FacultyTabController#displaySchoolsInFaculty(int)} to refresh the
+		 * listview for displaying schools in this faculty.
+		 */
+		private void addFindByIdEventHandler() {
+			ctrler.facByIdTf.setOnAction(e -> {
+				int id = -1;
+				try {
+					id = Integer.parseInt(facByIdTf.getText());
+				} catch (NumberFormatException ne) {
+				}
+				if (id != -1) {
+					var faculty = ctrler.facuDao.findById(id);
+					if (faculty != null) {
+						Platform.runLater(() -> {
+							ctrler.facIdTf.setText(faculty.getId() + "");
+							ctrler.facNameTf.setText(faculty.getName() == null ? "" : faculty.getName());
+						});
+						displaySchoolsInFaculty(id);
+					}
+				}
+			});
+		}
+
+		/**
+		 * Add EventHandler to {@link Controller#facByNameTf}. It internally calls
+		 * {@link FacultyTabController#displaySchoolsInFaculty(int)} to refresh the
+		 * listview for displaying schools in this faculty.
+		 */
+		private void addFindByNameEventHandler() {
+			ctrler.facByNameTf.setOnAction(e -> {
+				String name = facByNameTf.getText();
+				if (name != null && !name.isEmpty()) {
+					var faculty = ctrler.facuDao.findByName(name);
+					if (faculty != null) {
+						Platform.runLater(() -> {
+							ctrler.facIdTf.setText(faculty.getId() + "");
+							ctrler.facNameTf.setText(faculty.getName() == null ? "" : faculty.getName());
+						});
+						displaySchoolsInFaculty(faculty.getId());
+					}
+				}
+			});
+		}
+
+		private void displaySchoolsInFaculty(int facultyId) {
+			if (facultyId >= 0) {
+				var list = comDao.getAllSchoInFacu(facultyId);
+				var strlist = new ArrayList<String>();
+				for (var sch : list)
+					strlist.add(sch.toString());
+				Platform.runLater(() -> {
+					ctrler.facSchLv.setItems(FXCollections.observableList(strlist));
+				});
+			}
+		}
 	}
 
 	/**
