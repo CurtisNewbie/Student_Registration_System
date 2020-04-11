@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS school(
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) UNIQUE NOT NULL,
     fac_fk INT,
-    CONSTRAINT FOREIGN KEY school_fk_sch (fac_fk) REFERENCES faculty(id)
+    CONSTRAINT FOREIGN KEY school_fk_fac (fac_fk) REFERENCES faculty(id)
 );
 
 CREATE TABLE IF NOT EXISTS lecturer(
