@@ -1,17 +1,10 @@
 package com.curtisnewbie.main;
 
-import java.util.Date;
-
 import com.curtisnewbie.dao.DBManager;
-import com.curtisnewbie.dao.StudentDao;
-import com.curtisnewbie.dao.StudentRepository;
-import com.curtisnewbie.model.Student;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
