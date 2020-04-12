@@ -262,6 +262,7 @@ public class Controller {
 	public void initialize() {
 		this.facultyTab = new FacultyTabController();
 		this.schoolTab = new SchoolTabController();
+		this.courseTab = new CourseTabController();
 		this.addTabSelectionEventHandler();
 		this.setContextMenuToCommonLv();
 	}
@@ -491,12 +492,89 @@ public class Controller {
 	private class CourseTabController implements TabController {
 		private Controller ctrler = Controller.this;
 
-		@Override
-		public void displayContentOf(int id) {
-			// TODO Auto-generated method stub
-
+		CourseTabController() {
+			addFindByIdEventHandler();
+			addFindByNameEventHandler();
+			addFindByCreditEventHandler();
 		}
 
+		private void addFindByIdEventHandler() {
+			ctrler.couByIdTf.setOnAction(e -> {
+				try {
+					var id = Integer.parseInt(ctrler.couByIdTf.getText());
+					displayContentOf(id);
+				} catch (NumberFormatException e2) {
+				}
+			});
+		}
+
+		private void addFindByNameEventHandler() {
+			ctrler.couByNameTf.setOnAction(e -> {
+				var name = ctrler.couByNameTf.getText();
+				if (name != null && !name.isEmpty()) {
+					var course = courDao.findByName(name);
+					displayContentOf(course.getId());
+				}
+			});
+		}
+
+		private void addFindByCreditEventHandler() {
+			ctrler.couByCreditTf.setOnAction(e -> {
+				try {
+					var credit = Integer.parseInt(ctrler.couByCreditTf.getText());
+					var list = courDao.findByCredit(credit);
+					displayAll(list);
+				} catch (NumberFormatException e1) {
+				}
+			});
+		}
+
+		@Override
+		public void displayContentOf(int courseId) {
+			if (courseId > 0) {
+				var course = courDao.findById(courseId);
+				if (course != null) {
+					Platform.runLater(() -> {
+						ctrler.couIdTf.setText("" + course.getId());
+						ctrler.couNameTf.setText(course.getName());
+						ctrler.couCreditTf.setText(course.getCredit() + "");
+					});
+					displayCourseLeader(course.getLecturerFk());
+					displayModulesInCourse(course.getId());
+					displaySchoolOfCourse(course.getSchoolFk());
+				}
+			}
+		}
+
+		private void displayCourseLeader(int lecturerId) {
+			var lecturer = lectDao.findById(lecturerId);
+			if (lecturer != null) {
+				Platform.runLater(() -> {
+					ctrler.couLeaIdTf.setText(lecturer.getId() + "");
+					ctrler.couLeaNameTf.setText(lecturer.getLastname() + " " + lecturer.getFirstname());
+				});
+			}
+		}
+
+		private void displayModulesInCourse(int courseId) {
+			var list = comDao.getAllModuInCour(courseId);
+			var strlist = new ArrayList<String>();
+			for (var mou : list)
+				strlist.add(mou.toString());
+			Platform.runLater(() -> {
+				ctrler.couMouLv.setItems(FXCollections.observableList(strlist));
+			});
+		}
+
+		private void displaySchoolOfCourse(int schoolId) {
+			var school = schoDao.findById(schoolId);
+			if (school != null) {
+				Platform.runLater(() -> {
+					ctrler.couSchIdTf.setText(school.getId() + "");
+					ctrler.couSchNameTf.setText(school.getName());
+				});
+			}
+		}
 	}
 
 	/**
