@@ -451,6 +451,24 @@ public class Controller {
 		FacultyTabController() {
 			addFindByIdEventHandler();
 			addFindByNameEventHandler();
+			addUpdateEventHandler();
+		}
+
+		/**
+		 * Add Update EventHandler
+		 */
+		private void addUpdateEventHandler() {
+			ctrler.facBtn.setOnAction(e -> {
+				try {
+					var id = Integer.parseInt(ctrler.facIdTf.getText());
+					var name = ctrler.facNameTf.getText().trim();
+					if (!name.isEmpty() && id >= 0) {
+						facuDao.updateName(id, name);
+						refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
 		}
 
 		/**
@@ -537,6 +555,24 @@ public class Controller {
 		SchoolTabController() {
 			addFindByIdEventHandler();
 			addFindByNameEventHandler();
+			addUpdateEventHandler();
+		}
+
+		/**
+		 * Add Update EventHandler
+		 */
+		private void addUpdateEventHandler() {
+			ctrler.schBtn.setOnAction(e -> {
+				try {
+					var id = Integer.parseInt(ctrler.schIdTf.getText());
+					var name = ctrler.schNameTf.getText().trim();
+					if (!name.isEmpty() && id >= 0) {
+						schoDao.updateName(id, name);
+						refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
 		}
 
 		private void addFindByIdEventHandler() {
@@ -622,6 +658,25 @@ public class Controller {
 			addFindByIdEventHandler();
 			addFindByNameEventHandler();
 			addFindByCreditEventHandler();
+			addUpdateEventHandler();
+		}
+
+		/**
+		 * Add Update EventHandler
+		 */
+		private void addUpdateEventHandler() {
+			ctrler.couBtn.setOnAction(e -> {
+				try {
+					var id = Integer.parseInt(ctrler.couIdTf.getText());
+					var name = ctrler.couNameTf.getText().trim();
+					var credit = Integer.parseInt(ctrler.couCreditTf.getText());
+					if (!name.isEmpty() && id >= 0 && credit >= 0) {
+						courDao.update(name, credit, id);
+						refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
 		}
 
 		private void addFindByIdEventHandler() {
@@ -728,6 +783,25 @@ public class Controller {
 			addFindByIdEventHandler();
 			addFindByNameEventHandler();
 			addFindByCreditEventHandler();
+			addUpdateEventHandler();
+		}
+
+		/**
+		 * Add Update EventHandler
+		 */
+		private void addUpdateEventHandler() {
+			ctrler.mouBtn.setOnAction(e -> {
+				try {
+					var id = Integer.parseInt(ctrler.mouIdTf.getText());
+					var name = ctrler.mouNameTf.getText().trim();
+					var credit = Integer.parseInt(ctrler.mouCreditTf.getText());
+					if (!name.isEmpty() && id >= 0 && credit >= 0) {
+						moduDao.update(name, credit, id);
+						refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
 		}
 
 		private void addFindByCreditEventHandler() {
@@ -824,6 +898,26 @@ public class Controller {
 			addFindByFirstnameEventHandler();
 			addFindByLastnameEventHandler();
 			addFindByPositionEventHandler();
+			addUpdateEventHandler();
+		}
+
+		/**
+		 * Add Update EventHandler
+		 */
+		private void addUpdateEventHandler() {
+			ctrler.lecBtn.setOnAction(e -> {
+				try {
+					var id = Integer.parseInt(ctrler.lecIdTf.getText());
+					var fname = ctrler.lecFirstnameTf.getText().trim();
+					var lname = ctrler.lecLastnameTf.getText().trim();
+					var pos = ctrler.lecPositionTf.getText().trim();
+					if (!fname.isEmpty() && !lname.isEmpty() && !pos.isEmpty() && id >= 0) {
+						lectDao.update(fname, lname, pos, id);
+						refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
 		}
 
 		private void addFindByIdEventHandler() {
@@ -929,6 +1023,26 @@ public class Controller {
 			addFindByFirstnameEventHandler();
 			addFindByLastnameEventHandler();
 			addFindByDateEventHandler();
+			addUpdateEventHandler();
+		}
+
+		/**
+		 * Add Update EventHandler
+		 */
+		private void addUpdateEventHandler() {
+			ctrler.stuBtn.setOnAction(e -> {
+				try {
+					var id = Integer.parseInt(ctrler.stuIdTf.getText());
+					var fname = ctrler.stuFirstnameTf.getText().trim();
+					var lname = ctrler.stuLastnameTf.getText().trim();
+					var date = ctrler.stuDateTf.getText().trim();
+					if (!fname.isEmpty() && !lname.isEmpty() && !date.isEmpty() && id >= 0) {
+						studDao.update(fname, lname, LocalDate.parse(date), id);
+						refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
 		}
 
 		private void addFindByIdEventHandler() {
@@ -979,7 +1093,7 @@ public class Controller {
 						ctrler.stuIdTf.setText(student.getId() + "");
 						ctrler.stuFirstnameTf.setText(student.getFirstname());
 						ctrler.stuLastnameTf.setText(student.getLastname());
-						ctrler.stuDateTf.setText(toDateStr(student.getDateOfRegi()));
+						ctrler.stuDateTf.setText(student.getDateOfRegi().toString());
 					});
 					displayRegisteredCourse(student.getCourseFk());
 					displayRegisteredModules(student.getId());

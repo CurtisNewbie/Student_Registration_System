@@ -42,16 +42,6 @@ public class DateFormatter {
     }
 
     /**
-     * Convert a {@code LocalDate} to a date string in format: YYYY-MM-DD
-     * 
-     * @param date
-     * @return a date string in format: YYYY-MM-DD
-     */
-    public static String toDateStr(LocalDate date) {
-        return date.getYear() + "-" + date.getMonth() + "-" + date.getDayOfMonth();
-    }
-
-    /**
      * Convert an {@code Instant} to a date time string in format: DD-MM-YYYY
      * HH:MM:SS
      * 

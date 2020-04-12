@@ -403,7 +403,7 @@
                                                 <Insets right="3.0" top="3.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="mouCreditTf" editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="mouCreditTf" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -427,7 +427,7 @@
                                                 <Insets right="3.0" top="3.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="mouNameTf" editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="mouNameTf" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>
