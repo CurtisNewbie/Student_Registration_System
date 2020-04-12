@@ -36,7 +36,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 
 /**
  * ------------------------------------
@@ -459,6 +458,8 @@ public class Controller {
 					ctrler.facNameTf.setText(faculty.getName() == null ? "" : faculty.getName());
 				});
 				displaySchoolsInFaculty(facultyId);
+			} else {
+				clearContent();
 			}
 		}
 
@@ -493,6 +494,15 @@ public class Controller {
 					ctrler.facSchLv.setItems(FXCollections.observableList(strlist));
 				});
 			}
+		}
+
+		@Override
+		public void clearContent() {
+			Platform.runLater(() -> {
+				ctrler.facIdTf.clear();
+				ctrler.facNameTf.clear();
+				ctrler.facSchLv.getItems().clear();
+			});
 		}
 	}
 
@@ -540,6 +550,8 @@ public class Controller {
 					});
 					displayCoursesInSchool(schoolId);
 					displayFacultyOfSchool(school.getFacultyFk());
+				} else {
+					clearContent();
 				}
 			}
 		}
@@ -564,6 +576,17 @@ public class Controller {
 					ctrler.schFacNameTf.setText(faculty.getName());
 				});
 			}
+		}
+
+		@Override
+		public void clearContent() {
+			Platform.runLater(() -> {
+				ctrler.schIdTf.clear();
+				ctrler.schNameTf.clear();
+				ctrler.schFacIdTf.clear();
+				ctrler.schFacNameTf.clear();
+				ctrler.schCouLv.getItems().clear();
+			});
 		}
 	}
 
@@ -623,6 +646,8 @@ public class Controller {
 					displayCourseLeader(course.getLecturerFk());
 					displayModulesInCourse(course.getId());
 					displaySchoolOfCourse(course.getSchoolFk());
+				} else {
+					clearContent();
 				}
 			}
 		}
@@ -655,6 +680,19 @@ public class Controller {
 					ctrler.couSchNameTf.setText(school.getName());
 				});
 			}
+		}
+
+		@Override
+		public void clearContent() {
+			Platform.runLater(() -> {
+				ctrler.couIdTf.clear();
+				ctrler.couNameTf.clear();
+				ctrler.couCreditTf.clear();
+				ctrler.couLeaIdTf.clear();
+				ctrler.couNameTf.clear();
+				ctrler.couSchIdTf.clear();
+				ctrler.couSchNameTf.clear();
+			});
 		}
 	}
 
@@ -714,6 +752,8 @@ public class Controller {
 					});
 					displayCourseOfModule(module.getId());
 					displayStudentsInModule(module.getId());
+				} else {
+					clearContent();
 				}
 			}
 		}
@@ -735,6 +775,17 @@ public class Controller {
 				strlist.add(stu.toString());
 			Platform.runLater(() -> {
 				ctrler.mouStuLv.setItems(FXCollections.observableList(strlist));
+			});
+		}
+
+		@Override
+		public void clearContent() {
+			Platform.runLater(() -> {
+				ctrler.mouIdTf.clear();
+				ctrler.mouNameTf.clear();
+				ctrler.mouCreditTf.clear();
+				ctrler.mouCouLv.getItems().clear();
+				ctrler.mouStuLv.getItems().clear();
 			});
 		}
 
@@ -806,6 +857,8 @@ public class Controller {
 					});
 					displayCoursesOfLecturer(lecturer.getId());
 					displayModulesOfLecturer(lecturer.getId());
+				} else {
+					clearContent();
 				}
 			}
 		}
@@ -827,6 +880,18 @@ public class Controller {
 				strlist.add(stu.toString());
 			Platform.runLater(() -> {
 				ctrler.lecCouLv.setItems(FXCollections.observableList(strlist));
+			});
+		}
+
+		@Override
+		public void clearContent() {
+			Platform.runLater(() -> {
+				ctrler.lecIdTf.clear();
+				ctrler.lecFirstnameTf.clear();
+				ctrler.lecLastnameTf.clear();
+				ctrler.lecPositionTf.clear();
+				ctrler.lecCouLv.getItems().clear();
+				ctrler.lecMouLv.getItems().clear();
 			});
 		}
 	}
@@ -877,6 +942,8 @@ public class Controller {
 						var list = studDao.findStusByDateOfReg(localDate);
 						displayAll(list);
 					}
+				} else {
+					clearContent();
 				}
 			});
 		}
@@ -895,6 +962,8 @@ public class Controller {
 					displayRegisteredCourse(student.getCourseFk());
 					displayRegisteredModules(student.getId());
 					displaySchoolOfStudent(student.getCourseFk());
+				} else {
+					clearContent();
 				}
 			}
 		}
@@ -929,6 +998,22 @@ public class Controller {
 					});
 				}
 			}
+		}
+
+		@Override
+		public void clearContent() {
+			Platform.runLater(() -> {
+				ctrler.stuIdTf.clear();
+				ctrler.stuFirstnameTf.clear();
+				ctrler.stuLastnameTf.clear();
+				ctrler.stuDateTf.clear();
+				ctrler.stuCouIdTf.clear();
+				ctrler.stuCouNameTf.clear();
+				ctrler.stuCouCreditTf.clear();
+				ctrler.stuSchIdTf.clear();
+				ctrler.stuSchNameTf.clear();
+				ctrler.stuModLv.getItems().clear();
+			});
 		}
 	}
 }
