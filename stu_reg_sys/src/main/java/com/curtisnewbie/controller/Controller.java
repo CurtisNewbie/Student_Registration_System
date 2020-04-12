@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.curtisnewbie.dao.*;
 import com.curtisnewbie.model.Faculty;
+import com.curtisnewbie.model.School;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -311,7 +312,7 @@ public class Controller {
 		selectItem.setOnAction(e1 -> {
 			var item = commonLv.getSelectionModel().getSelectedItem();
 			if (item instanceof Faculty)
-				facultyTab.displayById(((Faculty) item).getId());
+				facultyTab.displayContentOf(((Faculty) item).getId());
 		});
 		deleteItem.setOnAction(e2 -> {
 			var item = commonLv.getSelectionModel().getSelectedItem();
@@ -351,7 +352,7 @@ public class Controller {
 
 		/**
 		 * Add EventHandler to {@link Controller#facByIdTf}. It internally calls
-		 * {@link FacultyTabController#displayById(int)} and
+		 * {@link FacultyTabController#displayContentOf(int)} and
 		 * {@link FacultyTabController#displaySchoolsInFaculty(int)} to refresh the
 		 * listview for displaying schools in this faculty.
 		 */
@@ -359,7 +360,7 @@ public class Controller {
 			ctrler.facByIdTf.setOnAction(e -> {
 				try {
 					int id = Integer.parseInt(facByIdTf.getText());
-					displayById(id);
+					displayContentOf(id);
 				} catch (NumberFormatException ne) {
 				}
 			});
@@ -368,14 +369,14 @@ public class Controller {
 		/**
 		 * Display the content of a {@code Faculty}
 		 */
-		public void displayById(int id) {
-			var faculty = ctrler.facuDao.findById(id);
+		public void displayContentOf(int facultyId) {
+			var faculty = ctrler.facuDao.findById(facultyId);
 			if (faculty != null) {
 				Platform.runLater(() -> {
 					ctrler.facIdTf.setText(faculty.getId() + "");
 					ctrler.facNameTf.setText(faculty.getName() == null ? "" : faculty.getName());
 				});
-				displaySchoolsInFaculty(id);
+				displaySchoolsInFaculty(facultyId);
 			}
 		}
 
