@@ -31,10 +31,12 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 
 /**
  * ------------------------------------
@@ -257,6 +259,8 @@ public class Controller {
 	private ListView<Object> commonLv; /* Type of items in ListView should be determined */
 	@FXML
 	private TabPane tabpane;
+	@FXML
+	private Label commonLvTitle;
 
 	/*
 	 * ------------------------------------
@@ -287,6 +291,9 @@ public class Controller {
 	final SchoolDao schoDao = new SchoolRepository();
 	final StudentDao studDao = new StudentRepository();
 
+	/**
+	 * Initialise all {@code TabController}(s) and register EventHandlers
+	 */
 	@FXML
 	public void initialize() {
 		this.facultyTab = new FacultyTabController();
@@ -297,47 +304,62 @@ public class Controller {
 		this.studentTab = new StudentTabController();
 		this.addTabSelectionEventHandler();
 		this.setContextMenuToCommonLv();
+
 		// faculty tab is displayed immediately on start-up
+		setCommonLvTitle("FACULTY");
 		displayAll(facuDao.getAll());
 	}
 
+	/**
+	 * EventHandler for tab selection
+	 */
 	private void addTabSelectionEventHandler() {
 		// tab changed
 		this.tabpane.getSelectionModel().selectedItemProperty().addListener((ov, prev, curr) -> {
 			var index = this.tabpane.getSelectionModel().getSelectedIndex();
 			switch (index) {
 				case 0:
+					setCommonLvTitle("FACULTY");
 					displayAll(facuDao.getAll());
 					break;
 				case 1:
+					setCommonLvTitle("SCHOOL");
 					displayAll(schoDao.getAll());
 					break;
 				case 2:
+					setCommonLvTitle("COURSE");
 					displayAll(courDao.getAll());
 					break;
 				case 3:
+					setCommonLvTitle("MODULE");
 					displayAll(moduDao.getAll());
 					break;
 				case 4:
+					setCommonLvTitle("LECTURER");
 					displayAll(lectDao.getAll());
 					break;
 				case 5:
+					setCommonLvTitle("STUDENT");
 					displayAll(studDao.getAll());
 					break;
 			}
 		});
 	}
 
-	/*
-	 * ------------------------------------
-	 * 
-	 * setContextMenuToCommonLv() not yet finished
-	 * 
-	 * ------------------------------------
-	 */
 	/**
-	 * Set a context menu to the {@code commonLv}
+	 * Set the title of {@code commonLvTitle} to "List:" + {@code title}
 	 * 
+	 * @param title
+	 */
+	public void setCommonLvTitle(String title) {
+		this.commonLvTitle.setText("List:" + title);
+	}
+
+	/**
+	 * Set a context menu to the {@code commonLv}. The context menu is able to
+	 * detect the type of the item. E.g., if the currently selected tab is 'faculty
+	 * tab', the context menu will treat the items in the {@code commonLv} as
+	 * {@code Faculty}
 	 */
 	private void setContextMenuToCommonLv() {
 		// create context menu

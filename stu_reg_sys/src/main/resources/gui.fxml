@@ -763,7 +763,7 @@
             <ListView fx:id="commonLv" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
          </center>
          <top>
-            <Label text="List" textAlignment="CENTER" textFill="#1b1919" BorderPane.alignment="CENTER">
+            <Label fx:id="commonLvTitle" text="List" textAlignment="CENTER" textFill="#1b1919" BorderPane.alignment="CENTER">
                <font>
                   <Font size="17.0" />
                </font>
