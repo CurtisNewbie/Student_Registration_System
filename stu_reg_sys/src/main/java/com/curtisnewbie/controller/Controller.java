@@ -1,9 +1,25 @@
 package com.curtisnewbie.controller;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.curtisnewbie.dao.*;
+import com.curtisnewbie.dao.CommonDao;
+import com.curtisnewbie.dao.CommonDaoImpl;
+import com.curtisnewbie.dao.CourseDao;
+import com.curtisnewbie.dao.CourseRepository;
+import com.curtisnewbie.dao.FacultyDao;
+import com.curtisnewbie.dao.FacultyRepository;
+import com.curtisnewbie.dao.LecturerDao;
+import com.curtisnewbie.dao.LecturerRepository;
+import com.curtisnewbie.dao.ModuleDao;
+import com.curtisnewbie.dao.ModuleRepository;
+import com.curtisnewbie.dao.SchoolDao;
+import com.curtisnewbie.dao.SchoolRepository;
+import com.curtisnewbie.dao.StudentDao;
+import com.curtisnewbie.dao.StudentRepository;
 import com.curtisnewbie.model.Course;
 import com.curtisnewbie.model.Faculty;
 import com.curtisnewbie.model.School;
@@ -13,12 +29,10 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
-import javafx.util.Callback;
 
 /**
  * ------------------------------------
@@ -263,7 +277,7 @@ public class Controller {
 		this.schoolTab = new SchoolTabController();
 		this.courseTab = new CourseTabController();
 		this.moduleTab = new ModuleTabController();
-		this.schoolTab = new SchoolTabController();
+		this.lecturerTab = new LecturerTabController();
 		this.studentTab = new StudentTabController();
 		this.addTabSelectionEventHandler();
 		this.setContextMenuToCommonLv();
@@ -677,12 +691,89 @@ public class Controller {
 	private class LecturerTabController implements TabController {
 		private Controller ctrler = Controller.this;
 
-		@Override
-		public void displayContentOf(int id) {
-			// TODO Auto-generated method stub
-
+		LecturerTabController() {
+			addFindByIdEventHandler();
+			addFindByFirstnameEventHandler();
+			addFindByLastnameEventHandler();
+			addFindByPositionEventHandler();
 		}
 
+		private void addFindByIdEventHandler() {
+			ctrler.lecByIdTf.setOnAction(e -> {
+				try {
+					var id = Integer.parseInt(ctrler.lecByIdTf.getText());
+					displayContentOf(id);
+				} catch (NumberFormatException e1) {
+				}
+			});
+		}
+
+		private void addFindByFirstnameEventHandler() {
+			ctrler.lecByFirstnameTf.setOnAction(e -> {
+				var fname = ctrler.lecByFirstnameTf.getText();
+				if (fname != null & !fname.isEmpty()) {
+					var list = lectDao.findByFirstname(fname);
+					displayAll(list);
+				}
+			});
+		}
+
+		private void addFindByLastnameEventHandler() {
+			ctrler.lecByLastnameTf.setOnAction(e -> {
+				var lname = ctrler.lecByLastnameTf.getText();
+				if (lname != null & !lname.isEmpty()) {
+					var list = lectDao.findByLastname(lname);
+					displayAll(list);
+				}
+			});
+		}
+
+		private void addFindByPositionEventHandler() {
+			ctrler.lecByPositionTf.setOnAction(e -> {
+				var pos = ctrler.lecByPositionTf.getText();
+				if (pos != null & !pos.isEmpty()) {
+					var list = lectDao.findByPosition(pos);
+					displayAll(list);
+				}
+			});
+		}
+
+		@Override
+		public void displayContentOf(int id) {
+			if (id >= 0) {
+				var lecturer = lectDao.findById(id);
+				if (lecturer != null) {
+					Platform.runLater(() -> {
+						ctrler.lecIdTf.setText("" + lecturer.getId());
+						ctrler.lecFirstnameTf.setText(lecturer.getFirstname());
+						ctrler.lecLastnameTf.setText(lecturer.getLastname());
+						ctrler.lecPositionTf.setText(lecturer.getPosition());
+					});
+					displayCoursesOfLecturer(lecturer.getId());
+					displayModulesOfLecturer(lecturer.getId());
+				}
+			}
+		}
+
+		private void displayModulesOfLecturer(int lecturerId) {
+			var list = comDao.getAllModuOfLect(lecturerId);
+			var strlist = new ArrayList<String>();
+			for (var stu : list)
+				strlist.add(stu.toString());
+			Platform.runLater(() -> {
+				ctrler.lecMouLv.setItems(FXCollections.observableList(strlist));
+			});
+		}
+
+		private void displayCoursesOfLecturer(int lecturerId) {
+			var list = comDao.getAllCourOflect(lecturerId);
+			var strlist = new ArrayList<String>();
+			for (var stu : list)
+				strlist.add(stu.toString());
+			Platform.runLater(() -> {
+				ctrler.lecCouLv.setItems(FXCollections.observableList(strlist));
+			});
+		}
 	}
 
 	/**
@@ -693,9 +784,6 @@ public class Controller {
 
 		@Override
 		public void displayContentOf(int id) {
-			// TODO Auto-generated method stub
-
 		}
-
 	}
 }
