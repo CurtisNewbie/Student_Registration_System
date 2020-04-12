@@ -420,16 +420,6 @@
                                           <TextField fx:id="mouByNameTf" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
-                                    <HBox layoutY="48.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                       <children>
-                                          <Label text="By Position:">
-                                             <HBox.margin>
-                                                <Insets right="3.0" top="3.0" />
-                                             </HBox.margin>
-                                          </Label>
-                                          <TextField fx:id="mouByPositionTf" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
-                                       </children>
-                                    </HBox>
                                     <HBox layoutY="144.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                        <children>
                                           <Label text="Module Name:">

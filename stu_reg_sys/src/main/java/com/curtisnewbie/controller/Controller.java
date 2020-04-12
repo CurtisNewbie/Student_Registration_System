@@ -136,8 +136,6 @@ public class Controller {
 	@FXML
 	private TextField mouByCreditTf;
 	@FXML
-	private TextField mouByPositionTf;
-	@FXML
 	private TextField mouIdTf;
 	@FXML
 	private TextField mouNameTf;
@@ -264,6 +262,9 @@ public class Controller {
 		this.facultyTab = new FacultyTabController();
 		this.schoolTab = new SchoolTabController();
 		this.courseTab = new CourseTabController();
+		this.moduleTab = new ModuleTabController();
+		this.schoolTab = new SchoolTabController();
+		this.studentTab = new StudentTabController();
 		this.addTabSelectionEventHandler();
 		this.setContextMenuToCommonLv();
 	}
@@ -594,10 +595,78 @@ public class Controller {
 	private class ModuleTabController implements TabController {
 		private Controller ctrler = Controller.this;
 
+		ModuleTabController() {
+			addFindByIdEventHandler();
+			addFindByNameEventHandler();
+			addFindByCreditEventHandler();
+		}
+
+		private void addFindByCreditEventHandler() {
+			ctrler.mouByNameTf.setOnAction(e -> {
+				var name = ctrler.mouByNameTf.getText();
+				if (name != null && !name.isEmpty()) {
+					var mou = moduDao.findByName(name);
+					if (mou != null)
+						displayContentOf(mou.getId());
+				}
+			});
+		}
+
+		private void addFindByNameEventHandler() {
+			ctrler.mouByCreditTf.setOnAction(e -> {
+				try {
+					var credit = Integer.parseInt(ctrler.mouByCreditTf.getText());
+					var list = moduDao.findByCredit(credit);
+					displayAll(list);
+				} catch (NumberFormatException e1) {
+				}
+			});
+		}
+
+		private void addFindByIdEventHandler() {
+			ctrler.mouByIdTf.setOnAction(e -> {
+				try {
+					var id = Integer.parseInt(ctrler.mouByIdTf.getText());
+					displayContentOf(id);
+				} catch (NumberFormatException e1) {
+				}
+			});
+		}
+
 		@Override
 		public void displayContentOf(int id) {
-			// TODO Auto-generated method stub
+			if (id >= 0) {
+				var module = moduDao.findById(id);
+				if (module != null) {
+					Platform.runLater(() -> {
+						ctrler.mouIdTf.setText(module.getId() + "");
+						ctrler.mouNameTf.setText(module.getName());
+						ctrler.mouCreditTf.setText(module.getCredit() + "");
+					});
+					displayCourseOfModule(module.getId());
+					displayStudentsInModule(module.getId());
+				}
+			}
+		}
 
+		private void displayCourseOfModule(int moduleId) {
+			var list = comDao.getAllCourOfModu(moduleId);
+			var strlist = new ArrayList<String>();
+			for (var cou : list)
+				strlist.add(cou.toString());
+			Platform.runLater(() -> {
+				ctrler.mouCouLv.setItems(FXCollections.observableList(strlist));
+			});
+		}
+
+		private void displayStudentsInModule(int moduleId) {
+			var list = comDao.getAllStudInModu(moduleId);
+			var strlist = new ArrayList<String>();
+			for (var stu : list)
+				strlist.add(stu.toString());
+			Platform.runLater(() -> {
+				ctrler.mouStuLv.setItems(FXCollections.observableList(strlist));
+			});
 		}
 
 	}
