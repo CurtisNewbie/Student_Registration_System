@@ -1,10 +1,10 @@
 package com.curtisnewbie.controller;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.curtisnewbie.dao.CommonDao;
 import com.curtisnewbie.dao.CommonDaoImpl;
@@ -782,8 +782,130 @@ public class Controller {
 	private class StudentTabController implements TabController {
 		private Controller ctrler = Controller.this;
 
+		StudentTabController() {
+			addFindByIdEventHandler();
+			addFindByFirstnameEventHandler();
+			addFindByLastnameEventHandler();
+			addFindByDateEventHandler();
+		}
+
+		private void addFindByIdEventHandler() {
+			ctrler.stuByIdTf.setOnAction(e -> {
+				try {
+					int id = Integer.parseInt(ctrler.stuByIdTf.getText());
+					displayContentOf(id);
+				} catch (NumberFormatException e2) {
+				}
+			});
+		}
+
+		private void addFindByFirstnameEventHandler() {
+			ctrler.stuByFirstnameTf.setOnAction(e -> {
+				var list = studDao.findStusByFirstname(ctrler.stuByFirstnameTf.getText());
+				displayAll(list);
+			});
+		}
+
+		private void addFindByLastnameEventHandler() {
+			ctrler.stuByLastnameTf.setOnAction(e -> {
+				var list = studDao.findStusByLastname(ctrler.stuByLastnameTf.getText());
+				displayAll(list);
+			});
+		}
+
+		private void addFindByDateEventHandler() {
+			ctrler.stuByDateTf.setOnAction(e -> {
+				var datestr = parseDateStr(ctrler.stuByDateTf.getText());
+				if (datestr != null) {
+					var localDate = LocalDate.parse(datestr);
+					if (localDate != null) {
+						var list = studDao.findStusByDateOfReg(localDate);
+						displayAll(list);
+					}
+				}
+			});
+		}
+
 		@Override
 		public void displayContentOf(int id) {
+			if (id >= 0) {
+				var student = studDao.findById(id);
+				if (student != null) {
+					Platform.runLater(() -> {
+						ctrler.stuIdTf.setText(student.getId() + "");
+						ctrler.stuFirstnameTf.setText(student.getFirstname());
+						ctrler.stuLastnameTf.setText(student.getLastname());
+						ctrler.stuDateTf.setText(toDateStr(student.getDateOfRegi()));
+					});
+					displayRegisteredCourse(student.getCourseFk());
+					displayRegisteredModules(student.getId());
+					displaySchoolOfStudent(student.getCourseFk());
+				}
+			}
+		}
+
+		private void displayRegisteredCourse(int courseId) {
+			var course = courDao.findById(courseId);
+			if (course != null) {
+				ctrler.stuCouIdTf.setText("" + course.getId());
+				ctrler.stuCouNameTf.setText(course.getName());
+				ctrler.stuCouCreditTf.setText("" + course.getCredit());
+			}
+		}
+
+		private void displayRegisteredModules(int studentId) {
+			var list = comDao.getAllModuOfStud(studentId);
+			var strlist = new ArrayList<String>();
+			for (var cour : list)
+				strlist.add(cour.toString());
+			Platform.runLater(() -> {
+				ctrler.stuModLv.setItems(FXCollections.observableList(strlist));
+			});
+		}
+
+		private void displaySchoolOfStudent(int courseId) {
+			var course = courDao.findById(courseId);
+			if (course != null) {
+				var school = schoDao.findById(course.getId());
+				if (school != null) {
+					Platform.runLater(() -> {
+						ctrler.stuSchIdTf.setText(school.getId() + "");
+						ctrler.stuSchNameTf.setText(school.getName());
+					});
+				}
+			}
+		}
+
+		private String toDateStr(LocalDate date) {
+			return date.getYear() + "-" + date.getMonth() + "-" + date.getDayOfMonth();
+		}
+
+		/**
+		 * Parse and return a string that is in correct Date format (YYYY-MM-DD)
+		 * 
+		 * @param dateStr
+		 * @return string of date in format YYYY-MM-DD or {@code NULL} if failed
+		 */
+		private String parseDateStr(String dateStr) {
+			dateStr = dateStr.trim();
+			if (dateStr == null || dateStr.isEmpty())
+				return null;
+
+			int y;
+			int m;
+			int d;
+			Pattern pat = Pattern.compile(".*([1-9]\\d\\d\\d)-(\\d\\d?)-(\\d\\d?).*"); // yyyy-mm-dd
+			Matcher matcher = pat.matcher(dateStr);
+			if (matcher.find()) {
+				try {
+					y = Integer.parseInt(matcher.group(1));
+					m = Integer.parseInt(matcher.group(2)) - 1;
+					d = Integer.parseInt(matcher.group(3));
+					return y + "-" + m + "-" + d;
+				} catch (NumberFormatException e1) {
+				}
+			}
+			return null;
 		}
 	}
 }
