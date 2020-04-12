@@ -36,6 +36,8 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 /**
  * ------------------------------------
@@ -303,6 +305,7 @@ public class Controller {
 		this.studentTab = new StudentTabController();
 		this.addTabSelectionEventHandler();
 		this.setContextMenuToCommonLv();
+		this.addF5EventHandler();
 
 		// faculty tab is displayed immediately on start-up
 		setCommonLvTitle("FACULTY");
@@ -315,43 +318,62 @@ public class Controller {
 	private void addTabSelectionEventHandler() {
 		// tab changed
 		this.tabpane.getSelectionModel().selectedItemProperty().addListener((ov, prev, curr) -> {
-			var index = this.tabpane.getSelectionModel().getSelectedIndex();
-			switch (index) {
-				case 0:
-					setCommonLvTitle("FACULTY");
-					displayAll(facuDao.getAll());
-					break;
-				case 1:
-					setCommonLvTitle("SCHOOL");
-					displayAll(schoDao.getAll());
-					break;
-				case 2:
-					setCommonLvTitle("COURSE");
-					displayAll(courDao.getAll());
-					break;
-				case 3:
-					setCommonLvTitle("MODULE");
-					displayAll(moduDao.getAll());
-					break;
-				case 4:
-					setCommonLvTitle("LECTURER");
-					displayAll(lectDao.getAll());
-					break;
-				case 5:
-					setCommonLvTitle("STUDENT");
-					displayAll(studDao.getAll());
-					break;
-			}
+			refreshCommonLv();
 		});
 	}
 
 	/**
-	 * Set the title of {@code commonLvTitle} to "List:" + {@code title}
+	 * EventHandler for F5 key to refresh the content in {@code commonLv}
+	 */
+	private void addF5EventHandler() {
+		this.tabpane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+			if (e.getCode().equals(KeyCode.F5)) {
+				refreshCommonLv();
+			}
+		});
+		refreshCommonLv();
+	}
+
+	/**
+	 * Refresh the content in {@code commonLv}
+	 */
+	public void refreshCommonLv() {
+		var index = this.tabpane.getSelectionModel().getSelectedIndex();
+		switch (index) {
+			case 0:
+				setCommonLvTitle("FACULTY");
+				displayAll(facuDao.getAll());
+				break;
+			case 1:
+				setCommonLvTitle("SCHOOL");
+				displayAll(schoDao.getAll());
+				break;
+			case 2:
+				setCommonLvTitle("COURSE");
+				displayAll(courDao.getAll());
+				break;
+			case 3:
+				setCommonLvTitle("MODULE");
+				displayAll(moduDao.getAll());
+				break;
+			case 4:
+				setCommonLvTitle("LECTURER");
+				displayAll(lectDao.getAll());
+				break;
+			case 5:
+				setCommonLvTitle("STUDENT");
+				displayAll(studDao.getAll());
+				break;
+		}
+	}
+
+	/**
+	 * Set the title of {@code commonLvTitle} to "List: " + {@code title}
 	 * 
 	 * @param title
 	 */
 	public void setCommonLvTitle(String title) {
-		this.commonLvTitle.setText("List:" + title);
+		this.commonLvTitle.setText("List: " + title);
 	}
 
 	/**
