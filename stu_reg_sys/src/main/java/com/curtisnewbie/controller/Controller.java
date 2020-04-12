@@ -302,7 +302,7 @@ public class Controller {
 	 * ------------------------------------
 	 */
 	/**
-	 * Set a context menu to the {@code CommonLv}
+	 * Set a context menu to the {@code commonLv}
 	 * 
 	 */
 	private void setContextMenuToCommonLv() {
