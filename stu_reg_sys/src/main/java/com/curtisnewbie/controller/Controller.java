@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.curtisnewbie.dao.*;
+import com.curtisnewbie.model.Course;
 import com.curtisnewbie.model.Faculty;
 import com.curtisnewbie.model.School;
 
@@ -314,12 +315,22 @@ public class Controller {
 			var item = commonLv.getSelectionModel().getSelectedItem();
 			if (item instanceof Faculty)
 				facultyTab.displayContentOf(((Faculty) item).getId());
+			else if (item instanceof School)
+				schoolTab.displayContentOf(((School) item).getId());
+			else if (item instanceof Course)
+				courseTab.displayContentOf(((Course) item).getId());
 		});
 		deleteItem.setOnAction(e2 -> {
 			var item = commonLv.getSelectionModel().getSelectedItem();
 			if (item instanceof Faculty) {
 				facuDao.deleteById(((Faculty) item).getId());
 				displayAll(facuDao.getAll());
+			} else if (item instanceof School) {
+				schoDao.deleteById(((School) item).getId());
+				displayAll(schoDao.getAll());
+			} else if (item instanceof Course) {
+				courDao.deleteById(((Course) item).getId());
+				displayAll(courDao.getAll());
 			}
 		});
 		ctxMenu.getItems().addAll(selectItem, deleteItem);
