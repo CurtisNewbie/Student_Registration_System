@@ -81,7 +81,7 @@ public class Course {
 
     @Override
     public String toString() {
-        return String.format("Course - {id: %d, name: %s, credit: %d}", getId(), getName(), getCredit());
+        return String.format("Course - Id: %d, Name: %s, Credit: %d", getId(), getName(), getCredit());
     }
 
     /**

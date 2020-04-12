@@ -73,7 +73,7 @@ public class Module {
 
     @Override
     public String toString() {
-        return String.format("Module - {id: %d, name: %s, credit:%d}", getId(), getName(), getCredit());
+        return String.format("Module - Id: %d, Name: %s, Credit:%d", getId(), getName(), getCredit());
     }
 
 }

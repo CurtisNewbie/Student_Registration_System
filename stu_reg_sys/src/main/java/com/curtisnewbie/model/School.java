@@ -74,6 +74,6 @@ public class School {
 
     @Override
     public String toString() {
-        return String.format("School - {id: %d, name: %s, faculty_fk: %d}", getId(), getName(), getFacultyFk());
+        return String.format("School - Id: %d, Name: %s", getId(), getName());
     }
 }

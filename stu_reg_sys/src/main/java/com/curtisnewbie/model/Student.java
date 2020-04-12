@@ -112,9 +112,8 @@ public class Student {
 
     @Override
     public String toString() {
-        return String.format(
-                "Student - {registration_ID: %d, firstname: %s, lastname: %s, registration_date: %s, course_fk: %d}",
-                getId(), getFirstname(), getLastname(), getDateOfRegi().toString(), getCourseFk());
+        return String.format("Student - Registration ID: %d, Firstname: %s, Lastname: %s, Registration Date: %s",
+                getId(), getFirstname(), getLastname(), getDateOfRegi().toString());
     }
 
 }
