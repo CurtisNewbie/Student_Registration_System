@@ -22,7 +22,10 @@ import com.curtisnewbie.dao.StudentDao;
 import com.curtisnewbie.dao.StudentRepository;
 import com.curtisnewbie.model.Course;
 import com.curtisnewbie.model.Faculty;
+import com.curtisnewbie.model.Lecturer;
 import com.curtisnewbie.model.School;
+import com.curtisnewbie.model.Student;
+import com.curtisnewbie.model.Module;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -334,6 +337,12 @@ public class Controller {
 				schoolTab.displayContentOf(((School) item).getId());
 			else if (item instanceof Course)
 				courseTab.displayContentOf(((Course) item).getId());
+			else if (item instanceof Module)
+				moduleTab.displayContentOf(((Module) item).getId());
+			else if (item instanceof Lecturer)
+				lecturerTab.displayContentOf(((Lecturer) item).getId());
+			else if (item instanceof Student)
+				studentTab.displayContentOf(((Student) item).getId());
 		});
 		deleteItem.setOnAction(e2 -> {
 			var item = commonLv.getSelectionModel().getSelectedItem();
@@ -346,6 +355,15 @@ public class Controller {
 			} else if (item instanceof Course) {
 				courDao.deleteById(((Course) item).getId());
 				displayAll(courDao.getAll());
+			} else if (item instanceof Module) {
+				moduDao.deleteById(((Module) item).getId());
+				displayAll(moduDao.getAll());
+			} else if (item instanceof Lecturer) {
+				lectDao.deleteById(((Lecturer) item).getId());
+				displayAll(lectDao.getAll());
+			} else if (item instanceof Student) {
+				studDao.deleteById(((Student) item).getId());
+				displayAll(studDao.getAll());
 			}
 		});
 		ctxMenu.getItems().addAll(selectItem, deleteItem);
