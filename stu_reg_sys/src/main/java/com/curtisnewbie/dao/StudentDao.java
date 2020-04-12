@@ -68,4 +68,15 @@ public interface StudentDao extends UnitDao<Student> {
      */
     public List<Student> findStusByDateOfReg(LocalDate date);
 
+    /**
+     * Update {@code Student}
+     * 
+     * @param firstname
+     * @param lastname
+     * @param date
+     * @param id
+     * @return {@code True} if successful else {@code False}
+     */
+    public boolean update(String firstname, String lastname, LocalDate date, int id);
+
 }

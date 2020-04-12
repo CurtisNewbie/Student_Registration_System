@@ -2,7 +2,6 @@ package com.curtisnewbie.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +31,7 @@ public class ModuleRepository implements ModuleDao {
     private final String UPDATE_CREDIT = "UPDATE module SET credit = ? WHERE id = ?";
     private final String CREATE_MODULE_WITH_ID = "INSERT INTO module VALUES (?,?,?)";
     private final String CREATE_MODULE_WITHOUT_ID = "INSERT INTO module (name, credit) VALUES (?,?)";
+    private final String UPDATE_MODULE = "UPDATE module SET name = ?, credit = ? WHERE id = ?";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -84,31 +84,25 @@ public class ModuleRepository implements ModuleDao {
 
     @Override
     public boolean update(Module modu) {
-        logger.info(String.format("Update module to: '%s'", modu.toString()));
+        if (modu == null) {
+            logger.severe("The module to be updated is null!");
+            return false;
+        }
+        return update(modu.getName(), modu.getCredit(), modu.getId());
+    }
+
+    @Override
+    public boolean update(String name, int credit, int id) {
+        logger.info(String.format("Update module to: 'id: %d, name: %s, credit: %d'", id, name, credit));
         try {
-            conn.setAutoCommit(false);
-            if (findById(modu.getId()) != null) {
-                boolean succeeded = true;
-                if (!updateName(modu.getId(), modu.getName()))
-                    succeeded = false;
-
-                if (succeeded && !updateCredit(modu.getId(), modu.getCredit()))
-                    succeeded = false;
-
-                if (succeeded) {
-                    conn.commit();
-                    return true;
-                } else {
-                    conn.rollback();
-                }
-            }
+            PreparedStatement stmt = conn.prepareStatement(UPDATE_MODULE);
+            stmt.setString(1, name);
+            stmt.setInt(2, credit);
+            stmt.setInt(3, id);
+            stmt.executeUpdate();
+            return true;
         } catch (Exception e) {
             logger.severe(e.getMessage());
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                logger.severe(e1.getMessage());
-            }
         }
         return false;
     }

@@ -81,6 +81,11 @@ public class FacultyRepository implements FacultyDao {
 
     @Override
     public boolean update(Faculty facu) {
+        if (facu == null) {
+            logger.severe("The faculty to be updated is null!");
+            return false;
+        }
+
         logger.info(String.format("Update faculty to: '%s'", facu.toString()));
         return updateName(facu.getId(), facu.getName());
     }

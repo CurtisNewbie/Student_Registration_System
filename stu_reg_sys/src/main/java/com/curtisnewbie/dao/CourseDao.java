@@ -48,4 +48,15 @@ public interface CourseDao extends UnitDao<Course> {
      * @return {@code True} if successful else {@code False}
      */
     public boolean updateCredit(int id, int credit);
+
+    /**
+     * Update {@code Course}
+     * 
+     * @param name
+     * @param credit
+     * @param id
+     * @return {@code True} if successful else {@code False}
+     */
+    public boolean update(String name, int credit, int id);
+
 }

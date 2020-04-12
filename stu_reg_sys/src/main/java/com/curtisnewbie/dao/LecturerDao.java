@@ -67,4 +67,15 @@ public interface LecturerDao extends UnitDao<Lecturer> {
      */
     public List<Lecturer> findByPosition(String pos);
 
+    /**
+     * Update {@code Lecturer}
+     * 
+     * @param firstname
+     * @param lastname
+     * @param position
+     * @param id
+     * @return {@code True} if successful else {@code False}
+     */
+    public boolean update(String firstname, String lastname, String position, int id);
+
 }

@@ -3,7 +3,6 @@ package com.curtisnewbie.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +34,7 @@ public class LecturerRepository implements LecturerDao {
     private final String UPDATE_POSITION = "UPDATE lecturer SET position = ? WHERE id = ?";
     private final String CREATE_LECTURER_WITH_ID = "INSERT INTO lecturer VALUES (?,?,?,?)";
     private final String CREATE_LECTURER_WITHOUT_ID = "INSERT INTO lecturer (firstname, lastname, position) VALUES (?,?,?)";
+    private final String UPDATE_LECTURER = "UPDATE lecturer SET firstname = ?, lastname = ?, position = ? WHERE id = ?";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -89,34 +89,27 @@ public class LecturerRepository implements LecturerDao {
 
     @Override
     public boolean update(Lecturer lect) {
-        logger.info(String.format("Update lecturer to: '%s'", lect.toString()));
+        if (lect == null) {
+            logger.severe("The lecturer to be updated is null!");
+            return false;
+        }
+        return update(lect.getFirstname(), lect.getLastname(), lect.getPosition(), lect.getId());
+    }
+
+    @Override
+    public boolean update(String firstname, String lastname, String position, int id) {
+        logger.info(String.format("Update lecturer to: 'id: %d, firstname: %s, lastname: %s, position: %s'", id,
+                firstname, lastname, position));
         try {
-            conn.setAutoCommit(false);
-            if (findById(lect.getId()) != null) {
-                boolean succeeded = true;
-                if (!updatePosition(lect.getId(), lect.getPosition()))
-                    succeeded = false;
-
-                if (succeeded && !updateFirstname(lect.getId(), lect.getFirstname()))
-                    succeeded = false;
-
-                if (succeeded && !updateLastname(lect.getId(), lect.getLastname()))
-                    succeeded = false;
-
-                if (succeeded) {
-                    conn.commit();
-                    return true;
-                } else {
-                    conn.rollback();
-                }
-            }
+            PreparedStatement stmt = conn.prepareStatement(UPDATE_LECTURER);
+            stmt.setString(1, firstname);
+            stmt.setString(2, lastname);
+            stmt.setString(3, position);
+            stmt.setInt(4, id);
+            stmt.executeUpdate();
+            return true;
         } catch (Exception e) {
             logger.severe(e.getMessage());
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                logger.severe(e1.getMessage());
-            }
         }
         return false;
     }

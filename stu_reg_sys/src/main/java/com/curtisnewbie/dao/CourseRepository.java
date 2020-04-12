@@ -2,7 +2,6 @@ package com.curtisnewbie.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +31,7 @@ public class CourseRepository implements CourseDao {
     private final String UPDATE_CREDIT = "UPDATE course SET credit = ? WHERE id = ?";
     private final String CREATE_COURSE_WITH_ID = "INSERT INTO course VALUES (?,?,?,?,?)";
     private final String CREATE_COURSE_WITHOUT_ID = "INSERT INTO course (name, credit, sch_fk, lec_fk) VALUES (?,?,?,?)";
+    private final String UPDATE_COURSE = "UPDATE course SET name = ?, credit = ? WHERE id = ?";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -84,31 +84,25 @@ public class CourseRepository implements CourseDao {
 
     @Override
     public boolean update(Course cour) {
-        logger.info(String.format("Update course to: '%s'", cour.toString()));
+        if (cour == null) {
+            logger.severe("The course to be updated is null!");
+            return false;
+        }
+        return update(cour.getName(), cour.getCredit(), cour.getId());
+    }
+
+    @Override
+    public boolean update(String name, int credit, int id) {
+        logger.info(String.format("Update course to: '{id: %d, name: %s, credit: %d}'", id, name, credit));
         try {
-            conn.setAutoCommit(false);
-            if (findById(cour.getId()) != null) {
-                boolean succeeded = true;
-                if (!updateName(cour.getId(), cour.getName()))
-                    succeeded = false;
-
-                if (succeeded && !updateCredit(cour.getId(), cour.getCredit()))
-                    succeeded = false;
-
-                if (succeeded) {
-                    conn.commit();
-                    return true;
-                } else {
-                    conn.rollback();
-                }
-            }
+            PreparedStatement stmt = conn.prepareStatement(UPDATE_COURSE);
+            stmt.setString(1, name);
+            stmt.setInt(2, credit);
+            stmt.setInt(3, id);
+            stmt.executeUpdate();
+            return true;
         } catch (Exception e) {
             logger.severe(e.getMessage());
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                logger.severe(e1.getMessage());
-            }
         }
         return false;
     }

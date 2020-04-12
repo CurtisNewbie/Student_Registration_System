@@ -3,7 +3,6 @@ package com.curtisnewbie.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +35,7 @@ public class StudentRepository implements StudentDao {
     private final String UPDATE_REG_DATE = "UPDATE student SET reg_date = ? WHERE id = ?";
     private final String CREATE_STUDENT_WITH_ID = "INSERT INTO student VALUES(?, ?, ?, ?, ?)";
     private final String CREATE_STUDENT_WITHOUT_ID = "INSERT INTO student (firstname, lastname, reg_date, cou_fk) VALUES(?, ?, ?, ?)";
+    private final String UPDATE_STUDENT = "UPDATE student SET firstname = ?, lastname = ?, reg_date = ? WHERE id = ?";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -93,34 +93,26 @@ public class StudentRepository implements StudentDao {
 
     @Override
     public boolean update(Student stu) {
-        logger.info(String.format("Update student to: '%s'", stu.toString()));
+        if (stu == null) {
+            logger.severe("The student to be updated is null!");
+            return false;
+        }
+        return update(stu.getFirstname(), stu.getLastname(), stu.getDateOfRegi(), stu.getId());
+    }
+
+    @Override
+    public boolean update(String firstname, String lastname, LocalDate date, int id) {
+        logger.info(String.format("Update student to: 'id: %d, firstname: %s, lastname: %s, date: %s'", id, firstname,
+                lastname, date.toString()));
         try {
-            conn.setAutoCommit(false);
-            if (findById(stu.getId()) != null) {
-                boolean succeeded = true;
-                if (!updateDateOfReg(stu.getId(), stu.getDateOfRegi()))
-                    succeeded = false;
-
-                if (succeeded && !updateFirstname(stu.getId(), stu.getFirstname()))
-                    succeeded = false;
-
-                if (succeeded && !updateLastname(stu.getId(), stu.getLastname()))
-                    succeeded = false;
-
-                if (succeeded) {
-                    conn.commit();
-                    return true;
-                } else {
-                    conn.rollback();
-                }
-            }
+            PreparedStatement stmt = conn.prepareStatement(UPDATE_STUDENT);
+            stmt.setString(1, firstname);
+            stmt.setString(2, lastname);
+            stmt.setString(3, date.toString());
+            stmt.setInt(4, id);
+            stmt.executeUpdate();
         } catch (Exception e) {
             logger.severe(e.getMessage());
-            try {
-                conn.rollback();
-            } catch (SQLException e1) {
-                logger.severe(e1.getMessage());
-            }
         }
         return false;
     }

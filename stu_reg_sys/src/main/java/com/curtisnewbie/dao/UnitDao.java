@@ -57,7 +57,7 @@ public interface UnitDao<T> {
     public T findById(int id);
 
     /**
-     * Update an instance
+     * Update an instance (foreign keys are not updated)
      * 
      * @param obj obj
      * @return {@code True} if successful else {@code False}
