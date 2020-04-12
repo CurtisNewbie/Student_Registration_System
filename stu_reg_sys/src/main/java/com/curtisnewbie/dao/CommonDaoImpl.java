@@ -40,6 +40,7 @@ public class CommonDaoImpl implements CommonDao {
     private final String GET_LECT_IN_MODU = "SELECT l.* FROM lecturer l INNER JOIN lecturer_module lm on l.id = lm.lec_fk WHERE lm.mod_fk = ?";
     private final String GET_SCHO_IN_FAC = "SELECT s.* FROM school s WHERE s.fac_fk = ?";
     private final String GET_COUR_IN_SCHO = "SELECT c.* FROM course c WHERE c.sch_fk = ?";
+    private final String GET_COUR_OF_LECT = "SELECT c.* FROM course c WHERE c.lec_fk = ?";
 
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
     private final Connection conn = DBManager.getDBManager().getConnection();
@@ -214,6 +215,22 @@ public class CommonDaoImpl implements CommonDao {
         try {
             var stmt = conn.prepareStatement(GET_COUR_IN_SCHO);
             stmt.setInt(1, schoolId);
+            var set = stmt.executeQuery();
+            while (set.next())
+                list.add(new Course(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4), set.getInt(5)));
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return list;
+    }
+
+    @Override
+    public List<Course> getAllCourOflect(int lecturerId) {
+        logger.info(String.format("Get all courses lead by the lecturer : %d", lecturerId));
+        List<Course> list = new ArrayList<>();
+        try {
+            var stmt = conn.prepareStatement(GET_COUR_OF_LECT);
+            stmt.setInt(1, lecturerId);
             var set = stmt.executeQuery();
             while (set.next())
                 list.add(new Course(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4), set.getInt(5)));

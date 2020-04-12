@@ -155,4 +155,12 @@ public interface CommonDao {
      */
     public List<Course> getAllCourInScho(int schoolId);
 
+    /**
+     * Get all {@code Course}(s) lead by the {@code Lecturer}
+     * 
+     * @param lecturerId
+     * @return A list of {@code Course}(s)
+     */
+    public List<Course> getAllCourOflect(int lecturerId);
+
 }
