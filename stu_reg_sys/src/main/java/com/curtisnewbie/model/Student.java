@@ -1,6 +1,6 @@
 package com.curtisnewbie.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import com.curtisnewbie.dao.UnitDao;
 
@@ -19,7 +19,7 @@ public class Student {
     private int id;
     private String firstname;
     private String lastname;
-    private Date dateOfRegi;
+    private LocalDate dateOfRegi;
     /** Foreign key that references to a {@code Course} */
     private int courseFk;
 
@@ -32,7 +32,7 @@ public class Student {
      * @param dateOfRegi date of registration
      * @param courseId   id of a {@code Course}
      */
-    public Student(int id, String fname, String lname, Date dateOfRegi, int courseId) {
+    public Student(int id, String fname, String lname, LocalDate dateOfRegi, int courseId) {
         this.id = id;
         this.firstname = fname;
         this.lastname = lname;
@@ -85,14 +85,14 @@ public class Student {
     /**
      * @return the dateOfRegi
      */
-    public Date getDateOfRegi() {
+    public LocalDate getDateOfRegi() {
         return dateOfRegi;
     }
 
     /**
      * @param dateOfRegi the dateOfRegi to set
      */
-    public void setDateOfRegi(Date dateOfRegi) {
+    public void setDateOfRegi(LocalDate dateOfRegi) {
         this.dateOfRegi = dateOfRegi;
     }
 

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -37,7 +38,7 @@ public class StudentDaoTest {
     private final int CREATED_ID = 10;
 
     private final int YEAR = 2020;
-    private final int MONTH = 0;
+    private final int MONTH = 1;
     private final int DAY = 21;
     private final String FNAME = "Curtis";
     private final String LNAME = "Newbie";
@@ -78,8 +79,7 @@ public class StudentDaoTest {
 
     @Test
     void shouldFindStusByDateOfReg() {
-        Date d = new GregorianCalendar(YEAR, MONTH, DAY).getTime();
-        List<Student> stus = dao.findStusByDateOfReg(d);
+        List<Student> stus = dao.findStusByDateOfReg(LocalDate.of(YEAR, MONTH, DAY));
         assertTrue(stus.size() > 0);
         var stu = stus.get(0);
         assertNotNull(stu.getFirstname());
@@ -110,7 +110,7 @@ public class StudentDaoTest {
     @Test
     void shouldUpdateDateOfReg() {
         var prev = dao.findById(MODIFIED_ID);
-        dao.updateDateOfReg(MODIFIED_ID, new Date(prev.getDateOfRegi().getTime() - 24 * 60 * 60 * 1000));
+        dao.updateDateOfReg(MODIFIED_ID, prev.getDateOfRegi().minusDays(1));
         assertNotEquals(prev.getDateOfRegi(), dao.findById(MODIFIED_ID).getDateOfRegi());
     }
 
@@ -118,7 +118,7 @@ public class StudentDaoTest {
     void shouldUpdateStudent() {
         var prev = dao.findById(MODIFIED_ID);
         Student stu = new Student(MODIFIED_ID, prev.getFirstname() + "PenPineapple", prev.getLastname() + "ApplePen",
-                new Date(prev.getDateOfRegi().getTime() - 24 * 60 * 60 * 1000), COURSE_ID);
+                prev.getDateOfRegi().minusDays(1), COURSE_ID);
         dao.update(stu);
         var updated = dao.findById(MODIFIED_ID);
         assertNotEquals(prev.getDateOfRegi(), updated.getDateOfRegi());
@@ -134,7 +134,7 @@ public class StudentDaoTest {
 
     @Test
     void shouldCreateStudent() {
-        var stu = new Student(CREATED_ID, "PenPineapple", "ApplePen", new Date(System.currentTimeMillis()), COURSE_ID);
+        var stu = new Student(CREATED_ID, "PenPineapple", "ApplePen", LocalDate.now(), COURSE_ID);
         assertTrue(dao.create(stu));
         assertNotNull(dao.findById(CREATED_ID));
     }

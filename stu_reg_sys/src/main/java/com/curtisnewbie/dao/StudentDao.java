@@ -1,6 +1,6 @@
 package com.curtisnewbie.dao;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.curtisnewbie.model.Student;
@@ -42,7 +42,7 @@ public interface StudentDao extends UnitDao<Student> {
      * @param date date of registration
      * @return {@code True} if successful else {@code False}
      */
-    public boolean updateDateOfReg(int id, Date date);
+    public boolean updateDateOfReg(int id, LocalDate date);
 
     /**
      * Find a list of {@link Student} by firstname
@@ -66,6 +66,6 @@ public interface StudentDao extends UnitDao<Student> {
      * @param date date of registration
      * @return a list of {@link Student}
      */
-    public List<Student> findStusByDateOfReg(Date date);
+    public List<Student> findStusByDateOfReg(LocalDate date);
 
 }

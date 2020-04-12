@@ -4,8 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.curtisnewbie.model.Student;
@@ -48,7 +48,8 @@ public class StudentRepository implements StudentDao {
             var stmt = conn.createStatement();
             ResultSet set = stmt.executeQuery(SELECT_ALL);
             while (set.next()) {
-                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3), set.getDate(4), set.getInt(5));
+                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3),
+                        LocalDate.parse(set.getString(4)), set.getInt(5));
                 list.add(stu);
             }
         } catch (Exception e) {
@@ -80,7 +81,8 @@ public class StudentRepository implements StudentDao {
             ResultSet set = stmt.executeQuery();
             Student stu = null;
             if (set.next()) {
-                stu = new Student(set.getInt(1), set.getString(2), set.getString(3), set.getDate(4), set.getInt(5));
+                stu = new Student(set.getInt(1), set.getString(2), set.getString(3), LocalDate.parse(set.getString(4)),
+                        set.getInt(5));
             }
             return stu;
         } catch (Exception e) {
@@ -141,7 +143,7 @@ public class StudentRepository implements StudentDao {
             }
             stmt.setString(i++, stu.getFirstname());
             stmt.setString(i++, stu.getLastname());
-            stmt.setDate(i++, new java.sql.Date(stu.getDateOfRegi().getTime()));
+            stmt.setString(i++, stu.getDateOfRegi().toString());
             stmt.setInt(i++, stu.getCourseFk());
             stmt.executeUpdate();
             return true;
@@ -182,11 +184,11 @@ public class StudentRepository implements StudentDao {
     }
 
     @Override
-    public boolean updateDateOfReg(int id, Date date) {
+    public boolean updateDateOfReg(int id, LocalDate date) {
         logger.info(String.format("Update id: '%d', date updated to: '%s'", id, date.toString()));
         try {
             PreparedStatement stmt = conn.prepareStatement(UPDATE_REG_DATE);
-            stmt.setDate(1, new java.sql.Date(date.getTime()));
+            stmt.setDate(1, java.sql.Date.valueOf(date));
             stmt.setInt(2, id);
             stmt.executeUpdate();
             return true;
@@ -205,7 +207,8 @@ public class StudentRepository implements StudentDao {
             stmt.setString(1, fname);
             ResultSet set = stmt.executeQuery();
             while (set.next()) {
-                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3), set.getDate(4), set.getInt(5));
+                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3),
+                        LocalDate.parse(set.getString(4)), set.getInt(5));
                 list.add(stu);
             }
         } catch (Exception e) {
@@ -223,7 +226,8 @@ public class StudentRepository implements StudentDao {
             stmt.setString(1, lname);
             ResultSet set = stmt.executeQuery();
             while (set.next()) {
-                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3), set.getDate(4), set.getInt(5));
+                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3),
+                        LocalDate.parse(set.getString(4)), set.getInt(5));
                 list.add(stu);
             }
         } catch (Exception e) {
@@ -233,15 +237,16 @@ public class StudentRepository implements StudentDao {
     }
 
     @Override
-    public List<Student> findStusByDateOfReg(Date date) {
+    public List<Student> findStusByDateOfReg(LocalDate date) {
         logger.info(String.format("Find date of registration: '%s'", date.toString()));
         List<Student> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_REG_DATE);
-            stmt.setDate(1, new java.sql.Date(date.getTime()));
+            stmt.setString(1, date.toString());
             ResultSet set = stmt.executeQuery();
             while (set.next()) {
-                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3), set.getDate(4), set.getInt(5));
+                var stu = new Student(set.getInt(1), set.getString(2), set.getString(3),
+                        LocalDate.parse(set.getString(4)), set.getInt(5));
                 list.add(stu);
             }
         } catch (Exception e) {

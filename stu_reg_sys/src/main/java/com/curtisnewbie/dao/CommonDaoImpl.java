@@ -1,6 +1,7 @@
 package com.curtisnewbie.dao;
 
 import java.sql.Connection;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,7 +135,8 @@ public class CommonDaoImpl implements CommonDao {
             stmt.setInt(1, moduleId);
             var set = stmt.executeQuery();
             while (set.next())
-                list.add(new Student(set.getInt(1), set.getString(2), set.getString(3), set.getDate(4), set.getInt(5)));
+                list.add(new Student(set.getInt(1), set.getString(2), set.getString(3),
+                        LocalDate.parse(set.getString(4)), set.getInt(5)));
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
