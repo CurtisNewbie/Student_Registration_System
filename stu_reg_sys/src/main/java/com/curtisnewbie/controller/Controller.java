@@ -331,7 +331,6 @@ public class Controller {
 				refreshCommonLv();
 			}
 		});
-		refreshCommonLv();
 	}
 
 	/**
