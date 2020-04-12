@@ -19,7 +19,9 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-    private final int MAX_WID = 1095;
+    private final int DEF_WIDTH = 1300;
+    private final int MIN_WIDTH = 780;
+    private final int MIN_HEIGHT = 600;
 
     /** Primary Stage of Javafx App, may be used to create alerts. */
     static Stage primaryStage;
@@ -55,8 +57,9 @@ public class App extends Application {
         Scene s = new Scene(root);
         primaryStage.setScene(s);
         primaryStage.setTitle(TITLE);
-        primaryStage.setWidth(MAX_WID);
-        primaryStage.setResizable(false);
+        primaryStage.setWidth(DEF_WIDTH);
+        primaryStage.setMinWidth(MIN_WIDTH);
+        primaryStage.setMinHeight(MIN_HEIGHT);
         primaryStage.setOnCloseRequest(e -> {
             System.exit(0);
         });
