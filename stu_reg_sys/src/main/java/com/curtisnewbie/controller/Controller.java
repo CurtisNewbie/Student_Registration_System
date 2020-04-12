@@ -46,10 +46,21 @@ import javafx.scene.control.TextField;
  * Controller of JavaFX FXML GUI as a whole.
  * </p>
  * <p>
- * This Controller is mainly responsible for the interactions between the
- * high-level components (tabs and {@link Controller#commonLv}). The control of
- * each tab is delegated to each sub-controller, e.g.,
- * {@code FacultyTabController}.
+ * This {@code Controller} is mainly responsible for the interactions between
+ * the high-level components. The control of each tab is delegated to each
+ * {@code TabController}, e.g., {@code FacultyTabController}. These
+ * {@code TabController}(s) are instantiated in method
+ * {@link Controller#initialize()}, once these {@code TabController}(s) are
+ * instantiated, the {@code EventHandler}(s) for all controls are registered.
+ * </p>
+ * <p>
+ * The {@code ListView} that is independent on each tab is named
+ * {@code commonLv}, which is located on the right-hand side of the screen. The
+ * content of it is updated whenever the selection of tab is changed. E.g., if
+ * the currently selected tab is 'faculty tab', the {@code commonLv} will be
+ * displaying the {@code Faculty} items. Some functionalities will also take
+ * advantage of this {@code ListView} as well when the result consists of more
+ * than one item.
  * </p>
  * 
  * @see {@link FacultyTabController}
@@ -59,6 +70,9 @@ import javafx.scene.control.TextField;
  * @see {@link LecturerTabController}
  * @see {@link StudentTabController}
  * 
+ * @see {@link Controller#initialize()}
+ * @see {@link Controller#addTabSelectionEventHandler()}
+ * @see {@link Controller#setContextMenuToCommonLv()}
  */
 public class Controller {
 
