@@ -3,8 +3,6 @@ package com.curtisnewbie.controller;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.curtisnewbie.dao.CommonDao;
 import com.curtisnewbie.dao.CommonDaoImpl;
@@ -26,6 +24,7 @@ import com.curtisnewbie.model.Lecturer;
 import com.curtisnewbie.model.School;
 import com.curtisnewbie.model.Student;
 import com.curtisnewbie.model.Module;
+import static com.curtisnewbie.util.DateFormatter.*;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -892,38 +891,6 @@ public class Controller {
 					});
 				}
 			}
-		}
-
-		private String toDateStr(LocalDate date) {
-			return date.getYear() + "-" + date.getMonth() + "-" + date.getDayOfMonth();
-		}
-
-		/**
-		 * Parse and return a string that is in correct Date format (YYYY-MM-DD)
-		 * 
-		 * @param dateStr
-		 * @return string of date in format YYYY-MM-DD or {@code NULL} if failed
-		 */
-		private String parseDateStr(String dateStr) {
-			dateStr = dateStr.trim();
-			if (dateStr == null || dateStr.isEmpty())
-				return null;
-
-			int y;
-			int m;
-			int d;
-			Pattern pat = Pattern.compile(".*([1-9]\\d\\d\\d)-(\\d\\d?)-(\\d\\d?).*"); // yyyy-mm-dd
-			Matcher matcher = pat.matcher(dateStr);
-			if (matcher.find()) {
-				try {
-					y = Integer.parseInt(matcher.group(1));
-					m = Integer.parseInt(matcher.group(2)) - 1;
-					d = Integer.parseInt(matcher.group(3));
-					return y + "-" + m + "-" + d;
-				} catch (NumberFormatException e1) {
-				}
-			}
-			return null;
 		}
 	}
 }

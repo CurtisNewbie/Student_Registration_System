@@ -1,11 +1,9 @@
 package com.curtisnewbie.util;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
+import static com.curtisnewbie.util.DateFormatter.*;
 
 /**
  * ------------------------------------
@@ -45,18 +43,12 @@ public class LogFormatter extends Formatter {
         // append level msg
         sb.append(String.format("[%s%s%s%s]", ANSI_BOLD, levelColour, record.getLevel(), ANSI_RESET_ALL));
         // append date, time
-        sb.append(String.format(" %s ", datestr(record.getInstant())));
+        sb.append(String.format(" %s ", toDateStr(record.getInstant())));
         // append logger name
         sb.append(String.format("%s%s%s%s ", ANSI_BOLD, ANSI_BLUE, record.getLoggerName(), ANSI_RESET_COLOUR));
         // append msg
         sb.append(String.format("%s'%s'%s\n", record.getLevel().equals(Level.SEVERE) ? ANSI_RED : ANSI_WHITE,
                 record.getMessage(), ANSI_RESET_ALL));
         return sb.toString();
-    }
-
-    private String datestr(Instant instant) {
-        var ldt = LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
-        return ldt.getDayOfMonth() + "-" + ldt.getMonthValue() + "-" + ldt.getYear() + " " + ldt.getHour() + ":"
-                + ldt.getMinute() + ":" + ldt.getSecond();
     }
 }
