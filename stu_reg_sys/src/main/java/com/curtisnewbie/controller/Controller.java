@@ -297,6 +297,8 @@ public class Controller {
 		this.studentTab = new StudentTabController();
 		this.addTabSelectionEventHandler();
 		this.setContextMenuToCommonLv();
+		// faculty tab is displayed immediately on start-up
+		displayAll(facuDao.getAll());
 	}
 
 	private void addTabSelectionEventHandler() {
