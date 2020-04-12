@@ -342,7 +342,7 @@ public class Controller {
 	/**
 	 * Controller for Faculty Tab
 	 */
-	private class FacultyTabController {
+	private class FacultyTabController implements TabController {
 		private Controller ctrler = Controller.this;
 
 		FacultyTabController() {
@@ -417,7 +417,7 @@ public class Controller {
 	/**
 	 * Controller for School Tab
 	 */
-	private class SchoolTabController {
+	private class SchoolTabController implements TabController {
 		private Controller ctrler = Controller.this;
 
 		SchoolTabController() {
@@ -488,32 +488,56 @@ public class Controller {
 	/**
 	 * Controller for Course Tab
 	 */
-	private class CourseTabController {
+	private class CourseTabController implements TabController {
 		private Controller ctrler = Controller.this;
+
+		@Override
+		public void displayContentOf(int id) {
+			// TODO Auto-generated method stub
+
+		}
 
 	}
 
 	/**
 	 * Controller for Module Tab
 	 */
-	private class ModuleTabController {
+	private class ModuleTabController implements TabController {
 		private Controller ctrler = Controller.this;
+
+		@Override
+		public void displayContentOf(int id) {
+			// TODO Auto-generated method stub
+
+		}
 
 	}
 
 	/**
 	 * Controller for Lecturer Tab
 	 */
-	private class LecturerTabController {
+	private class LecturerTabController implements TabController {
 		private Controller ctrler = Controller.this;
+
+		@Override
+		public void displayContentOf(int id) {
+			// TODO Auto-generated method stub
+
+		}
 
 	}
 
 	/**
 	 * Controller for Student Tab
 	 */
-	private class StudentTabController {
+	private class StudentTabController implements TabController {
 		private Controller ctrler = Controller.this;
+
+		@Override
+		public void displayContentOf(int id) {
+			// TODO Auto-generated method stub
+
+		}
 
 	}
 }
