@@ -593,6 +593,7 @@ public class Controller {
 	 */
 	private class SchoolTabController implements TabController<School> {
 		private Controller ctrler = Controller.this;
+		private int currSchoolId;
 
 		SchoolTabController() {
 			addFindByIdEventHandler();
@@ -608,8 +609,11 @@ public class Controller {
 				try {
 					var id = Integer.parseInt(ctrler.schIdTf.getText());
 					var name = ctrler.schNameTf.getText().trim();
-					if (!name.isEmpty() && id >= 0) {
-						schoDao.updateName(id, name);
+					var facultyIdTxt = ctrler.schFacIdTf.getText().trim();
+					var facultyId = facultyIdTxt.isEmpty() ? UnitDao.NULL_INT : Integer.parseInt(facultyIdTxt);
+					if (!name.isEmpty() && id > 0 && (facultyId == UnitDao.NULL_INT || facultyId > 0)) {
+						schoDao.update(id, name, facultyId);
+						displayContentOf(currSchoolId);
 						commonLvCtrler.refreshCommonLv();
 					}
 				} catch (NumberFormatException e1) {
@@ -645,6 +649,7 @@ public class Controller {
 		@Override
 		public void displayContentOf(School school) {
 			if (school != null) {
+				currSchoolId = school.getId();
 				displaySchool(school);
 				displayCoursesInSchool(school.getId());
 				displayFacultyOfSchool(school.getFacultyFk());

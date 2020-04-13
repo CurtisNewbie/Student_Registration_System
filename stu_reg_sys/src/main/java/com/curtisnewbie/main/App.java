@@ -1,6 +1,8 @@
 package com.curtisnewbie.main;
 
 import com.curtisnewbie.dao.DBManager;
+import com.curtisnewbie.util.LoggerProducer;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -44,6 +46,9 @@ public class App extends Application {
         manager.dropTables();
         manager.createTables();
         manager.insertDemoData();
+
+        // initialise formatter for logging
+        LoggerProducer.initFormatter();
 
         // load fxml
         var fxmlIn = this.getClass().getClassLoader().getResourceAsStream("gui.fxml");

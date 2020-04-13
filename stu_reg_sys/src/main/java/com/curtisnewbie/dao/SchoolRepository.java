@@ -31,6 +31,7 @@ public class SchoolRepository implements SchoolDao {
     private final String CREATE_SCHOOL_WITH_ID = "INSERT INTO school VALUES (?,?,?)";
     private final String CREATE_SCHOOL_WITHOUT_ID = "INSERT INTO school (name, fac_fk) VALUES (?,?)";
     private final String UPDATE_FACULTYFK = "UPDATE school SET fac_fk = ? WHERE id = ?";
+    private final String UPDATE_SCHOOL = "UPDATE school SET name = ?, fac_fk = ? WHERE id = ?";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -89,7 +90,32 @@ public class SchoolRepository implements SchoolDao {
         }
 
         logger.info(String.format("Update school to: '%s'", scho.toString()));
-        return updateName(scho.getId(), scho.getName());
+        return update(scho.getId(), scho.getName(), scho.getFacultyFk());
+    }
+
+    @Override
+    public boolean update(int id, String name, int facultyId) {
+        if (name == null) {
+            logger.severe("The name to be updated is null!");
+            return false;
+        }
+
+        logger.info(
+                String.format("Update id: '%d', school updated to 'name: %s, faculty_fk: %d'", id, name, facultyId));
+        try {
+            var stmt = conn.prepareStatement(UPDATE_SCHOOL);
+            stmt.setString(1, name);
+            if (facultyId != NULL_INT)
+                stmt.setInt(2, facultyId);
+            else
+                stmt.setNull(2, Types.INTEGER);
+            stmt.setInt(3, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return false;
     }
 
     @Override

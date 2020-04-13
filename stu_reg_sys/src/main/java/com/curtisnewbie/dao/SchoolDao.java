@@ -37,4 +37,14 @@ public interface SchoolDao extends UnitDao<School> {
      * @return {@code True} if successful else {@code False}
      */
     public boolean updateFacultyFk(int id, int facultyId);
+
+    /**
+     * Update {@code School}
+     * 
+     * @param id
+     * @param name
+     * @param facultyId
+     * @return {@code True} if successful else {@code False}
+     */
+    public boolean update(int id, String name, int facultyId);
 }
