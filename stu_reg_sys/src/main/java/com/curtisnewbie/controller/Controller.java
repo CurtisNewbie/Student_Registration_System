@@ -95,7 +95,7 @@ public class Controller {
 	@FXML
 	private TextField facNameTf;
 	@FXML
-	private ListView<String> facSchLv; /* Type of items in ListView should be determined */
+	private ListView<School> facSchLv;
 	@FXML
 	private Button facBtn;
 
@@ -121,7 +121,7 @@ public class Controller {
 	@FXML
 	private Button schBtn;
 	@FXML
-	private ListView<String> schCouLv;
+	private ListView<Course> schCouLv;
 
 	/*
 	 * ------------------------------------
@@ -151,7 +151,7 @@ public class Controller {
 	@FXML
 	private TextField couSchNameTf;
 	@FXML
-	private ListView<String> couMouLv; /* Type of items in ListView should be determined */
+	private ListView<Module> couMouLv;
 	@FXML
 	private Button couBtn;
 
@@ -175,9 +175,9 @@ public class Controller {
 	@FXML
 	private TextField mouCreditTf;
 	@FXML
-	private ListView<String> mouCouLv; /* Type of items in ListView should be determined */
+	private ListView<Course> mouCouLv; /* Type of items in ListView should be determined */
 	@FXML
-	private ListView<String> mouStuLv; /* Type of items in ListView should be determined */
+	private ListView<Student> mouStuLv; /* Type of items in ListView should be determined */
 	@FXML
 	private Button mouBtn;
 
@@ -205,9 +205,9 @@ public class Controller {
 	@FXML
 	private TextField lecPositionTf;
 	@FXML
-	private ListView<String> lecCouLv; /* Type of items in ListView should be determined */
+	private ListView<Course> lecCouLv; /* Type of items in ListView should be determined */
 	@FXML
-	private ListView<String> lecMouLv; /* Type of items in ListView should be determined */
+	private ListView<Module> lecMouLv; /* Type of items in ListView should be determined */
 	@FXML
 	private Button lecBtn;
 
@@ -245,7 +245,7 @@ public class Controller {
 	@FXML
 	private TextField stuSchNameTf;
 	@FXML
-	private ListView<String> stuModLv; /* Type of items in ListView should be determined */
+	private ListView<Module> stuModLv; /* Type of items in ListView should be determined */
 	@FXML
 	private Button stuBtn;
 
@@ -531,11 +531,8 @@ public class Controller {
 		private void displaySchoolsInFaculty(int facultyId) {
 			if (facultyId >= 0) {
 				var list = comDao.getAllSchoInFacu(facultyId);
-				var strlist = new ArrayList<String>();
-				for (var sch : list)
-					strlist.add(sch.toString());
 				Platform.runLater(() -> {
-					ctrler.facSchLv.setItems(FXCollections.observableList(strlist));
+					ctrler.facSchLv.setItems(FXCollections.observableList(list));
 				});
 			}
 		}
@@ -625,12 +622,9 @@ public class Controller {
 
 		private void displayCoursesInSchool(int schoolId) {
 			if (schoolId >= 0) {
-				var list = comDao.getAllSchoInFacu(schoolId);
-				var strlist = new ArrayList<String>();
-				for (var cou : list)
-					strlist.add(cou.toString());
+				var list = comDao.getAllCourInScho(schoolId);
 				Platform.runLater(() -> {
-					ctrler.schCouLv.setItems(FXCollections.observableList(strlist));
+					ctrler.schCouLv.setItems(FXCollections.observableList(list));
 				});
 			}
 		}
@@ -760,11 +754,8 @@ public class Controller {
 
 		private void displayModulesInCourse(int courseId) {
 			var list = comDao.getAllModuInCour(courseId);
-			var strlist = new ArrayList<String>();
-			for (var mou : list)
-				strlist.add(mou.toString());
 			Platform.runLater(() -> {
-				ctrler.couMouLv.setItems(FXCollections.observableList(strlist));
+				ctrler.couMouLv.setItems(FXCollections.observableList(list));
 			});
 		}
 
@@ -884,21 +875,15 @@ public class Controller {
 
 		private void displayCourseOfModule(int moduleId) {
 			var list = comDao.getAllCourOfModu(moduleId);
-			var strlist = new ArrayList<String>();
-			for (var cou : list)
-				strlist.add(cou.toString());
 			Platform.runLater(() -> {
-				ctrler.mouCouLv.setItems(FXCollections.observableList(strlist));
+				ctrler.mouCouLv.setItems(FXCollections.observableList(list));
 			});
 		}
 
 		private void displayStudentsInModule(int moduleId) {
 			var list = comDao.getAllStudInModu(moduleId);
-			var strlist = new ArrayList<String>();
-			for (var stu : list)
-				strlist.add(stu.toString());
 			Platform.runLater(() -> {
-				ctrler.mouStuLv.setItems(FXCollections.observableList(strlist));
+				ctrler.mouStuLv.setItems(FXCollections.observableList(list));
 			});
 		}
 
@@ -1018,21 +1003,15 @@ public class Controller {
 
 		private void displayModulesOfLecturer(int lecturerId) {
 			var list = comDao.getAllModuOfLect(lecturerId);
-			var strlist = new ArrayList<String>();
-			for (var stu : list)
-				strlist.add(stu.toString());
 			Platform.runLater(() -> {
-				ctrler.lecMouLv.setItems(FXCollections.observableList(strlist));
+				ctrler.lecMouLv.setItems(FXCollections.observableList(list));
 			});
 		}
 
 		private void displayCoursesOfLecturer(int lecturerId) {
 			var list = comDao.getAllCourOflect(lecturerId);
-			var strlist = new ArrayList<String>();
-			for (var stu : list)
-				strlist.add(stu.toString());
 			Platform.runLater(() -> {
-				ctrler.lecCouLv.setItems(FXCollections.observableList(strlist));
+				ctrler.lecCouLv.setItems(FXCollections.observableList(list));
 			});
 		}
 
@@ -1161,11 +1140,8 @@ public class Controller {
 
 		private void displayRegisteredModules(int studentId) {
 			var list = comDao.getAllModuOfStud(studentId);
-			var strlist = new ArrayList<String>();
-			for (var cour : list)
-				strlist.add(cour.toString());
 			Platform.runLater(() -> {
-				ctrler.stuModLv.setItems(FXCollections.observableList(strlist));
+				ctrler.stuModLv.setItems(FXCollections.observableList(list));
 			});
 		}
 
