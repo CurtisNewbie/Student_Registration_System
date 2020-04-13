@@ -659,7 +659,7 @@
                                                 <Insets right="3.0" top="3.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="stuSchIdTf" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="stuSchIdTf" editable="false" maxWidth="1.7976931348623157E308" prefWidth="50.0" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                  </children>
