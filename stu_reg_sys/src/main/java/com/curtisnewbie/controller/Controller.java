@@ -444,7 +444,7 @@ public class Controller {
 	/**
 	 * Controller for Faculty Tab
 	 */
-	private class FacultyTabController implements TabController {
+	private class FacultyTabController implements TabController<Faculty> {
 		private Controller ctrler = Controller.this;
 
 		FacultyTabController() {
@@ -489,17 +489,27 @@ public class Controller {
 		/**
 		 * Display the content of a {@code Faculty}
 		 */
+		@Override
 		public void displayContentOf(int facultyId) {
 			var faculty = ctrler.facuDao.findById(facultyId);
+			displayContentOf(faculty);
+		}
+
+		@Override
+		public void displayContentOf(Faculty faculty) {
 			if (faculty != null) {
-				Platform.runLater(() -> {
-					ctrler.facIdTf.setText(faculty.getId() + "");
-					ctrler.facNameTf.setText(faculty.getName() == null ? "" : faculty.getName());
-				});
-				displaySchoolsInFaculty(facultyId);
+				displayFaculty(faculty);
+				displaySchoolsInFaculty(faculty.getId());
 			} else {
 				clearContent();
 			}
+		}
+
+		private void displayFaculty(Faculty faculty) {
+			Platform.runLater(() -> {
+				ctrler.facIdTf.setText(faculty.getId() + "");
+				ctrler.facNameTf.setText(faculty.getName() == null ? "" : faculty.getName());
+			});
 		}
 
 		/**
@@ -512,13 +522,8 @@ public class Controller {
 				String name = facByNameTf.getText();
 				if (name != null && !name.isEmpty()) {
 					var faculty = ctrler.facuDao.findByName(name);
-					if (faculty != null) {
-						Platform.runLater(() -> {
-							ctrler.facIdTf.setText(faculty.getId() + "");
-							ctrler.facNameTf.setText(faculty.getName() == null ? "" : faculty.getName());
-						});
-						displaySchoolsInFaculty(faculty.getId());
-					}
+					if (faculty != null)
+						displayContentOf(faculty);
 				}
 			});
 		}
@@ -548,7 +553,7 @@ public class Controller {
 	/**
 	 * Controller for School Tab
 	 */
-	private class SchoolTabController implements TabController {
+	private class SchoolTabController implements TabController<School> {
 		private Controller ctrler = Controller.this;
 
 		SchoolTabController() {
@@ -592,25 +597,30 @@ public class Controller {
 			});
 		}
 
-		/**
-		 * Display the content of a {@code School}
-		 * 
-		 * @param schoolId
-		 */
+		@Override
 		public void displayContentOf(int schoolId) {
 			if (schoolId >= 0) {
 				var school = schoDao.findById(schoolId);
-				if (school != null) {
-					Platform.runLater(() -> {
-						ctrler.schIdTf.setText(school.getId() + "");
-						ctrler.schNameTf.setText(school.getName());
-					});
-					displayCoursesInSchool(schoolId);
-					displayFacultyOfSchool(school.getFacultyFk());
-				} else {
-					clearContent();
-				}
+				displayContentOf(school);
 			}
+		}
+
+		@Override
+		public void displayContentOf(School school) {
+			if (school != null) {
+				displaySchool(school);
+				displayCoursesInSchool(school.getId());
+				displayFacultyOfSchool(school.getFacultyFk());
+			} else {
+				clearContent();
+			}
+		}
+
+		private void displaySchool(School school) {
+			Platform.runLater(() -> {
+				ctrler.schIdTf.setText(school.getId() + "");
+				ctrler.schNameTf.setText(school.getName());
+			});
 		}
 
 		private void displayCoursesInSchool(int schoolId) {
@@ -650,7 +660,7 @@ public class Controller {
 	/**
 	 * Controller for Course Tab
 	 */
-	private class CourseTabController implements TabController {
+	private class CourseTabController implements TabController<Course> {
 		private Controller ctrler = Controller.this;
 
 		CourseTabController() {
@@ -693,7 +703,8 @@ public class Controller {
 				var name = ctrler.couByNameTf.getText();
 				if (name != null && !name.isEmpty()) {
 					var course = courDao.findByName(name);
-					displayContentOf(course.getId());
+					if (course != null)
+						displayContentOf(course);
 				}
 			});
 		}
@@ -713,19 +724,28 @@ public class Controller {
 		public void displayContentOf(int courseId) {
 			if (courseId > 0) {
 				var course = courDao.findById(courseId);
-				if (course != null) {
-					Platform.runLater(() -> {
-						ctrler.couIdTf.setText("" + course.getId());
-						ctrler.couNameTf.setText(course.getName());
-						ctrler.couCreditTf.setText(course.getCredit() + "");
-					});
-					displayCourseLeader(course.getLecturerFk());
-					displayModulesInCourse(course.getId());
-					displaySchoolOfCourse(course.getSchoolFk());
-				} else {
-					clearContent();
-				}
+				displayContentOf(course);
 			}
+		}
+
+		@Override
+		public void displayContentOf(Course course) {
+			if (course != null) {
+				displayCourse(course);
+				displayCourseLeader(course.getLecturerFk());
+				displayModulesInCourse(course.getId());
+				displaySchoolOfCourse(course.getSchoolFk());
+			} else {
+				clearContent();
+			}
+		}
+
+		private void displayCourse(Course course) {
+			Platform.runLater(() -> {
+				ctrler.couIdTf.setText("" + course.getId());
+				ctrler.couNameTf.setText(course.getName());
+				ctrler.couCreditTf.setText(course.getCredit() + "");
+			});
 		}
 
 		private void displayCourseLeader(int lecturerId) {
@@ -775,7 +795,7 @@ public class Controller {
 	/**
 	 * Controller for Module Tab
 	 */
-	private class ModuleTabController implements TabController {
+	private class ModuleTabController implements TabController<Module> {
 		private Controller ctrler = Controller.this;
 
 		ModuleTabController() {
@@ -804,23 +824,23 @@ public class Controller {
 		}
 
 		private void addFindByCreditEventHandler() {
-			ctrler.mouByNameTf.setOnAction(e -> {
-				var name = ctrler.mouByNameTf.getText();
-				if (name != null && !name.isEmpty()) {
-					var mou = moduDao.findByName(name);
-					if (mou != null)
-						displayContentOf(mou.getId());
-				}
-			});
-		}
-
-		private void addFindByNameEventHandler() {
 			ctrler.mouByCreditTf.setOnAction(e -> {
 				try {
 					var credit = Integer.parseInt(ctrler.mouByCreditTf.getText());
 					var list = moduDao.findByCredit(credit);
 					displayAll(list);
 				} catch (NumberFormatException e1) {
+				}
+			});
+		}
+
+		private void addFindByNameEventHandler() {
+			ctrler.mouByNameTf.setOnAction(e -> {
+				var name = ctrler.mouByNameTf.getText();
+				if (name != null && !name.isEmpty()) {
+					var mou = moduDao.findByName(name);
+					if (mou != null)
+						displayContentOf(mou);
 				}
 			});
 		}
@@ -839,18 +859,27 @@ public class Controller {
 		public void displayContentOf(int id) {
 			if (id >= 0) {
 				var module = moduDao.findById(id);
-				if (module != null) {
-					Platform.runLater(() -> {
-						ctrler.mouIdTf.setText(module.getId() + "");
-						ctrler.mouNameTf.setText(module.getName());
-						ctrler.mouCreditTf.setText(module.getCredit() + "");
-					});
-					displayCourseOfModule(module.getId());
-					displayStudentsInModule(module.getId());
-				} else {
-					clearContent();
-				}
+				displayContentOf(module);
 			}
+		}
+
+		@Override
+		public void displayContentOf(Module module) {
+			if (module != null) {
+				displayModule(module);
+				displayCourseOfModule(module.getId());
+				displayStudentsInModule(module.getId());
+			} else {
+				clearContent();
+			}
+		}
+
+		private void displayModule(Module module) {
+			Platform.runLater(() -> {
+				ctrler.mouIdTf.setText(module.getId() + "");
+				ctrler.mouNameTf.setText(module.getName());
+				ctrler.mouCreditTf.setText(module.getCredit() + "");
+			});
 		}
 
 		private void displayCourseOfModule(int moduleId) {
@@ -889,7 +918,7 @@ public class Controller {
 	/**
 	 * Controller for Lecturer Tab
 	 */
-	private class LecturerTabController implements TabController {
+	private class LecturerTabController implements TabController<Lecturer> {
 		private Controller ctrler = Controller.this;
 
 		LecturerTabController() {
@@ -963,19 +992,28 @@ public class Controller {
 		public void displayContentOf(int id) {
 			if (id >= 0) {
 				var lecturer = lectDao.findById(id);
-				if (lecturer != null) {
-					Platform.runLater(() -> {
-						ctrler.lecIdTf.setText("" + lecturer.getId());
-						ctrler.lecFirstnameTf.setText(lecturer.getFirstname());
-						ctrler.lecLastnameTf.setText(lecturer.getLastname());
-						ctrler.lecPositionTf.setText(lecturer.getPosition());
-					});
-					displayCoursesOfLecturer(lecturer.getId());
-					displayModulesOfLecturer(lecturer.getId());
-				} else {
-					clearContent();
-				}
+				displayContentOf(lecturer);
 			}
+		}
+
+		@Override
+		public void displayContentOf(Lecturer lecturer) {
+			if (lecturer != null) {
+				displayLecturer(lecturer);
+				displayCoursesOfLecturer(lecturer.getId());
+				displayModulesOfLecturer(lecturer.getId());
+			} else {
+				clearContent();
+			}
+		}
+
+		private void displayLecturer(Lecturer lecturer) {
+			Platform.runLater(() -> {
+				ctrler.lecIdTf.setText("" + lecturer.getId());
+				ctrler.lecFirstnameTf.setText(lecturer.getFirstname());
+				ctrler.lecLastnameTf.setText(lecturer.getLastname());
+				ctrler.lecPositionTf.setText(lecturer.getPosition());
+			});
 		}
 
 		private void displayModulesOfLecturer(int lecturerId) {
@@ -1014,7 +1052,7 @@ public class Controller {
 	/**
 	 * Controller for Student Tab
 	 */
-	private class StudentTabController implements TabController {
+	private class StudentTabController implements TabController<Student> {
 		private Controller ctrler = Controller.this;
 
 		StudentTabController() {
@@ -1087,20 +1125,29 @@ public class Controller {
 		public void displayContentOf(int id) {
 			if (id >= 0) {
 				var student = studDao.findById(id);
-				if (student != null) {
-					Platform.runLater(() -> {
-						ctrler.stuIdTf.setText(student.getId() + "");
-						ctrler.stuFirstnameTf.setText(student.getFirstname());
-						ctrler.stuLastnameTf.setText(student.getLastname());
-						ctrler.stuDateTf.setText(student.getDateOfRegi().toString());
-					});
-					displayRegisteredCourse(student.getCourseFk());
-					displayRegisteredModules(student.getId());
-					displaySchoolOfStudent(student.getCourseFk());
-				} else {
-					clearContent();
-				}
+				displayContentOf(student);
 			}
+		}
+
+		@Override
+		public void displayContentOf(Student student) {
+			if (student != null) {
+				displayStudent(student);
+				displayRegisteredCourse(student.getCourseFk());
+				displayRegisteredModules(student.getId());
+				displaySchoolOfStudent(student.getCourseFk());
+			} else {
+				clearContent();
+			}
+		}
+
+		private void displayStudent(Student student) {
+			Platform.runLater(() -> {
+				ctrler.stuIdTf.setText(student.getId() + "");
+				ctrler.stuFirstnameTf.setText(student.getFirstname());
+				ctrler.stuLastnameTf.setText(student.getLastname());
+				ctrler.stuDateTf.setText(student.getDateOfRegi().toString());
+			});
 		}
 
 		private void displayRegisteredCourse(int courseId) {
