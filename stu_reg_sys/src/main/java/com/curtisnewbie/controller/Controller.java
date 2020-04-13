@@ -18,6 +18,7 @@ import com.curtisnewbie.dao.SchoolDao;
 import com.curtisnewbie.dao.SchoolRepository;
 import com.curtisnewbie.dao.StudentDao;
 import com.curtisnewbie.dao.StudentRepository;
+import com.curtisnewbie.dao.UnitDao;
 import com.curtisnewbie.model.Course;
 import com.curtisnewbie.model.Faculty;
 import com.curtisnewbie.model.Lecturer;
@@ -475,11 +476,26 @@ public class Controller {
 	 */
 	private class FacultyTabController implements TabController<Faculty> {
 		private Controller ctrler = Controller.this;
+		private int currFacultyId;
 
 		FacultyTabController() {
 			addFindByIdEventHandler();
 			addFindByNameEventHandler();
 			addUpdateEventHandler();
+			setSchoolsContextMenu();
+		}
+
+		private void setSchoolsContextMenu() {
+			ContextMenu ctxMenu = new ContextMenu();
+			MenuItem removeItem = new MenuItem("Remove");
+			removeItem.setOnAction(e -> {
+				var schoolId = ctrler.facSchLv.getSelectionModel().getSelectedItem().getId();
+				boolean removed = schoDao.updateFacultyFk(schoolId, UnitDao.NULL_INT);
+				if (removed)
+					displaySchoolsInFaculty(currFacultyId);
+			});
+			ctxMenu.getItems().add(removeItem);
+			ctrler.facSchLv.setContextMenu(ctxMenu);
 		}
 
 		/**
@@ -515,9 +531,6 @@ public class Controller {
 			});
 		}
 
-		/**
-		 * Display the content of a {@code Faculty}
-		 */
 		@Override
 		public void displayContentOf(int facultyId) {
 			var faculty = ctrler.facuDao.findById(facultyId);
@@ -527,6 +540,7 @@ public class Controller {
 		@Override
 		public void displayContentOf(Faculty faculty) {
 			if (faculty != null) {
+				currFacultyId = faculty.getId();
 				displayFaculty(faculty);
 				displaySchoolsInFaculty(faculty.getId());
 			} else {
@@ -558,12 +572,10 @@ public class Controller {
 		}
 
 		private void displaySchoolsInFaculty(int facultyId) {
-			if (facultyId >= 0) {
-				var list = comDao.getAllSchoInFacu(facultyId);
-				Platform.runLater(() -> {
-					ctrler.facSchLv.setItems(FXCollections.observableList(list));
-				});
-			}
+			var list = comDao.getAllSchoInFacu(facultyId);
+			Platform.runLater(() -> {
+				ctrler.facSchLv.setItems(FXCollections.observableList(list));
+			});
 		}
 
 		@Override

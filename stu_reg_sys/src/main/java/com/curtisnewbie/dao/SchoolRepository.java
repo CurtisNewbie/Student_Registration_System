@@ -2,6 +2,7 @@ package com.curtisnewbie.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class SchoolRepository implements SchoolDao {
     private final String UPDATE_NAME = "UPDATE school SET name = ? WHERE id = ?";
     private final String CREATE_SCHOOL_WITH_ID = "INSERT INTO school VALUES (?,?,?)";
     private final String CREATE_SCHOOL_WITHOUT_ID = "INSERT INTO school (name, fac_fk) VALUES (?,?)";
+    private final String UPDATE_FACULTYFK = "UPDATE school SET fac_fk = ? WHERE id = ?";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -154,6 +156,23 @@ public class SchoolRepository implements SchoolDao {
         try {
             var stmt = conn.prepareStatement(UPDATE_NAME);
             stmt.setString(1, name);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateFacultyFk(int id, int facultyId) {
+        try {
+            var stmt = conn.prepareStatement(UPDATE_FACULTYFK);
+            if (facultyId != NULL_INT && facultyId > 0)
+                stmt.setInt(1, facultyId);
+            else
+                stmt.setNull(1, Types.INTEGER);
             stmt.setInt(2, id);
             stmt.executeUpdate();
             return true;

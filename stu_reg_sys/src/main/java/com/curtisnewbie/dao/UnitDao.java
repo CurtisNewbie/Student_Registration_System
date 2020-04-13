@@ -33,6 +33,9 @@ public interface UnitDao<T> {
     /** id can be generated if id is set to GENERATED_ID */
     public static final int GENERATED_ID = -1;
 
+    /** Indicating that the associated int value should be null */
+    public static final int NULL_INT = -2;
+
     /**
      * get a list of instance
      * 
