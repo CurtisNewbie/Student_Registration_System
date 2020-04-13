@@ -81,6 +81,9 @@ import javafx.scene.input.MouseEvent;
  */
 public class Controller {
 
+	public static final String NOT_FOUND = "Not Found";
+	public static final String NULL_VALUE = "Null";
+
 	/*
 	 * ------------------------------------
 	 * 
@@ -615,14 +618,13 @@ public class Controller {
 		private void addFindByNameEventHandler() {
 			ctrler.schByNameTf.setOnAction(e -> {
 				var sch = schoDao.findByName(schByNameTf.getText());
-				if (sch != null)
-					displayContentOf(sch.getId());
+				displayContentOf(sch.getId());
 			});
 		}
 
 		@Override
 		public void displayContentOf(int schoolId) {
-			if (schoolId >= 0) {
+			if (schoolId > 0) {
 				var school = schoDao.findById(schoolId);
 				displayContentOf(school);
 			}
@@ -656,13 +658,25 @@ public class Controller {
 		}
 
 		private void displayFacultyOfSchool(int facultyId) {
+			// NULL in DBMS
+			if (facultyId == 0) {
+				displayFacultyOfSchool(NULL_VALUE, NULL_VALUE);
+				return;
+			}
+
 			var faculty = facuDao.findById(facultyId);
 			if (faculty != null) {
-				Platform.runLater(() -> {
-					ctrler.schFacIdTf.setText(faculty.getId() + "");
-					ctrler.schFacNameTf.setText(faculty.getName());
-				});
+				displayFacultyOfSchool(faculty.getId() + "", faculty.getName());
+			} else {
+				displayFacultyOfSchool(NOT_FOUND, NOT_FOUND);
 			}
+		}
+
+		private void displayFacultyOfSchool(String facultyId, String facultyName) {
+			Platform.runLater(() -> {
+				ctrler.schFacIdTf.setText(facultyId);
+				ctrler.schFacNameTf.setText(facultyName);
+			});
 		}
 
 		@Override
@@ -769,13 +783,25 @@ public class Controller {
 		}
 
 		private void displayCourseLeader(int lecturerId) {
+			// NULL in DBMS
+			if (lecturerId == 0) {
+				displayCourseLeader(NULL_VALUE, NULL_VALUE);
+				return;
+			}
+
 			var lecturer = lectDao.findById(lecturerId);
 			if (lecturer != null) {
-				Platform.runLater(() -> {
-					ctrler.couLeaIdTf.setText(lecturer.getId() + "");
-					ctrler.couLeaNameTf.setText(lecturer.getLastname() + " " + lecturer.getFirstname());
-				});
+				displayCourseLeader(lecturer.getId() + "", lecturer.getLastname() + " " + lecturer.getFirstname());
+			} else {
+				displayCourseLeader(NOT_FOUND, NOT_FOUND);
 			}
+		}
+
+		private void displayCourseLeader(String lecturerId, String lecturerName) {
+			Platform.runLater(() -> {
+				ctrler.couLeaIdTf.setText(lecturerId);
+				ctrler.couLeaNameTf.setText(lecturerName);
+			});
 		}
 
 		private void displayModulesInCourse(int courseId) {
@@ -786,13 +812,25 @@ public class Controller {
 		}
 
 		private void displaySchoolOfCourse(int schoolId) {
+			// NULL in DBMS
+			if (schoolId == 0) {
+				displaySchoolOfCourse(NULL_VALUE, NULL_VALUE);
+				return;
+			}
+
 			var school = schoDao.findById(schoolId);
 			if (school != null) {
-				Platform.runLater(() -> {
-					ctrler.couSchIdTf.setText(school.getId() + "");
-					ctrler.couSchNameTf.setText(school.getName());
-				});
+				displaySchoolOfCourse(school.getId() + "", school.getName());
+			} else {
+				displaySchoolOfCourse(NOT_FOUND, NOT_FOUND);
 			}
+		}
+
+		private void displaySchoolOfCourse(String schoolId, String schoolName) {
+			Platform.runLater(() -> {
+				ctrler.couSchIdTf.setText(schoolId);
+				ctrler.couSchNameTf.setText(schoolName);
+			});
 		}
 
 		@Override
@@ -1156,12 +1194,28 @@ public class Controller {
 		}
 
 		private void displayRegisteredCourse(int courseId) {
-			var course = courDao.findById(courseId);
-			if (course != null) {
-				ctrler.stuCouIdTf.setText("" + course.getId());
-				ctrler.stuCouNameTf.setText(course.getName());
-				ctrler.stuCouCreditTf.setText("" + course.getCredit());
+			// NULL in DBMS
+			if (courseId == 0) {
+				displayRegisteredCourse(NULL_VALUE, NULL_VALUE, NULL_VALUE);
+				return;
 			}
+
+			var course = courDao.findById(courseId);
+			Platform.runLater(() -> {
+				if (course != null) {
+					displayRegisteredCourse("" + course.getId(), course.getName(), "" + course.getCredit());
+				} else {
+					displayRegisteredCourse(NOT_FOUND, NOT_FOUND, NOT_FOUND);
+				}
+			});
+		}
+
+		private void displayRegisteredCourse(String courseId, String courseName, String courseCredit) {
+			Platform.runLater(() -> {
+				ctrler.stuCouIdTf.setText(courseId);
+				ctrler.stuCouNameTf.setText(courseName);
+				ctrler.stuCouCreditTf.setText(courseCredit);
+			});
 		}
 
 		private void displayRegisteredModules(int studentId) {
@@ -1172,16 +1226,28 @@ public class Controller {
 		}
 
 		private void displaySchoolOfStudent(int courseId) {
+			// NULL in DBMS
+			if (courseId == 0) {
+				displaySchoolOfStudent(NULL_VALUE, NULL_VALUE);
+				return;
+			}
+
 			var course = courDao.findById(courseId);
 			if (course != null) {
 				var school = schoDao.findById(course.getId());
 				if (school != null) {
-					Platform.runLater(() -> {
-						ctrler.stuSchIdTf.setText(school.getId() + "");
-						ctrler.stuSchNameTf.setText(school.getName());
-					});
+					displaySchoolOfStudent(school.getId() + "", school.getName());
+				} else {
+					displaySchoolOfStudent(NOT_FOUND, NOT_FOUND);
 				}
 			}
+		}
+
+		private void displaySchoolOfStudent(String schoolId, String schoolName) {
+			Platform.runLater(() -> {
+				ctrler.stuSchIdTf.setText(schoolId);
+				ctrler.stuSchNameTf.setText(schoolName);
+			});
 		}
 
 		@Override
