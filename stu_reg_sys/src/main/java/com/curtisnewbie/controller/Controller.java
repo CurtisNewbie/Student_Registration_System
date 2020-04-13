@@ -38,6 +38,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 
 /**
  * ------------------------------------
@@ -276,6 +278,7 @@ public class Controller {
 	private ModuleTabController moduleTab;
 	private LecturerTabController lecturerTab;
 	private StudentTabController studentTab;
+	private CommonLvController commonLvCtrler;
 
 	/*
 	 * ------------------------------------
@@ -303,12 +306,11 @@ public class Controller {
 		this.moduleTab = new ModuleTabController();
 		this.lecturerTab = new LecturerTabController();
 		this.studentTab = new StudentTabController();
+		this.commonLvCtrler = new CommonLvController();
 		this.addTabSelectionEventHandler();
-		this.setContextMenuToCommonLv();
-		this.addF5EventHandler();
 
 		// faculty tab is displayed immediately on start-up
-		setCommonLvTitle("FACULTY");
+		commonLvCtrler.setCommonLvTitle("FACULTY");
 		displayAll(facuDao.getAll());
 	}
 
@@ -318,75 +320,115 @@ public class Controller {
 	private void addTabSelectionEventHandler() {
 		// tab changed
 		this.tabpane.getSelectionModel().selectedItemProperty().addListener((ov, prev, curr) -> {
-			refreshCommonLv();
+			commonLvCtrler.refreshCommonLv();
 		});
 	}
 
 	/**
-	 * EventHandler for F5 key to refresh the content in {@code commonLv}
+	 * Controller for {@code ListView commonLv}
 	 */
-	private void addF5EventHandler() {
-		this.tabpane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-			if (e.getCode().equals(KeyCode.F5)) {
-				refreshCommonLv();
-			}
-		});
-	}
+	private class CommonLvController {
 
-	/**
-	 * Refresh the content in {@code commonLv}
-	 */
-	public void refreshCommonLv() {
-		var index = this.tabpane.getSelectionModel().getSelectedIndex();
-		switch (index) {
-			case 0:
-				setCommonLvTitle("FACULTY");
-				displayAll(facuDao.getAll());
-				break;
-			case 1:
-				setCommonLvTitle("SCHOOL");
-				displayAll(schoDao.getAll());
-				break;
-			case 2:
-				setCommonLvTitle("COURSE");
-				displayAll(courDao.getAll());
-				break;
-			case 3:
-				setCommonLvTitle("MODULE");
-				displayAll(moduDao.getAll());
-				break;
-			case 4:
-				setCommonLvTitle("LECTURER");
-				displayAll(lectDao.getAll());
-				break;
-			case 5:
-				setCommonLvTitle("STUDENT");
-				displayAll(studDao.getAll());
-				break;
+		CommonLvController() {
+			setContextMenuToCommonLv();
+			addF5EventHandler();
+			addDoubleClickEventHandler();
 		}
-	}
 
-	/**
-	 * Set the title of {@code commonLvTitle} to "List: " + {@code title}
-	 * 
-	 * @param title
-	 */
-	public void setCommonLvTitle(String title) {
-		this.commonLvTitle.setText("List: " + title);
-	}
+		/**
+		 * EventHandler for F5 key to refresh the content in {@code commonLv}
+		 */
+		private void addF5EventHandler() {
+			tabpane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+				if (e.getCode().equals(KeyCode.F5)) {
+					refreshCommonLv();
+				}
+			});
+		}
 
-	/**
-	 * Set a context menu to the {@code commonLv}. The context menu is able to
-	 * detect the type of the item. E.g., if the currently selected tab is 'faculty
-	 * tab', the context menu will treat the items in the {@code commonLv} as
-	 * {@code Faculty}
-	 */
-	private void setContextMenuToCommonLv() {
-		// create context menu
-		MenuItem selectItem = new MenuItem("Select");
-		MenuItem deleteItem = new MenuItem("Delete");
-		ContextMenu ctxMenu = new ContextMenu();
-		selectItem.setOnAction(e1 -> {
+		/**
+		 * Refresh the content in {@code commonLv}
+		 */
+		public void refreshCommonLv() {
+			var index = tabpane.getSelectionModel().getSelectedIndex();
+			switch (index) {
+				case 0:
+					setCommonLvTitle("FACULTY");
+					displayAll(facuDao.getAll());
+					break;
+				case 1:
+					setCommonLvTitle("SCHOOL");
+					displayAll(schoDao.getAll());
+					break;
+				case 2:
+					setCommonLvTitle("COURSE");
+					displayAll(courDao.getAll());
+					break;
+				case 3:
+					setCommonLvTitle("MODULE");
+					displayAll(moduDao.getAll());
+					break;
+				case 4:
+					setCommonLvTitle("LECTURER");
+					displayAll(lectDao.getAll());
+					break;
+				case 5:
+					setCommonLvTitle("STUDENT");
+					displayAll(studDao.getAll());
+					break;
+			}
+		}
+
+		/**
+		 * Set the title of {@code commonLvTitle} to "List: " + {@code title}
+		 * 
+		 * @param title
+		 */
+		public void setCommonLvTitle(String title) {
+			commonLvTitle.setText("List: " + title);
+		}
+
+		/**
+		 * Set a context menu to the {@code commonLv}. The context menu is able to
+		 * detect the type of the item. E.g., if the currently selected tab is 'faculty
+		 * tab', the context menu will treat the items in the {@code commonLv} as
+		 * {@code Faculty}
+		 */
+		private void setContextMenuToCommonLv() {
+			// create context menu
+			MenuItem selectItem = new MenuItem("Select");
+			MenuItem deleteItem = new MenuItem("Delete");
+			ContextMenu ctxMenu = new ContextMenu();
+			selectItem.setOnAction(e1 -> {
+				displaySelectedItem();
+			});
+			deleteItem.setOnAction(e2 -> {
+				var item = commonLv.getSelectionModel().getSelectedItem();
+				if (item instanceof Faculty) {
+					facuDao.deleteById(((Faculty) item).getId());
+					displayAll(facuDao.getAll());
+				} else if (item instanceof School) {
+					schoDao.deleteById(((School) item).getId());
+					displayAll(schoDao.getAll());
+				} else if (item instanceof Course) {
+					courDao.deleteById(((Course) item).getId());
+					displayAll(courDao.getAll());
+				} else if (item instanceof Module) {
+					moduDao.deleteById(((Module) item).getId());
+					displayAll(moduDao.getAll());
+				} else if (item instanceof Lecturer) {
+					lectDao.deleteById(((Lecturer) item).getId());
+					displayAll(lectDao.getAll());
+				} else if (item instanceof Student) {
+					studDao.deleteById(((Student) item).getId());
+					displayAll(studDao.getAll());
+				}
+			});
+			ctxMenu.getItems().addAll(selectItem, deleteItem);
+			commonLv.setContextMenu(ctxMenu);
+		}
+
+		private void displaySelectedItem() {
 			var item = commonLv.getSelectionModel().getSelectedItem();
 			if (item instanceof Faculty)
 				facultyTab.displayContentOf(((Faculty) item).getId());
@@ -400,31 +442,15 @@ public class Controller {
 				lecturerTab.displayContentOf(((Lecturer) item).getId());
 			else if (item instanceof Student)
 				studentTab.displayContentOf(((Student) item).getId());
-		});
-		deleteItem.setOnAction(e2 -> {
-			var item = commonLv.getSelectionModel().getSelectedItem();
-			if (item instanceof Faculty) {
-				facuDao.deleteById(((Faculty) item).getId());
-				displayAll(facuDao.getAll());
-			} else if (item instanceof School) {
-				schoDao.deleteById(((School) item).getId());
-				displayAll(schoDao.getAll());
-			} else if (item instanceof Course) {
-				courDao.deleteById(((Course) item).getId());
-				displayAll(courDao.getAll());
-			} else if (item instanceof Module) {
-				moduDao.deleteById(((Module) item).getId());
-				displayAll(moduDao.getAll());
-			} else if (item instanceof Lecturer) {
-				lectDao.deleteById(((Lecturer) item).getId());
-				displayAll(lectDao.getAll());
-			} else if (item instanceof Student) {
-				studDao.deleteById(((Student) item).getId());
-				displayAll(studDao.getAll());
-			}
-		});
-		ctxMenu.getItems().addAll(selectItem, deleteItem);
-		this.commonLv.setContextMenu(ctxMenu);
+		}
+
+		private void addDoubleClickEventHandler() {
+			commonLv.addEventHandler(MouseEvent.MOUSE_CLICKED, e -> {
+				if (e.getButton().equals(MouseButton.PRIMARY) && e.getClickCount() == 2) {
+					displaySelectedItem();
+				}
+			});
+		}
 	}
 
 	/**
@@ -463,7 +489,7 @@ public class Controller {
 					var name = ctrler.facNameTf.getText().trim();
 					if (!name.isEmpty() && id >= 0) {
 						facuDao.updateName(id, name);
-						refreshCommonLv();
+						commonLvCtrler.refreshCommonLv();
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -569,7 +595,7 @@ public class Controller {
 					var name = ctrler.schNameTf.getText().trim();
 					if (!name.isEmpty() && id >= 0) {
 						schoDao.updateName(id, name);
-						refreshCommonLv();
+						commonLvCtrler.refreshCommonLv();
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -675,7 +701,7 @@ public class Controller {
 					var credit = Integer.parseInt(ctrler.couCreditTf.getText());
 					if (!name.isEmpty() && id >= 0 && credit >= 0) {
 						courDao.update(name, credit, id);
-						refreshCommonLv();
+						commonLvCtrler.refreshCommonLv();
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -807,7 +833,7 @@ public class Controller {
 					var credit = Integer.parseInt(ctrler.mouCreditTf.getText());
 					if (!name.isEmpty() && id >= 0 && credit >= 0) {
 						moduDao.update(name, credit, id);
-						refreshCommonLv();
+						commonLvCtrler.refreshCommonLv();
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -926,7 +952,7 @@ public class Controller {
 					var pos = ctrler.lecPositionTf.getText().trim();
 					if (!fname.isEmpty() && !lname.isEmpty() && !pos.isEmpty() && id >= 0) {
 						lectDao.update(fname, lname, pos, id);
-						refreshCommonLv();
+						commonLvCtrler.refreshCommonLv();
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -1054,7 +1080,7 @@ public class Controller {
 					var date = ctrler.stuDateTf.getText().trim();
 					if (!fname.isEmpty() && !lname.isEmpty() && !date.isEmpty() && id >= 0) {
 						studDao.update(fname, lname, LocalDate.parse(date), id);
-						refreshCommonLv();
+						commonLvCtrler.refreshCommonLv();
 					}
 				} catch (NumberFormatException e1) {
 				}
