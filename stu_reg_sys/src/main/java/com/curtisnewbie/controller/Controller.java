@@ -713,6 +713,7 @@ public class Controller {
 	 */
 	private class CourseTabController implements TabController<Course> {
 		private Controller ctrler = Controller.this;
+		private int currCourseId;
 
 		CourseTabController() {
 			addFindByIdEventHandler();
@@ -730,9 +731,19 @@ public class Controller {
 					var id = Integer.parseInt(ctrler.couIdTf.getText());
 					var name = ctrler.couNameTf.getText().trim();
 					var credit = Integer.parseInt(ctrler.couCreditTf.getText());
-					if (!name.isEmpty() && id >= 0 && credit >= 0) {
-						courDao.update(name, credit, id);
+
+					var couLeaIdTfTxt = ctrler.couLeaIdTf.getText().trim();
+					var courseLeaderId = couLeaIdTfTxt.isEmpty() ? UnitDao.NULL_INT : Integer.parseInt(couLeaIdTfTxt);
+
+					var couSchIdTfTxt = ctrler.couSchIdTf.getText().trim();
+					var schoolId = couSchIdTfTxt.isEmpty() ? UnitDao.NULL_INT : Integer.parseInt(couSchIdTfTxt);
+
+					if (!name.isEmpty() && id > 0 && credit >= 0
+							&& (courseLeaderId == UnitDao.NULL_INT || courseLeaderId > 0)
+							&& (schoolId == UnitDao.NULL_INT || schoolId > 0)) {
+						courDao.update(id, name, credit, schoolId, courseLeaderId);
 						commonLvCtrler.refreshCommonLv();
+						displayContentOf(currCourseId);
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -782,6 +793,7 @@ public class Controller {
 		@Override
 		public void displayContentOf(Course course) {
 			if (course != null) {
+				currCourseId = course.getId();
 				displayCourse(course);
 				displayCourseLeader(course.getLecturerFk());
 				displayModulesInCourse(course.getId());

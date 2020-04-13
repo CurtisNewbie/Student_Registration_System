@@ -2,6 +2,7 @@ package com.curtisnewbie.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +32,7 @@ public class CourseRepository implements CourseDao {
     private final String UPDATE_CREDIT = "UPDATE course SET credit = ? WHERE id = ?";
     private final String CREATE_COURSE_WITH_ID = "INSERT INTO course VALUES (?,?,?,?,?)";
     private final String CREATE_COURSE_WITHOUT_ID = "INSERT INTO course (name, credit, sch_fk, lec_fk) VALUES (?,?,?,?)";
-    private final String UPDATE_COURSE = "UPDATE course SET name = ?, credit = ? WHERE id = ?";
+    private final String UPDATE_COURSE = "UPDATE course SET name = ?, credit = ?, sch_fk = ?, lec_fk = ? WHERE id = ?";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -88,17 +89,26 @@ public class CourseRepository implements CourseDao {
             logger.severe("The course to be updated is null!");
             return false;
         }
-        return update(cour.getName(), cour.getCredit(), cour.getId());
+        return update(cour.getId(), cour.getName(), cour.getCredit(), cour.getSchoolFk(), cour.getLecturerFk());
     }
 
     @Override
-    public boolean update(String name, int credit, int id) {
-        logger.info(String.format("Update course to: '{id: %d, name: %s, credit: %d}'", id, name, credit));
+    public boolean update(int id, String name, int credit, int schoolId, int lecturerId) {
+        logger.info(String.format("Update course to: '{id: %d, name: %s, credit: %d, school_fk: %d, lecturer_fk: %d}'",
+                id, name, credit, schoolId, lecturerId));
         try {
             PreparedStatement stmt = conn.prepareStatement(UPDATE_COURSE);
             stmt.setString(1, name);
             stmt.setInt(2, credit);
-            stmt.setInt(3, id);
+            if (schoolId != NULL_INT)
+                stmt.setInt(3, schoolId);
+            else
+                stmt.setNull(3, Types.INTEGER);
+            if (lecturerId != NULL_INT)
+                stmt.setInt(4, lecturerId);
+            else
+                stmt.setNull(4, Types.INTEGER);
+            stmt.setInt(5, id);
             stmt.executeUpdate();
             return true;
         } catch (Exception e) {

@@ -52,11 +52,13 @@ public interface CourseDao extends UnitDao<Course> {
     /**
      * Update {@code Course}
      * 
+     * @param id
      * @param name
      * @param credit
-     * @param id
+     * @param schoolId
+     * @param lecturerId
      * @return {@code True} if successful else {@code False}
      */
-    public boolean update(String name, int credit, int id);
+    public boolean update(int id, String name, int credit, int schoolId, int lecturerId);
 
 }
