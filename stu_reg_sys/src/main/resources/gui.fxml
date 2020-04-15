@@ -249,7 +249,7 @@
                                                 <Insets right="3.0" top="3.0" />
                                              </HBox.margin>
                                           </Label>
-                                          <TextField fx:id="couIdTf" editable="false" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
+                                          <TextField fx:id="couIdTf" maxWidth="1.7976931348623157E308" prefHeight="26.0" prefWidth="50.0" HBox.hgrow="ALWAYS" />
                                        </children>
                                     </HBox>
                                     <HBox layoutY="176.0" prefHeight="26.0" prefWidth="284.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
@@ -344,12 +344,13 @@
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="couBtn" layoutX="689.0" layoutY="811.0" mnemonicParsing="false" text="Update Course" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="49.0" />
+                              <Button fx:id="couUpdateBtn" layoutX="689.0" layoutY="811.0" mnemonicParsing="false" text="Update Course" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="49.0" />
                               <Label layoutX="40.0" layoutY="302.0" text="Course Leader">
                                  <font>
                                     <Font name="System Bold" size="13.0" />
                                  </font>
                               </Label>
+                              <Button fx:id="couCreateBtn" layoutX="810.0" layoutY="265.0" mnemonicParsing="false" text="Create Course" AnchorPane.rightAnchor="49.0" />
                            </children>
                         </AnchorPane>
                      </content>

@@ -162,7 +162,9 @@ public class Controller {
 	@FXML
 	private ListView<Module> couMouLv;
 	@FXML
-	private Button couBtn;
+	private Button couUpdateBtn;
+	@FXML
+	private Button couCreateBtn;
 
 	/*
 	 * ------------------------------------
@@ -799,6 +801,7 @@ public class Controller {
 			addFindByIdEventHandler();
 			addFindByNameEventHandler();
 			addFindByCreditEventHandler();
+			addCreateEventHandler();
 			addUpdateEventHandler();
 			setModulesContextMenu();
 		}
@@ -816,11 +819,42 @@ public class Controller {
 			ctrler.couMouLv.setContextMenu(ctxMenu);
 		}
 
+		private void addCreateEventHandler() {
+			var btn = ctrler.couCreateBtn;
+			btn.setOnAction(e -> {
+				try {
+					int id;
+					var idTxt = ctrler.couIdTf.getText();
+					if (idTxt == null || idTxt.isEmpty()) {
+						id = UnitDao.GENERATED_ID;
+					} else {
+						var n = Integer.parseInt(idTxt);
+						id = n > 0 ? n : UnitDao.GENERATED_ID;
+					}
+
+					String name;
+					name = ctrler.couNameTf.getText().trim();
+					if (name == null || name.isEmpty())
+						return;
+
+					int credit = Integer.parseInt(couCreditTf.getText());
+					if (credit <= 0)
+						return;
+
+					if (courDao.create(new Course(id, name, credit, UnitDao.NULL_INT, UnitDao.NULL_INT))) {
+						clearContent();
+						ctrler.refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
+		}
+
 		/**
 		 * Add Update EventHandler
 		 */
 		private void addUpdateEventHandler() {
-			ctrler.couBtn.setOnAction(e -> {
+			ctrler.couUpdateBtn.setOnAction(e -> {
 				try {
 					var id = Integer.parseInt(ctrler.couIdTf.getText());
 					var name = ctrler.couNameTf.getText().trim();
