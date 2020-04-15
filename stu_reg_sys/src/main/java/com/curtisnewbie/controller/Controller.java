@@ -32,6 +32,7 @@ import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
@@ -231,7 +232,7 @@ public class Controller {
 	@FXML
 	private TextField stuByLastnameTf;
 	@FXML
-	private TextField stuByDateTf;
+	private DatePicker stuByDateDp;
 	@FXML
 	private TextField stuIdTf;
 	@FXML
@@ -239,7 +240,7 @@ public class Controller {
 	@FXML
 	private TextField stuLastnameTf;
 	@FXML
-	private TextField stuDateTf;
+	private DatePicker stuDateDp;
 	@FXML
 	private TextField stuCouIdTf;
 	@FXML
@@ -1247,9 +1248,9 @@ public class Controller {
 					var id = Integer.parseInt(ctrler.stuIdTf.getText());
 					var fname = ctrler.stuFirstnameTf.getText().trim();
 					var lname = ctrler.stuLastnameTf.getText().trim();
-					var date = ctrler.stuDateTf.getText().trim();
-					if (!fname.isEmpty() && !lname.isEmpty() && !date.isEmpty() && id >= 0) {
-						studDao.update(fname, lname, LocalDate.parse(date), id);
+					var date = ctrler.stuDateDp.getValue();
+					if (!fname.isEmpty() && !lname.isEmpty() && date != null && id >= 0) {
+						studDao.update(fname, lname, date, id);
 						commonLvCtrler.refreshCommonLv();
 					}
 				} catch (NumberFormatException e1) {
@@ -1282,14 +1283,11 @@ public class Controller {
 		}
 
 		private void addFindByDateEventHandler() {
-			ctrler.stuByDateTf.setOnAction(e -> {
-				var datestr = parseDateStr(ctrler.stuByDateTf.getText());
-				if (datestr != null) {
-					var localDate = LocalDate.parse(datestr);
-					if (localDate != null) {
-						var list = studDao.findStusByDateOfReg(localDate);
-						displayAll(list);
-					}
+			ctrler.stuByDateDp.setOnAction(e -> {
+				var date = ctrler.stuByDateDp.getValue();
+				if (date != null) {
+					var list = studDao.findStusByDateOfReg(date);
+					displayAll(list);
 				} else {
 					clearContent();
 				}
@@ -1322,7 +1320,7 @@ public class Controller {
 				ctrler.stuIdTf.setText(student.getId() + "");
 				ctrler.stuFirstnameTf.setText(student.getFirstname());
 				ctrler.stuLastnameTf.setText(student.getLastname());
-				ctrler.stuDateTf.setText(student.getDateOfRegi().toString());
+				ctrler.stuDateDp.setValue(student.getDateOfRegi());
 			});
 		}
 
@@ -1389,7 +1387,7 @@ public class Controller {
 				ctrler.stuIdTf.clear();
 				ctrler.stuFirstnameTf.clear();
 				ctrler.stuLastnameTf.clear();
-				ctrler.stuDateTf.clear();
+				ctrler.stuDateDp.setValue(null);
 				ctrler.stuCouIdTf.clear();
 				ctrler.stuCouNameTf.clear();
 				ctrler.stuCouCreditTf.clear();
