@@ -126,7 +126,9 @@ public class Controller {
 	@FXML
 	private TextField schFacNameTf;
 	@FXML
-	private Button schBtn;
+	private Button schUpdateBtn;
+	@FXML
+	private Button schCreateBtn;
 	@FXML
 	private ListView<Course> schCouLv;
 
@@ -636,7 +638,34 @@ public class Controller {
 			addFindByIdEventHandler();
 			addFindByNameEventHandler();
 			addUpdateEventHandler();
+			addCreateEventHandler();
 			setCoursesContextMenu();
+		}
+
+		private void addCreateEventHandler() {
+			var btn = ctrler.schCreateBtn;
+			btn.setOnAction(e -> {
+				try {
+					int id;
+					var idTxt = ctrler.schIdTf.getText();
+					if (idTxt == null || idTxt.isEmpty()) {
+						id = UnitDao.GENERATED_ID;
+					} else {
+						var n = Integer.parseInt(idTxt);
+						id = n > 0 ? n : UnitDao.GENERATED_ID;
+					}
+
+					String name;
+					name = ctrler.schNameTf.getText().trim();
+					if (name == null || name.isEmpty())
+						return;
+					if (schoDao.create(new School(id, name, UnitDao.NULL_INT))) {
+						clearContent();
+						ctrler.refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
 		}
 
 		private void setCoursesContextMenu() {
@@ -656,7 +685,7 @@ public class Controller {
 		 * Add Update EventHandler
 		 */
 		private void addUpdateEventHandler() {
-			ctrler.schBtn.setOnAction(e -> {
+			ctrler.schUpdateBtn.setOnAction(e -> {
 				try {
 					var id = Integer.parseInt(ctrler.schIdTf.getText());
 					var name = ctrler.schNameTf.getText().trim();

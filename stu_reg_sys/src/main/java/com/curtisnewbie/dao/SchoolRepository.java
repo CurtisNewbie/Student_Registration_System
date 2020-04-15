@@ -140,7 +140,10 @@ public class SchoolRepository implements SchoolDao {
                 stmt = conn.prepareStatement(CREATE_SCHOOL_WITHOUT_ID);
             }
             stmt.setString(i++, scho.getName());
-            stmt.setInt(i++, scho.getFacultyFk());
+            if (scho.getFacultyFk() != UnitDao.NULL_INT)
+                stmt.setInt(i++, scho.getFacultyFk());
+            else
+                stmt.setNull(i++, Types.INTEGER);
             stmt.executeUpdate();
             return true;
         } catch (Exception e) {

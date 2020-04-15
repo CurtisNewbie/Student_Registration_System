@@ -72,6 +72,8 @@ public interface UnitDao<T> {
      * 
      * @param obj
      * @return {@code True} if successful else {@code False}
+     * @see {@linkplain UnitDao#GENERATED_ID} for id to be auto-generated
+     * @see {@linkplain UnitDao#NULL_INT} for foreign key to be set to null
      */
     public boolean create(T obj);
 
