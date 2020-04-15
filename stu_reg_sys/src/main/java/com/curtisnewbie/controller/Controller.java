@@ -1214,6 +1214,7 @@ public class Controller {
 	 */
 	private class StudentTabController implements TabController<Student> {
 		private Controller ctrler = Controller.this;
+		private int currStudentId;
 
 		StudentTabController() {
 			addFindByIdEventHandler();
@@ -1221,6 +1222,20 @@ public class Controller {
 			addFindByLastnameEventHandler();
 			addFindByDateEventHandler();
 			addUpdateEventHandler();
+			setModulesContextMenu();
+		}
+
+		private void setModulesContextMenu() {
+			ContextMenu ctxMenu = new ContextMenu();
+			MenuItem removeItem = new MenuItem("Remove");
+			removeItem.setOnAction(e -> {
+				var moduleId = ctrler.stuModLv.getSelectionModel().getSelectedItem().getId();
+				boolean removed = comDao.removeStudFromModu(moduleId, currStudentId);
+				if (removed)
+					displayRegisteredModules(currStudentId);
+			});
+			ctxMenu.getItems().add(removeItem);
+			ctrler.stuModLv.setContextMenu(ctxMenu);
 		}
 
 		/**
@@ -1292,6 +1307,7 @@ public class Controller {
 		@Override
 		public void displayContentOf(Student student) {
 			if (student != null) {
+				currStudentId = student.getId();
 				displayStudent(student);
 				displayRegisteredCourse(student.getCourseFk());
 				displayRegisteredModules(student.getId());
