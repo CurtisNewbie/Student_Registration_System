@@ -599,6 +599,20 @@ public class Controller {
 			addFindByIdEventHandler();
 			addFindByNameEventHandler();
 			addUpdateEventHandler();
+			setCoursesContextMenu();
+		}
+
+		private void setCoursesContextMenu() {
+			ContextMenu ctxMenu = new ContextMenu();
+			MenuItem removeItem = new MenuItem("Remove");
+			removeItem.setOnAction(e -> {
+				var courseId = ctrler.schCouLv.getSelectionModel().getSelectedItem().getId();
+				boolean removed = courDao.updateSchoolFk(courseId, UnitDao.NULL_INT);
+				if (removed)
+					displayCoursesInSchool(currSchoolId);
+			});
+			ctxMenu.getItems().add(removeItem);
+			ctrler.schCouLv.setContextMenu(ctxMenu);
 		}
 
 		/**

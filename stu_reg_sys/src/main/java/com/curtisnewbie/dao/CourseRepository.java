@@ -33,6 +33,8 @@ public class CourseRepository implements CourseDao {
     private final String CREATE_COURSE_WITH_ID = "INSERT INTO course VALUES (?,?,?,?,?)";
     private final String CREATE_COURSE_WITHOUT_ID = "INSERT INTO course (name, credit, sch_fk, lec_fk) VALUES (?,?,?,?)";
     private final String UPDATE_COURSE = "UPDATE course SET name = ?, credit = ?, sch_fk = ?, lec_fk = ? WHERE id = ?";
+    private final String UPDATE_SCHOOL_FK = "UPDATE course SET sch_fk = ? WHERE id = ?";
+    private final String UPDATE_LECTURER_FK = "UPDATE course SET lec_fk = ? WHERE id = ?";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -199,6 +201,42 @@ public class CourseRepository implements CourseDao {
         try {
             var stmt = conn.prepareStatement(UPDATE_CREDIT);
             stmt.setInt(1, credit);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateSchoolFk(int id, int schoolId) {
+        logger.info(String.format("Update id: '%d', school_fk updated to '%d'", id, schoolId));
+        try {
+            var stmt = conn.prepareStatement(UPDATE_SCHOOL_FK);
+            if (schoolId != UnitDao.NULL_INT)
+                stmt.setInt(1, schoolId);
+            else
+                stmt.setNull(1, Types.INTEGER);
+            stmt.setInt(2, id);
+            stmt.executeUpdate();
+            return true;
+        } catch (Exception e) {
+            logger.severe(e.getMessage());
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updateLecturerFk(int id, int lecturerId) {
+        logger.info(String.format("Update id: '%d', lecturer_fk updated to '%d'", id, lecturerId));
+        try {
+            var stmt = conn.prepareStatement(UPDATE_LECTURER_FK);
+            if (lecturerId != UnitDao.NULL_INT)
+                stmt.setInt(1, lecturerId);
+            else
+                stmt.setNull(1, Types.INTEGER);
             stmt.setInt(2, id);
             stmt.executeUpdate();
             return true;

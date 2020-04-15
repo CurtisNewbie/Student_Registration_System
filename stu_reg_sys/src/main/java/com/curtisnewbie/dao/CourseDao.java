@@ -55,10 +55,32 @@ public interface CourseDao extends UnitDao<Course> {
      * @param id
      * @param name
      * @param credit
-     * @param schoolId
-     * @param lecturerId
+     * @param schoolId   set to {@code UnitDao.NULL_INT} if the {@code schoolId} is
+     *                   to be set to NULL in DBMS
+     * @param lecturerId set to {@code UnitDao.NULL_INT} if the {@code lecturerId}
+     *                   is to be set to NULL in DBMS
      * @return {@code True} if successful else {@code False}
      */
     public boolean update(int id, String name, int credit, int schoolId, int lecturerId);
+
+    /**
+     * Update foreign key to a {@code School}
+     * 
+     * @param id
+     * @param schoolId set to {@code UnitDao.NULL_INT} if the {@code schoolId} is to
+     *                 be set to NULL in DBMS
+     * @return {@code True} if successful else {@code False}
+     */
+    public boolean updateSchoolFk(int id, int schoolId);
+
+    /**
+     * Update foreign key to a {@code Lecturer}
+     * 
+     * @param id
+     * @param lecturerId set to {@code UnitDao.NULL_INT} if the {@code lecturerId}
+     *                   is to be set to NULL in DBMS
+     * @return {@code True} if successful else {@code False}
+     */
+    public boolean updateLecturerFk(int id, int lecturerId);
 
 }

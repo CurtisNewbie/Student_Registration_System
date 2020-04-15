@@ -43,7 +43,8 @@ public interface SchoolDao extends UnitDao<School> {
      * 
      * @param id
      * @param name
-     * @param facultyId
+     * @param facultyId set to {@code UnitDao.NULL_INT} if the facultyId is to be
+     *                  set to NULL in DBMS
      * @return {@code True} if successful else {@code False}
      */
     public boolean update(int id, String name, int facultyId);
