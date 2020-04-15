@@ -909,12 +909,41 @@ public class Controller {
 	 */
 	private class ModuleTabController implements TabController<Module> {
 		private Controller ctrler = Controller.this;
+		private int currModuleId;
 
 		ModuleTabController() {
 			addFindByIdEventHandler();
 			addFindByNameEventHandler();
 			addFindByCreditEventHandler();
 			addUpdateEventHandler();
+			setCoursesContextMenu();
+			setStudentsContextMenu();
+		}
+
+		private void setCoursesContextMenu() {
+			ContextMenu ctxMenu = new ContextMenu();
+			MenuItem removeItem = new MenuItem("Remove");
+			removeItem.setOnAction(e -> {
+				var courseId = ctrler.mouCouLv.getSelectionModel().getSelectedItem().getId();
+				boolean removed = comDao.removeModuFromCour(courseId, currModuleId);
+				if (removed)
+					displayCourseOfModule(currModuleId);
+			});
+			ctxMenu.getItems().add(removeItem);
+			ctrler.mouCouLv.setContextMenu(ctxMenu);
+		}
+
+		private void setStudentsContextMenu() {
+			ContextMenu ctxMenu = new ContextMenu();
+			MenuItem removeItem = new MenuItem("Remove");
+			removeItem.setOnAction(e -> {
+				var studentId = ctrler.mouStuLv.getSelectionModel().getSelectedItem().getId();
+				boolean removed = comDao.removeStudFromModu(currModuleId, studentId);
+				if (removed)
+					displayStudentsInModule(currModuleId);
+			});
+			ctxMenu.getItems().add(removeItem);
+			ctrler.mouStuLv.setContextMenu(ctxMenu);
 		}
 
 		/**
@@ -978,6 +1007,7 @@ public class Controller {
 		@Override
 		public void displayContentOf(Module module) {
 			if (module != null) {
+				currModuleId = module.getId();
 				displayModule(module);
 				displayCourseOfModule(module.getId());
 				displayStudentsInModule(module.getId());
