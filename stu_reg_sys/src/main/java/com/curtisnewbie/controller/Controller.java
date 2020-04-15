@@ -1,6 +1,5 @@
 package com.curtisnewbie.controller;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import com.curtisnewbie.model.Lecturer;
 import com.curtisnewbie.model.School;
 import com.curtisnewbie.model.Student;
 import com.curtisnewbie.model.Module;
-import static com.curtisnewbie.util.DateFormatter.*;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
