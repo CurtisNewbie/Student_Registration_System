@@ -720,6 +720,20 @@ public class Controller {
 			addFindByNameEventHandler();
 			addFindByCreditEventHandler();
 			addUpdateEventHandler();
+			setModulesContextMenu();
+		}
+
+		private void setModulesContextMenu() {
+			ContextMenu ctxMenu = new ContextMenu();
+			MenuItem removeItem = new MenuItem("Remove");
+			removeItem.setOnAction(e -> {
+				var moduleId = ctrler.couMouLv.getSelectionModel().getSelectedItem().getId();
+				boolean removed = comDao.removeModuFromCour(currCourseId, moduleId);
+				if (removed)
+					displayModulesInCourse(currCourseId);
+			});
+			ctxMenu.getItems().add(removeItem);
+			ctrler.couMouLv.setContextMenu(ctxMenu);
 		}
 
 		/**
