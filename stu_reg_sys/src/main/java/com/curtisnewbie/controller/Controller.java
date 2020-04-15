@@ -102,7 +102,9 @@ public class Controller {
 	@FXML
 	private ListView<School> facSchLv;
 	@FXML
-	private Button facBtn;
+	private Button facUpdateBtn;
+	@FXML
+	private Button facCreateBtn;
 
 	/*
 	 * ------------------------------------
@@ -330,6 +332,13 @@ public class Controller {
 	}
 
 	/**
+	 * Refresh the content in {@code commonLv}
+	 */
+	public void refreshCommonLv() {
+		this.commonLvCtrler.refreshCommonLv();
+	}
+
+	/**
 	 * Controller for {@code ListView commonLv}
 	 */
 	private class CommonLvController {
@@ -483,7 +492,34 @@ public class Controller {
 			addFindByIdEventHandler();
 			addFindByNameEventHandler();
 			addUpdateEventHandler();
+			addCreateEventHandler();
 			setSchoolsContextMenu();
+		}
+
+		private void addCreateEventHandler() {
+			var btn = ctrler.facCreateBtn;
+			btn.setOnAction(e -> {
+				try {
+					int id;
+					var idTxt = ctrler.facIdTf.getText();
+					if (idTxt == null || idTxt.isEmpty()) {
+						id = UnitDao.GENERATED_ID;
+					} else {
+						var n = Integer.parseInt(idTxt);
+						id = n > 0 ? n : UnitDao.GENERATED_ID;
+					}
+
+					String name;
+					name = ctrler.facNameTf.getText().trim();
+					if (name == null || name.isEmpty())
+						return;
+					if (facuDao.create(new Faculty(id, name))) {
+						clearContent();
+						ctrler.refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
 		}
 
 		private void setSchoolsContextMenu() {
@@ -503,7 +539,7 @@ public class Controller {
 		 * Add Update EventHandler
 		 */
 		private void addUpdateEventHandler() {
-			ctrler.facBtn.setOnAction(e -> {
+			ctrler.facUpdateBtn.setOnAction(e -> {
 				try {
 					var id = Integer.parseInt(ctrler.facIdTf.getText());
 					var name = ctrler.facNameTf.getText().trim();
