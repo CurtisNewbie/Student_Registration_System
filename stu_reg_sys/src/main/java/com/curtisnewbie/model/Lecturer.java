@@ -90,7 +90,7 @@ public class Lecturer {
 
     @Override
     public String toString() {
-        return String.format("Lecturer - Id: %d, Firstname: %s, Lastname: %s, Position: %s", getId(), getFirstname(),
-                getLastname(), getPosition());
+        return String.format("Id: %d, Name: %s %s, Position: %s", getId(), getFirstname(), getLastname(),
+                getPosition());
     }
 }

@@ -79,11 +79,6 @@ public class Course {
         this.credit = credit;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Course - Id: %d, Name: %s, Credit: %d", getId(), getName(), getCredit());
-    }
-
     /**
      * @return the schoolFk
      */
@@ -111,4 +106,10 @@ public class Course {
     public void setLecturerFk(int lecturerFk) {
         this.lecturerFk = lecturerFk;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Id: %d, Name: %s, Credit: %d", getId(), getName(), getCredit());
+    }
+
 }

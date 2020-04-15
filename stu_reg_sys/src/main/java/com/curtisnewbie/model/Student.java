@@ -112,8 +112,8 @@ public class Student {
 
     @Override
     public String toString() {
-        return String.format("Student - Registration ID: %d, Firstname: %s, Lastname: %s, Registration Date: %s",
-                getId(), getFirstname(), getLastname(), getDateOfRegi().toString());
+        return String.format("Id: %d, Name: %s %s, Registration Date: %s", getId(), getFirstname(), getLastname(),
+                getDateOfRegi().toString());
     }
 
 }

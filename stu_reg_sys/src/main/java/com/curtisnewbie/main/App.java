@@ -38,7 +38,7 @@ public class App extends Application {
         /*
          * ------------------------------------
          * 
-         * Should be updated once implemented
+         * For Connection init and demo setup
          * 
          * ------------------------------------
          */
