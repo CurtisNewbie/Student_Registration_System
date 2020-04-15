@@ -182,9 +182,11 @@ public class Controller {
 	@FXML
 	private TextField mouCreditTf;
 	@FXML
-	private ListView<Course> mouCouLv; /* Type of items in ListView should be determined */
+	private ListView<Course> mouCouLv;
 	@FXML
-	private ListView<Student> mouStuLv; /* Type of items in ListView should be determined */
+	private ListView<Student> mouStuLv;
+	@FXML
+	private ListView<Lecturer> mouLecLv;
 	@FXML
 	private Button mouBtn;
 
@@ -212,9 +214,9 @@ public class Controller {
 	@FXML
 	private TextField lecPositionTf;
 	@FXML
-	private ListView<Course> lecCouLv; /* Type of items in ListView should be determined */
+	private ListView<Course> lecCouLv;
 	@FXML
-	private ListView<Module> lecMouLv; /* Type of items in ListView should be determined */
+	private ListView<Module> lecMouLv;
 	@FXML
 	private Button lecBtn;
 
@@ -252,7 +254,7 @@ public class Controller {
 	@FXML
 	private TextField stuSchNameTf;
 	@FXML
-	private ListView<Module> stuModLv; /* Type of items in ListView should be determined */
+	private ListView<Module> stuModLv;
 	@FXML
 	private Button stuBtn;
 
@@ -264,7 +266,7 @@ public class Controller {
 	 * ------------------------------------
 	 */
 	@FXML
-	private ListView<Object> commonLv; /* Type of items in ListView should be determined */
+	private ListView<Object> commonLv;
 	@FXML
 	private TabPane tabpane;
 	@FXML
@@ -919,6 +921,7 @@ public class Controller {
 			addUpdateEventHandler();
 			setCoursesContextMenu();
 			setStudentsContextMenu();
+			setLecturerContextMenu();
 		}
 
 		private void setCoursesContextMenu() {
@@ -932,6 +935,19 @@ public class Controller {
 			});
 			ctxMenu.getItems().add(removeItem);
 			ctrler.mouCouLv.setContextMenu(ctxMenu);
+		}
+
+		private void setLecturerContextMenu() {
+			ContextMenu ctxMenu = new ContextMenu();
+			MenuItem removeItem = new MenuItem("Remove");
+			removeItem.setOnAction(e -> {
+				var lecturerId = ctrler.mouLecLv.getSelectionModel().getSelectedItem().getId();
+				boolean removed = comDao.removeLectFromModu(currModuleId, lecturerId);
+				if (removed)
+					displayLecturersOfModule(currModuleId);
+			});
+			ctxMenu.getItems().add(removeItem);
+			ctrler.mouLecLv.setContextMenu(ctxMenu);
 		}
 
 		private void setStudentsContextMenu() {
@@ -1012,6 +1028,7 @@ public class Controller {
 				displayModule(module);
 				displayCourseOfModule(module.getId());
 				displayStudentsInModule(module.getId());
+				displayLecturersOfModule(module.getId());
 			} else {
 				clearContent();
 			}
@@ -1036,6 +1053,13 @@ public class Controller {
 			var list = comDao.getAllStudInModu(moduleId);
 			Platform.runLater(() -> {
 				ctrler.mouStuLv.setItems(FXCollections.observableList(list));
+			});
+		}
+
+		private void displayLecturersOfModule(int moduleId) {
+			var list = comDao.getAllLectInModu(moduleId);
+			Platform.runLater(() -> {
+				ctrler.mouLecLv.setItems(FXCollections.observableList(list));
 			});
 		}
 
