@@ -1,5 +1,6 @@
 package com.curtisnewbie.controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -224,7 +225,9 @@ public class Controller {
 	@FXML
 	private ListView<Module> lecMouLv;
 	@FXML
-	private Button lecBtn;
+	private Button lecUpdateBtn;
+	@FXML
+	private Button lecCreateBtn;
 
 	/*
 	 * ------------------------------------
@@ -262,7 +265,9 @@ public class Controller {
 	@FXML
 	private ListView<Module> stuModLv;
 	@FXML
-	private Button stuBtn;
+	private Button stuUpdateBtn;
+	@FXML
+	private Button stuCreateBtn;
 
 	/*
 	 * ------------------------------------
@@ -1219,9 +1224,47 @@ public class Controller {
 			addFindByFirstnameEventHandler();
 			addFindByLastnameEventHandler();
 			addFindByPositionEventHandler();
+			addCreateEventHandler();
 			addUpdateEventHandler();
 			setCoursesContextMenu();
 			setModulesContextMenu();
+		}
+
+		private void addCreateEventHandler() {
+			var btn = ctrler.lecCreateBtn;
+			btn.setOnAction(e -> {
+				try {
+					int id;
+					var idTxt = ctrler.lecIdTf.getText();
+					if (idTxt == null || idTxt.isEmpty()) {
+						id = UnitDao.GENERATED_ID;
+					} else {
+						var n = Integer.parseInt(idTxt);
+						id = n > 0 ? n : UnitDao.GENERATED_ID;
+					}
+
+					String fname;
+					fname = ctrler.lecFirstnameTf.getText().trim();
+					if (fname == null || fname.isEmpty())
+						return;
+
+					String lname;
+					lname = ctrler.lecLastnameTf.getText().trim();
+					if (lname == null || lname.isEmpty())
+						return;
+
+					String pos;
+					pos = ctrler.lecPositionTf.getText().trim();
+					if (pos == null || pos.isEmpty())
+						return;
+
+					if (lectDao.create(new Lecturer(id, fname, lname, pos))) {
+						clearContent();
+						ctrler.refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
 		}
 
 		private void setCoursesContextMenu() {
@@ -1254,7 +1297,7 @@ public class Controller {
 		 * Add Update EventHandler
 		 */
 		private void addUpdateEventHandler() {
-			ctrler.lecBtn.setOnAction(e -> {
+			ctrler.lecUpdateBtn.setOnAction(e -> {
 				try {
 					var id = Integer.parseInt(ctrler.lecIdTf.getText());
 					var fname = ctrler.lecFirstnameTf.getText().trim();
@@ -1377,8 +1420,45 @@ public class Controller {
 			addFindByFirstnameEventHandler();
 			addFindByLastnameEventHandler();
 			addFindByDateEventHandler();
+			addCreateEventHandler();
 			addUpdateEventHandler();
 			setModulesContextMenu();
+		}
+
+		private void addCreateEventHandler() {
+			var btn = ctrler.stuCreateBtn;
+			btn.setOnAction(e -> {
+				try {
+					int id;
+					var idTxt = ctrler.stuIdTf.getText();
+					if (idTxt == null || idTxt.isEmpty()) {
+						id = UnitDao.GENERATED_ID;
+					} else {
+						var n = Integer.parseInt(idTxt);
+						id = n > 0 ? n : UnitDao.GENERATED_ID;
+					}
+
+					String fname;
+					fname = ctrler.stuFirstnameTf.getText().trim();
+					if (fname == null || fname.isEmpty())
+						return;
+
+					String lname;
+					lname = ctrler.stuLastnameTf.getText().trim();
+					if (lname == null || lname.isEmpty())
+						return;
+
+					LocalDate regDate = stuDateDp.getValue();
+					if (regDate == null)
+						return;
+
+					if (studDao.create(new Student(id, fname, lname, regDate, UnitDao.NULL_INT))) {
+						clearContent();
+						ctrler.refreshCommonLv();
+					}
+				} catch (NumberFormatException e1) {
+				}
+			});
 		}
 
 		private void setModulesContextMenu() {
@@ -1398,7 +1478,7 @@ public class Controller {
 		 * Add Update EventHandler
 		 */
 		private void addUpdateEventHandler() {
-			ctrler.stuBtn.setOnAction(e -> {
+			ctrler.stuUpdateBtn.setOnAction(e -> {
 				try {
 					var id = Integer.parseInt(ctrler.stuIdTf.getText());
 					var fname = ctrler.stuFirstnameTf.getText().trim();

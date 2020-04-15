@@ -3,6 +3,7 @@ package com.curtisnewbie.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -136,7 +137,10 @@ public class StudentRepository implements StudentDao {
             stmt.setString(i++, stu.getFirstname());
             stmt.setString(i++, stu.getLastname());
             stmt.setString(i++, stu.getDateOfRegi().toString());
-            stmt.setInt(i++, stu.getCourseFk());
+            if (stu.getCourseFk() != UnitDao.NULL_INT)
+                stmt.setInt(i++, stu.getCourseFk());
+            else
+                stmt.setNull(i++, Types.INTEGER);
             stmt.executeUpdate();
             return true;
         } catch (Exception e) {
