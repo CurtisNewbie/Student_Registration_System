@@ -15,6 +15,8 @@ public class CommonDaoTest {
     private final CommonDao dao = new CommonDaoImpl();
 
     // for testing the add and getAll functionalities
+    private final int ADDONLY_FACULTY = 1;
+    private final int ADDONLY_SCHOOL = 1;
     private final int ADDONLY_MODULE = 1;
     private final int ADDONLY_LECTURER = 1;
     private final int ADDONLY_COURSE = 1;
@@ -106,5 +108,20 @@ public class CommonDaoTest {
     @Test
     void shouldRemoveStudentFromModule() {
         assertTrue(dao.removeStudFromModu(REMOVEONLY_MODULE, STUDENT_TO_BE_REMOVED));
+    }
+
+    @Test
+    void shouldGetAllSchoolsInFaculty() {
+        assertTrue(dao.getAllSchoInFacu(ADDONLY_FACULTY).size() > 0);
+    }
+
+    @Test
+    void shouldGetAllCoursesInSchool() {
+        assertTrue(dao.getAllCourInScho(ADDONLY_SCHOOL).size() > 0);
+    }
+
+    @Test
+    void shouldGetAllCoursesOfLecturer() {
+        assertTrue(dao.getAllCourOfLect(ADDONLY_LECTURER).size() > 0);
     }
 }
