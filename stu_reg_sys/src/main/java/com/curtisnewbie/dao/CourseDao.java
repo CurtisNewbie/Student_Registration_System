@@ -22,11 +22,11 @@ import com.curtisnewbie.model.Course;
 public interface CourseDao extends UnitDao<Course> {
 
     /**
-     * Find {@code Course} by name
+     * Find a {@code List} of {@code Course} by name
      * 
      * @return {@code Course}
      */
-    public Course findByName(String name);
+    public List<Course> findByName(String name);
 
     /**
      * update name of the {@code Course} with the given id

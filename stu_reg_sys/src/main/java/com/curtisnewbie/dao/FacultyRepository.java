@@ -24,7 +24,7 @@ public class FacultyRepository implements FacultyDao {
 
     private final String SELECT_ALL = "SELECT * FROM faculty";
     private final String SELECT_BY_ID = "SELECT * FROM faculty WHERE id = ?";
-    private final String SELECT_BY_NAME = "SELECT * FROM faculty WHERE name = ?";
+    private final String SELECT_BY_NAME = "SELECT * FROM faculty WHERE name LIKE ?";
     private final String DELETE_BY_ID = "DELETE FROM faculty WHERE id = ?";
     private final String UPDATE_NAME = "UPDATE faculty SET name = ? WHERE id = ?";
     private final String CREATE_FACULTY_WITH_ID = "INSERT INTO faculty VALUES (?,?)";
@@ -116,20 +116,20 @@ public class FacultyRepository implements FacultyDao {
     }
 
     @Override
-    public Faculty findByName(String name) {
+    public List<Faculty> findByName(String name) {
         logger.info(String.format("Find name: '%s'", name));
-        Faculty facu = null;
+        List<Faculty> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_NAME);
-            stmt.setString(1, name);
+            stmt.setString(1, "%" + name + "%");
             var set = stmt.executeQuery();
-            if (set.next()) {
-                facu = new Faculty(set.getInt(1), set.getString(2));
+            while (set.next()) {
+                list.add(new Faculty(set.getInt(1), set.getString(2)));
             }
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
-        return facu;
+        return list;
     }
 
     @Override

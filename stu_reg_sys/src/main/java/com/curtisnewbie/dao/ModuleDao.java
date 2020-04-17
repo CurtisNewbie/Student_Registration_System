@@ -17,11 +17,11 @@ import com.curtisnewbie.model.Module;
 public interface ModuleDao extends UnitDao<Module> {
 
     /**
-     * Find {@link Module} by name
+     * Find a {@code List} of {@link Module} by name
      * 
      * @return {@link Module}
      */
-    public Module findByName(String name);
+    public List<Module> findByName(String name);
 
     /**
      * update name of the {@link Module} with the given id

@@ -25,9 +25,9 @@ public class LecturerRepository implements LecturerDao {
 
     private final String SELECT_ALL = "SELECT * FROM lecturer";
     private final String SELECT_BY_ID = "SELECT * FROM lecturer WHERE id = ?";
-    private final String SELECT_BY_FNAME = "SELECT * FROM lecturer WHERE firstname = ?";
-    private final String SELECT_BY_LNAME = "SELECT * FROM lecturer WHERE lastname = ?";
-    private final String SELECT_BY_POSITION = "SELECT * FROM lecturer WHERE position = ?";
+    private final String SELECT_BY_FNAME = "SELECT * FROM lecturer WHERE firstname LIKE ?";
+    private final String SELECT_BY_LNAME = "SELECT * FROM lecturer WHERE lastname LIKE ?";
+    private final String SELECT_BY_POSITION = "SELECT * FROM lecturer WHERE position LIKE ?";
     private final String DELETE_BY_ID = "DELETE FROM lecturer WHERE id = ?";
     private final String UPDATE_FIRSTNAME = "UPDATE lecturer SET firstname = ? WHERE id = ?";
     private final String UPDATE_LASTNAME = "UPDATE lecturer SET lastname = ? WHERE id = ?";
@@ -192,7 +192,7 @@ public class LecturerRepository implements LecturerDao {
         List<Lecturer> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_FNAME);
-            stmt.setString(1, fname);
+            stmt.setString(1, "%" + fname + "%");
             ResultSet set = stmt.executeQuery();
             while (set.next()) {
                 var lect = new Lecturer(set.getInt(1), set.getString(2), set.getString(3), set.getString(4));
@@ -210,7 +210,7 @@ public class LecturerRepository implements LecturerDao {
         List<Lecturer> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_LNAME);
-            stmt.setString(1, lname);
+            stmt.setString(1, "%" + lname + "%");
             ResultSet set = stmt.executeQuery();
             while (set.next()) {
                 var lect = new Lecturer(set.getInt(1), set.getString(2), set.getString(3), set.getString(4));
@@ -228,7 +228,7 @@ public class LecturerRepository implements LecturerDao {
         List<Lecturer> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_POSITION);
-            stmt.setString(1, pos);
+            stmt.setString(1, "%" + pos + "%");
             ResultSet set = stmt.executeQuery();
             while (set.next()) {
                 var lect = new Lecturer(set.getInt(1), set.getString(2), set.getString(3), set.getString(4));

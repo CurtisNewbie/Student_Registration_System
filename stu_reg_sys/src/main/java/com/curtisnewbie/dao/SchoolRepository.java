@@ -25,7 +25,7 @@ public class SchoolRepository implements SchoolDao {
 
     private final String SELECT_ALL = "SELECT * FROM school";
     private final String SELECT_BY_ID = "SELECT * FROM school WHERE id = ?";
-    private final String SELECT_BY_NAME = "SELECT * FROM school WHERE name = ?";
+    private final String SELECT_BY_NAME = "SELECT * FROM school WHERE name LIKE ?";
     private final String DELETE_BY_ID = "DELETE FROM school WHERE id = ?";
     private final String UPDATE_NAME = "UPDATE school SET name = ? WHERE id = ?";
     private final String CREATE_SCHOOL_WITH_ID = "INSERT INTO school VALUES (?,?,?)";
@@ -153,34 +153,24 @@ public class SchoolRepository implements SchoolDao {
     }
 
     @Override
-    public School findByName(String name) {
-        School scho = null;
-        if (name == null) {
-            logger.severe("The name to be found is null!");
-            return scho;
-        }
-
+    public List<School> findByName(String name) {
         logger.info(String.format("Find name: '%s'", name));
+        List<School> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_NAME);
-            stmt.setString(1, name);
+            stmt.setString(1, "%" + name + "%");
             var set = stmt.executeQuery();
-            if (set.next()) {
-                scho = new School(set.getInt(1), set.getString(2), set.getInt(3));
+            while (set.next()) {
+                list.add(new School(set.getInt(1), set.getString(2), set.getInt(3)));
             }
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
-        return scho;
+        return list;
     }
 
     @Override
     public boolean updateName(int id, String name) {
-        if (name == null) {
-            logger.severe("The name to be updated is null!");
-            return false;
-        }
-
         logger.info(String.format("Update id: '%d', name updated to '%s'", id, name));
         try {
             var stmt = conn.prepareStatement(UPDATE_NAME);

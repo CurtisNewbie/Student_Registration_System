@@ -24,7 +24,7 @@ public class ModuleRepository implements ModuleDao {
 
     private final String SELECT_ALL = "SELECT * FROM module";
     private final String SELECT_BY_ID = "SELECT * FROM module WHERE id = ?";
-    private final String SELECT_BY_NAME = "SELECT * FROM module WHERE name = ?";
+    private final String SELECT_BY_NAME = "SELECT * FROM module WHERE name LIKE ?";
     private final String SELECT_BY_CREDIT = "SELECT * FROM module WHERE credit = ?";
     private final String DELETE_BY_ID = "DELETE FROM module WHERE id = ?";
     private final String UPDATE_NAME = "UPDATE module SET name = ? WHERE id = ?";
@@ -134,20 +134,20 @@ public class ModuleRepository implements ModuleDao {
     }
 
     @Override
-    public Module findByName(String name) {
+    public List<Module> findByName(String name) {
         logger.info(String.format("Find name: '%s'", name));
-        Module modu = null;
+        List<Module> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_NAME);
-            stmt.setString(1, name);
+            stmt.setString(1, "%" + name + "%");
             var set = stmt.executeQuery();
-            if (set.next()) {
-                modu = new Module(set.getInt(1), set.getString(2), set.getInt(3));
+            while (set.next()) {
+                list.add(new Module(set.getInt(1), set.getString(2), set.getInt(3)));
             }
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
-        return modu;
+        return list;
     }
 
     @Override

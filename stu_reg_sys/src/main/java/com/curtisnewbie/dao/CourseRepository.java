@@ -25,7 +25,7 @@ public class CourseRepository implements CourseDao {
 
     private final String SELECT_ALL = "SELECT * FROM course";
     private final String SELECT_BY_ID = "SELECT * FROM course WHERE id = ?";
-    private final String SELECT_BY_NAME = "SELECT * FROM course WHERE name = ?";
+    private final String SELECT_BY_NAME = "SELECT * FROM course WHERE name LIKE ?";
     private final String SELECT_BY_CREDIT = "SELECT * FROM course WHERE credit = ?";
     private final String DELETE_BY_ID = "DELETE FROM course WHERE id = ?";
     private final String UPDATE_NAME = "UPDATE course SET name = ? WHERE id = ?";
@@ -153,20 +153,20 @@ public class CourseRepository implements CourseDao {
     }
 
     @Override
-    public Course findByName(String name) {
+    public List<Course> findByName(String name) {
         logger.info(String.format("Find name: '%s'", name));
-        Course cour = null;
+        List<Course> list = new ArrayList<>();
         try {
             var stmt = conn.prepareStatement(SELECT_BY_NAME);
-            stmt.setString(1, name);
+            stmt.setString(1, "%" + name + "%");
             var set = stmt.executeQuery();
-            if (set.next()) {
-                cour = new Course(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4), set.getInt(5));
+            while (set.next()) {
+                list.add(new Course(set.getInt(1), set.getString(2), set.getInt(3), set.getInt(4), set.getInt(5)));
             }
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }
-        return cour;
+        return list;
     }
 
     @Override

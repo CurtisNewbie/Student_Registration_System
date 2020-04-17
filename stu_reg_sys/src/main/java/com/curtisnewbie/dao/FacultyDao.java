@@ -1,5 +1,7 @@
 package com.curtisnewbie.dao;
 
+import java.util.List;
+
 import com.curtisnewbie.model.Faculty;
 
 /**
@@ -15,11 +17,11 @@ import com.curtisnewbie.model.Faculty;
 public interface FacultyDao extends UnitDao<Faculty> {
 
     /**
-     * Find {@code Faculty} by name
+     * Find a {@code List} of {@code Faculty} by name
      * 
-     * @return a Faculty
+     * @return a List of {@code Faculty}
      */
-    public Faculty findByName(String name);
+    public List<Faculty> findByName(String name);
 
     /**
      * Update the name of the {@code Faculty} with the given id

@@ -638,13 +638,8 @@ public class Controller {
 		 * listview for displaying schools in this faculty.
 		 */
 		private void addFindByNameEventHandler() {
-			ctrler.facByNameTf.setOnAction(e -> {
-				String name = facByNameTf.getText();
-				if (name != null && !name.isEmpty()) {
-					var faculty = ctrler.facuDao.findByName(name);
-					if (faculty != null)
-						displayContentOf(faculty);
-				}
+			ctrler.facByNameTf.setOnKeyTyped(e -> {
+				displayAll(ctrler.facuDao.findByName(facByNameTf.getText()));
 			});
 		}
 
@@ -755,9 +750,8 @@ public class Controller {
 		}
 
 		private void addFindByNameEventHandler() {
-			ctrler.schByNameTf.setOnAction(e -> {
-				var sch = schoDao.findByName(schByNameTf.getText());
-				displayContentOf(sch.getId());
+			ctrler.schByNameTf.setOnKeyTyped(e -> {
+				displayAll(schoDao.findByName(schByNameTf.getText()));
 			});
 		}
 
@@ -935,13 +929,8 @@ public class Controller {
 		}
 
 		private void addFindByNameEventHandler() {
-			ctrler.couByNameTf.setOnAction(e -> {
-				var name = ctrler.couByNameTf.getText();
-				if (name != null && !name.isEmpty()) {
-					var course = courDao.findByName(name);
-					if (course != null)
-						displayContentOf(course);
-				}
+			ctrler.couByNameTf.setOnKeyTyped(e -> {
+				displayAll(courDao.findByName(ctrler.couByNameTf.getText()));
 			});
 		}
 
@@ -1172,13 +1161,8 @@ public class Controller {
 		}
 
 		private void addFindByNameEventHandler() {
-			ctrler.mouByNameTf.setOnAction(e -> {
-				var name = ctrler.mouByNameTf.getText();
-				if (name != null && !name.isEmpty()) {
-					var mou = moduDao.findByName(name);
-					if (mou != null)
-						displayContentOf(mou);
-				}
+			ctrler.mouByNameTf.setOnKeyTyped(e -> {
+				displayAll(moduDao.findByName(ctrler.mouByNameTf.getText()));
 			});
 		}
 
@@ -1370,32 +1354,20 @@ public class Controller {
 		}
 
 		private void addFindByFirstnameEventHandler() {
-			ctrler.lecByFirstnameTf.setOnAction(e -> {
-				var fname = ctrler.lecByFirstnameTf.getText();
-				if (fname != null & !fname.isEmpty()) {
-					var list = lectDao.findByFirstname(fname);
-					displayAll(list);
-				}
+			ctrler.lecByFirstnameTf.setOnKeyTyped(e -> {
+				displayAll(lectDao.findByFirstname(ctrler.lecByFirstnameTf.getText()));
 			});
 		}
 
 		private void addFindByLastnameEventHandler() {
-			ctrler.lecByLastnameTf.setOnAction(e -> {
-				var lname = ctrler.lecByLastnameTf.getText();
-				if (lname != null & !lname.isEmpty()) {
-					var list = lectDao.findByLastname(lname);
-					displayAll(list);
-				}
+			ctrler.lecByLastnameTf.setOnKeyTyped(e -> {
+				displayAll(lectDao.findByLastname(ctrler.lecByLastnameTf.getText()));
 			});
 		}
 
 		private void addFindByPositionEventHandler() {
 			ctrler.lecByPositionTf.setOnAction(e -> {
-				var pos = ctrler.lecByPositionTf.getText();
-				if (pos != null & !pos.isEmpty()) {
-					var list = lectDao.findByPosition(pos);
-					displayAll(list);
-				}
+				displayAll(lectDao.findByPosition(ctrler.lecByPositionTf.getText()));
 			});
 		}
 
@@ -1566,16 +1538,14 @@ public class Controller {
 		}
 
 		private void addFindByFirstnameEventHandler() {
-			ctrler.stuByFirstnameTf.setOnAction(e -> {
-				var list = studDao.findStusByFirstname(ctrler.stuByFirstnameTf.getText());
-				displayAll(list);
+			ctrler.stuByFirstnameTf.setOnKeyTyped(e -> {
+				displayAll(studDao.findStusByFirstname(ctrler.stuByFirstnameTf.getText()));
 			});
 		}
 
 		private void addFindByLastnameEventHandler() {
-			ctrler.stuByLastnameTf.setOnAction(e -> {
-				var list = studDao.findStusByLastname(ctrler.stuByLastnameTf.getText());
-				displayAll(list);
+			ctrler.stuByLastnameTf.setOnKeyTyped(e -> {
+				displayAll(studDao.findStusByLastname(ctrler.stuByLastnameTf.getText()));
 			});
 		}
 
