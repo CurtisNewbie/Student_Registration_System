@@ -1408,7 +1408,7 @@ public class Controller {
 		}
 
 		private void displayCoursesOfLecturer(int lecturerId) {
-			var list = comDao.getAllCourOflect(lecturerId);
+			var list = comDao.getAllCourOfLect(lecturerId);
 			Platform.runLater(() -> {
 				ctrler.lecCouLv.setItems(FXCollections.observableList(list));
 			});

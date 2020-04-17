@@ -227,7 +227,7 @@ public class CommonDaoImpl implements CommonDao {
     }
 
     @Override
-    public List<Course> getAllCourOflect(int lecturerId) {
+    public List<Course> getAllCourOfLect(int lecturerId) {
         logger.info(String.format("Get all courses lead by the lecturer : %d", lecturerId));
         List<Course> list = new ArrayList<>();
         try {

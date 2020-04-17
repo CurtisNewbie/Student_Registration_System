@@ -161,6 +161,6 @@ public interface CommonDao {
      * @param lecturerId
      * @return A list of {@code Course}(s)
      */
-    public List<Course> getAllCourOflect(int lecturerId);
+    public List<Course> getAllCourOfLect(int lecturerId);
 
 }
