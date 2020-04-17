@@ -36,6 +36,8 @@ public class DBManager {
     private final String USERNAME = "admin";
     private final String PASSWORD = "adminpw";
     private final String DB_URL = "jdbc:mysql://localhost:3306/reg_sys";
+    // private final String DB_URL = "jdbc:h2:mem:reg_sys;IGNORECASE=TRUE"; // h2
+    // version for demo
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
 
     /**
