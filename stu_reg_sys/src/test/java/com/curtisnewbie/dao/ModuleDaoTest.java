@@ -55,9 +55,8 @@ public class ModuleDaoTest {
 
     @Test
     void shouldFindByName() {
-        Module modu = dao.findByName(NAME);
-        assertNotNull(modu.getName());
-        assertNotNull(modu.getCredit());
+        var list = dao.findByName(NAME);
+        assertTrue(list.size() > 0);
     }
 
     @Test

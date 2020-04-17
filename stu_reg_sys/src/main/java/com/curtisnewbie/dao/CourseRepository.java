@@ -143,7 +143,8 @@ public class CourseRepository implements CourseDao {
                 stmt.setNull(i++, Types.INTEGER);
             if (cour.getLecturerFk() != UnitDao.NULL_INT)
                 stmt.setInt(i++, cour.getLecturerFk());
-            stmt.setNull(i++, Types.INTEGER);
+            else
+                stmt.setNull(i++, Types.INTEGER);
             stmt.executeUpdate();
             return true;
         } catch (Exception e) {

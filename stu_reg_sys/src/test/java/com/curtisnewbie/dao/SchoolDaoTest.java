@@ -64,8 +64,8 @@ public class SchoolDaoTest {
 
     @Test
     void shouldFindByName() {
-        School scho = dao.findByName(NAME);
-        assertNotNull(scho);
+        var list = dao.findByName(NAME);
+        assertTrue(list.size() > 0);
     }
 
     @Test

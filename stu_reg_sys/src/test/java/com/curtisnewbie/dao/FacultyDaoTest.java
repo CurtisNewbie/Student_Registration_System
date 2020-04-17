@@ -63,8 +63,8 @@ public class FacultyDaoTest {
 
     @Test
     void shouldFindByName() {
-        Faculty facu = dao.findByName(NAME);
-        assertNotNull(facu);
+        var list = dao.findByName(NAME);
+        assertTrue(list.size() > 0);
     }
 
     @Test

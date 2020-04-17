@@ -60,9 +60,8 @@ public class CourseDaoTest {
 
     @Test
     void shouldFindByName() {
-        Course cour = dao.findByName(NAME);
-        assertNotNull(cour.getName());
-        assertNotNull(cour.getCredit());
+        List<Course> list = dao.findByName(NAME);
+        assertTrue(list.size() > 0);
     }
 
     @Test
