@@ -1366,7 +1366,7 @@ public class Controller {
 		}
 
 		private void addFindByPositionEventHandler() {
-			ctrler.lecByPositionTf.setOnAction(e -> {
+			ctrler.lecByPositionTf.setOnKeyTyped(e -> {
 				displayAll(lectDao.findByPosition(ctrler.lecByPositionTf.getText()));
 			});
 		}
