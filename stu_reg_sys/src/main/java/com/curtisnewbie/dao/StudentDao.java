@@ -77,6 +77,6 @@ public interface StudentDao extends UnitDao<Student> {
      * @param id
      * @return {@code True} if successful else {@code False}
      */
-    public boolean update(String firstname, String lastname, LocalDate date, int id);
+    public boolean update(String firstname, String lastname, LocalDate date, int id, int courseId);
 
 }

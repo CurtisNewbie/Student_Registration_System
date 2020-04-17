@@ -36,7 +36,7 @@ public class StudentRepository implements StudentDao {
     private final String UPDATE_REG_DATE = "UPDATE student SET reg_date = ? WHERE id = ?";
     private final String CREATE_STUDENT_WITH_ID = "INSERT INTO student VALUES(?, ?, ?, ?, ?)";
     private final String CREATE_STUDENT_WITHOUT_ID = "INSERT INTO student (firstname, lastname, reg_date, cou_fk) VALUES(?, ?, ?, ?)";
-    private final String UPDATE_STUDENT = "UPDATE student SET firstname = ?, lastname = ?, reg_date = ? WHERE id = ?";
+    private final String UPDATE_STUDENT = "UPDATE student SET firstname = ?, lastname = ?, reg_date = ?, cou_fk = ? WHERE id = ?";
 
     private final Connection conn = DBManager.getDBManager().getConnection();
     private final LoggerWrapper logger = LoggerProducer.getLogger(this);
@@ -98,20 +98,25 @@ public class StudentRepository implements StudentDao {
             logger.severe("The student to be updated is null!");
             return false;
         }
-        return update(stu.getFirstname(), stu.getLastname(), stu.getDateOfRegi(), stu.getId());
+        return update(stu.getFirstname(), stu.getLastname(), stu.getDateOfRegi(), stu.getId(), stu.getCourseFk());
     }
 
     @Override
-    public boolean update(String firstname, String lastname, LocalDate date, int id) {
-        logger.info(String.format("Update student to: 'id: %d, firstname: %s, lastname: %s, date: %s'", id, firstname,
-                lastname, date.toString()));
+    public boolean update(String firstname, String lastname, LocalDate date, int id, int courseId) {
+        logger.info(String.format("Update student to: 'id: %d, firstname: %s, lastname: %s, date: %s, courseFk: %d'",
+                id, firstname, lastname, date.toString(), courseId));
         try {
             PreparedStatement stmt = conn.prepareStatement(UPDATE_STUDENT);
             stmt.setString(1, firstname);
             stmt.setString(2, lastname);
             stmt.setString(3, date.toString());
-            stmt.setInt(4, id);
+            if (courseId != UnitDao.NULL_INT)
+                stmt.setInt(4, courseId);
+            else
+                stmt.setNull(4, Types.INTEGER);
+            stmt.setInt(5, id);
             stmt.executeUpdate();
+            return true;
         } catch (Exception e) {
             logger.severe(e.getMessage());
         }

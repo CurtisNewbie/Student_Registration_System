@@ -1533,12 +1533,22 @@ public class Controller {
 					var fname = ctrler.stuFirstnameTf.getText().trim();
 					var lname = ctrler.stuLastnameTf.getText().trim();
 					var date = ctrler.stuDateDp.getValue();
-					if (!fname.isEmpty() && !lname.isEmpty() && date != null && id >= 0) {
-						if (studDao.update(fname, lname, date, id))
+					int courseId;
+					var courseIdTxt = ctrler.stuCouIdTf.getText().trim();
+					if (courseIdTxt.isEmpty()) {
+						// set to NULL in DBMS
+						courseId = UnitDao.NULL_INT;
+					} else {
+						courseId = Integer.parseInt(courseIdTxt);
+						courseId = courseId == 0 ? UnitDao.NULL_INT : courseId;
+					}
+					if (!fname.isEmpty() && !lname.isEmpty() && date != null && id > 0) {
+						if (studDao.update(fname, lname, date, id, courseId)) {
+							displayContentOf(currStudentId);
 							commonLvCtrler.refreshCommonLv();
-						else
+						} else {
 							ctrler.promptError("Failed to update student");
-
+						}
 					}
 				} catch (NumberFormatException e1) {
 				}
