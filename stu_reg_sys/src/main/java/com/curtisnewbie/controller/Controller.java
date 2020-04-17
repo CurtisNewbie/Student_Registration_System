@@ -29,6 +29,7 @@ import com.curtisnewbie.model.Module;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.DatePicker;
@@ -37,6 +38,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
@@ -350,6 +352,17 @@ public class Controller {
 	}
 
 	/**
+	 * Prompt a alert for ERROR type with the given msg
+	 */
+	public void promptError(String msg) {
+		Platform.runLater(() -> {
+			Alert alert = new Alert(AlertType.ERROR);
+			alert.setContentText(msg);
+			alert.show();
+		});
+	}
+
+	/**
 	 * Controller for {@code ListView commonLv}
 	 */
 	private class CommonLvController {
@@ -430,23 +443,35 @@ public class Controller {
 			deleteItem.setOnAction(e2 -> {
 				var item = commonLv.getSelectionModel().getSelectedItem();
 				if (item instanceof Faculty) {
-					facuDao.deleteById(((Faculty) item).getId());
-					displayAll(facuDao.getAll());
+					if (facuDao.deleteById(((Faculty) item).getId()))
+						displayAll(facuDao.getAll());
+					else
+						promptError("Failed to delete faculty");
 				} else if (item instanceof School) {
-					schoDao.deleteById(((School) item).getId());
-					displayAll(schoDao.getAll());
+					if (schoDao.deleteById(((School) item).getId()))
+						displayAll(schoDao.getAll());
+					else
+						promptError("Failed to delete school");
 				} else if (item instanceof Course) {
-					courDao.deleteById(((Course) item).getId());
-					displayAll(courDao.getAll());
+					if (courDao.deleteById(((Course) item).getId()))
+						displayAll(courDao.getAll());
+					else
+						promptError("Failed to delete course");
 				} else if (item instanceof Module) {
-					moduDao.deleteById(((Module) item).getId());
-					displayAll(moduDao.getAll());
+					if (moduDao.deleteById(((Module) item).getId()))
+						displayAll(moduDao.getAll());
+					else
+						promptError("Failed to delete module");
 				} else if (item instanceof Lecturer) {
-					lectDao.deleteById(((Lecturer) item).getId());
-					displayAll(lectDao.getAll());
+					if (lectDao.deleteById(((Lecturer) item).getId()))
+						displayAll(lectDao.getAll());
+					else
+						promptError("Failed to delete lecturer");
 				} else if (item instanceof Student) {
-					studDao.deleteById(((Student) item).getId());
-					displayAll(studDao.getAll());
+					if (studDao.deleteById(((Student) item).getId()))
+						displayAll(studDao.getAll());
+					else
+						promptError("Failed to delete student");
 				}
 			});
 			ctxMenu.getItems().addAll(selectItem, deleteItem);
@@ -527,6 +552,8 @@ public class Controller {
 					if (facuDao.create(new Faculty(id, name))) {
 						clearContent();
 						ctrler.refreshCommonLv();
+					} else {
+						ctrler.promptError("Failed to create faculty.");
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -555,8 +582,10 @@ public class Controller {
 					var id = Integer.parseInt(ctrler.facIdTf.getText());
 					var name = ctrler.facNameTf.getText().trim();
 					if (!name.isEmpty() && id >= 0) {
-						facuDao.updateName(id, name);
-						commonLvCtrler.refreshCommonLv();
+						if (facuDao.updateName(id, name))
+							commonLvCtrler.refreshCommonLv();
+						else
+							ctrler.promptError("Failed to update faculty.");
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -671,6 +700,8 @@ public class Controller {
 					if (schoDao.create(new School(id, name, UnitDao.NULL_INT))) {
 						clearContent();
 						ctrler.refreshCommonLv();
+					} else {
+						ctrler.promptError("Failed to create school.");
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -698,12 +729,15 @@ public class Controller {
 				try {
 					var id = Integer.parseInt(ctrler.schIdTf.getText());
 					var name = ctrler.schNameTf.getText().trim();
-					var facultyIdTxt = ctrler.schFacIdTf.getText().trim();
-					var facultyId = facultyIdTxt.isEmpty() ? UnitDao.NULL_INT : Integer.parseInt(facultyIdTxt);
-					if (!name.isEmpty() && id > 0 && (facultyId == UnitDao.NULL_INT || facultyId > 0)) {
-						schoDao.update(id, name, facultyId);
-						displayContentOf(currSchoolId);
-						commonLvCtrler.refreshCommonLv();
+					var schoolIdTxt = ctrler.schFacIdTf.getText().trim();
+					var schoolId = schoolIdTxt.isEmpty() ? UnitDao.NULL_INT : Integer.parseInt(schoolIdTxt);
+					if (!name.isEmpty() && id > 0 && (schoolId == UnitDao.NULL_INT || schoolId > 0)) {
+						if (schoDao.update(id, name, schoolId)) {
+							displayContentOf(currSchoolId);
+							commonLvCtrler.refreshCommonLv();
+						} else {
+							ctrler.promptError("Failed to update school.");
+						}
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -851,6 +885,8 @@ public class Controller {
 					if (courDao.create(new Course(id, name, credit, UnitDao.NULL_INT, UnitDao.NULL_INT))) {
 						clearContent();
 						ctrler.refreshCommonLv();
+					} else {
+						ctrler.promptError("Failed to create course");
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -876,9 +912,12 @@ public class Controller {
 					if (!name.isEmpty() && id > 0 && credit >= 0
 							&& (courseLeaderId == UnitDao.NULL_INT || courseLeaderId > 0)
 							&& (schoolId == UnitDao.NULL_INT || schoolId > 0)) {
-						courDao.update(id, name, credit, schoolId, courseLeaderId);
-						commonLvCtrler.refreshCommonLv();
-						displayContentOf(currCourseId);
+						if (courDao.update(id, name, credit, schoolId, courseLeaderId)) {
+							commonLvCtrler.refreshCommonLv();
+							displayContentOf(currCourseId);
+						} else {
+							ctrler.promptError("Failed to update course");
+						}
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -1054,6 +1093,8 @@ public class Controller {
 					if (moduDao.create(new Module(id, name, credit))) {
 						clearContent();
 						ctrler.refreshCommonLv();
+					} else {
+						ctrler.promptError("Failed to create module");
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -1109,8 +1150,10 @@ public class Controller {
 					var name = ctrler.mouNameTf.getText().trim();
 					var credit = Integer.parseInt(ctrler.mouCreditTf.getText());
 					if (!name.isEmpty() && id >= 0 && credit >= 0) {
-						moduDao.update(name, credit, id);
-						commonLvCtrler.refreshCommonLv();
+						if (moduDao.update(name, credit, id))
+							commonLvCtrler.refreshCommonLv();
+						else
+							ctrler.promptError("Failed to update module");
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -1261,6 +1304,8 @@ public class Controller {
 					if (lectDao.create(new Lecturer(id, fname, lname, pos))) {
 						clearContent();
 						ctrler.refreshCommonLv();
+					} else {
+						ctrler.promptError("Failed to create lecturer");
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -1306,6 +1351,8 @@ public class Controller {
 					if (!fname.isEmpty() && !lname.isEmpty() && !pos.isEmpty() && id >= 0) {
 						lectDao.update(fname, lname, pos, id);
 						commonLvCtrler.refreshCommonLv();
+					} else {
+						ctrler.promptError("Failed to update lecturer");
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -1455,6 +1502,8 @@ public class Controller {
 					if (studDao.create(new Student(id, fname, lname, regDate, UnitDao.NULL_INT))) {
 						clearContent();
 						ctrler.refreshCommonLv();
+					} else {
+						ctrler.promptError("Failed to create student");
 					}
 				} catch (NumberFormatException e1) {
 				}
@@ -1485,8 +1534,11 @@ public class Controller {
 					var lname = ctrler.stuLastnameTf.getText().trim();
 					var date = ctrler.stuDateDp.getValue();
 					if (!fname.isEmpty() && !lname.isEmpty() && date != null && id >= 0) {
-						studDao.update(fname, lname, date, id);
-						commonLvCtrler.refreshCommonLv();
+						if (studDao.update(fname, lname, date, id))
+							commonLvCtrler.refreshCommonLv();
+						else
+							ctrler.promptError("Failed to update student");
+
 					}
 				} catch (NumberFormatException e1) {
 				}
